@@ -7,11 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
-    xmlns:controls="using:Template10.Controls">
+    xmlns:controls="using:Template10.Controls"
+    xmlns:Converters="using:ClassicalMusicCSharp.Converters">
 
     <Page.DataContext>
         <vm:OperaPageVM/>
     </Page.DataContext>
+
+    <Page.Resources>
+        <Converters:NotBoolean x:Key="NotBool"/>
+        <Converters:BoolToVisibility x:Key="BoolVisibility"/>
+        <Converters:NotBoolToVisibility x:Key="NotBoolVisibility"/>
+        <Converters:NotBoolToSelectionMode x:Key="NotBoolSelection"/>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -22,7 +30,7 @@
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Opera.Nome}"/>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Opera.Tracce}" Tapped="{x:Bind VM.onTrack}">
+        <ListView Grid.Row="1" x:Name="lista" ItemsSource="{Binding Opera.Tracce}" Tapped="{x:Bind VM.onTrack}" IsTapEnabled="{Binding IsSingleMode}" SelectionMode="{Binding IsSingleMode, Converter={StaticResource NotBoolSelection}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -30,9 +38,29 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Titolo}"/>
+                    <StackPanel RightTapped="openMenu" Holding="openMenu">
+                        <TextBlock Text="{Binding Titolo}"/>
+                        <FlyoutBase.AttachedFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Add to playlist" Click="addToPlaylist"/>
+                            </MenuFlyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <CommandBar Grid.Row="2">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Play" Label="Play all" Click="{x:Bind VM.PlayAll}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Icon="Add" Label="Add all to playlist" Click="{x:Bind VM.PlaylistAll}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Icon="Play" Label="Play selected tracks" Click="playSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+                <AppBarButton Icon="Add" Label="Add selected to playlist" Click="playlistSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Selezione multipla" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Label="Selezione singola" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
     </Grid>
 </Page>

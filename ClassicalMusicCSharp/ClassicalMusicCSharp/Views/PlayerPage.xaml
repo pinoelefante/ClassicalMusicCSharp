@@ -1,0 +1,87 @@
+﻿<Page
+    x:Class="ClassicalMusicCSharp.Views.PlayerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassicalMusicCSharp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
+    xmlns:Converters="using:ClassicalMusicCSharp.Converters">
+    <Page.DataContext>
+        <vm:PlayerPageVM/>
+    </Page.DataContext>
+    <Page.Resources>
+        <Converters:BoolToVisibility x:Key="BoolVisibility"/>
+        <Converters:NotBoolToVisibility x:Key="NotBoolVisibility"/>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Player" Frame="{x:Bind Frame}" IsEnabled="False"/>
+<!--
+        <ListView Grid.Row="1" ItemsSource="{Binding Playlist}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Titolo}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+-->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+<!--
+            <StackPanel>
+                <TextBlock Text="{Binding TracciaCorrente.Titolo}"/>
+            </StackPanel>
+-->            
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Click="{x:Bind VM.Play}">
+                    <SymbolIcon Symbol="Play"/>
+                </Button>
+<!--
+                <Button Grid.Column="0" Click="{x:Bind VM.Pause}" Visibility="{Binding IsPlaying, Converter={StaticResource BoolVisibility}}">
+                    <SymbolIcon Symbol="Pause"/>
+                </Button>
+-->
+                <Button Grid.Column="1" Click="{x:Bind VM.Stop}">
+                    <SymbolIcon Symbol="Stop"/>
+                </Button>
+
+                <Button Grid.Column="2" Click="{x:Bind VM.Prev}" IsEnabled="{Binding HasPrev}">
+                    <SymbolIcon Symbol="Previous"/>
+                </Button>
+
+                <Button Grid.Column="3" Click="{x:Bind VM.Next}" IsEnabled="{Binding HasNext}">
+                    <SymbolIcon Symbol="Next"/>
+                </Button>
+
+                <Slider Grid.Column="4" Value="{Binding CurrentPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="{Binding CurrentLength, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+
+
+            </Grid>
+        </Grid>
+
+        <CommandBar Grid.Row="3">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Empty playlist" Icon="Delete"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Grid>
+</Page>

@@ -15,13 +15,19 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ClassicalMusicCSharp.App">
-      <uap:VisualElements DisplayName="ClassicalMusicCSharp.App" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Minimal" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="Classical Music in C#" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Classical Music in C#" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portrait" />
+          <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="portraitFlipped" />
+          <uap:Rotation Preference="landscapeFlipped" />
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="PlayerMultimediale.BakgroundPlayer">
+        <Extension Category="windows.backgroundTasks" EntryPoint="PlayerMultimediale.BackgroundPlayer">
           <BackgroundTasks>
             <Task Type="audio" />
           </BackgroundTasks>

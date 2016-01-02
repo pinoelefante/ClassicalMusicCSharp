@@ -3,6 +3,8 @@ using Windows.UI.Xaml;
 using System.Threading.Tasks;
 using ClassicalMusicCSharp.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
+using ClassicalMusicCSharp.OneClassical;
+using ClassicalMusicCSharp.ViewModels;
 
 namespace ClassicalMusicCSharp
 {
@@ -48,6 +50,8 @@ namespace ClassicalMusicCSharp
 
             // navigate to first page
             NavigationService.Navigate(typeof(Views.ArtistsPage));
+            //PlayerService.Instance.Init();
+            PlayerPageVM.Init();
         }
     }
 }

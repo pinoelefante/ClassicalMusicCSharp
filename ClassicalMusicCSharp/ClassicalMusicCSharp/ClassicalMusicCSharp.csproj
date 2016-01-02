@@ -107,6 +107,11 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Grouping\AlphaGrouping.cs" />
+    <Compile Include="Converters\BoolToSelectionMode.cs" />
+    <Compile Include="Converters\BoolToVisibility.cs" />
+    <Compile Include="Converters\NotBoolean.cs" />
+    <Compile Include="Converters\NotBoolToSelectionMode.cs" />
+    <Compile Include="Converters\NotBoolToVisibility.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="OneClassical\Categoria.cs" />
     <Compile Include="OneClassical\Compositore.cs" />
@@ -121,6 +126,7 @@
     <Compile Include="ViewModels\CategoriePageVM.cs" />
     <Compile Include="ViewModels\OperaPageVM.cs" />
     <Compile Include="ViewModels\OperePageVM.cs" />
+    <Compile Include="ViewModels\PlayerPageVM.cs" />
     <Compile Include="Views\ArtistsPage.xaml.cs">
       <DependentUpon>ArtistsPage.xaml</DependentUpon>
     </Compile>
@@ -132,6 +138,9 @@
     </Compile>
     <Compile Include="Views\OperePage.xaml.cs">
       <DependentUpon>OperePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlayerPage.xaml.cs">
+      <DependentUpon>PlayerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
@@ -180,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OperePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
