@@ -30,7 +30,7 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<Opera>(ref _opera, value);
             }
         }
-        public async void onTrack(object sender, object e)
+        public void onTrack(object sender, object e)
         {
             if (!IsSingleMode)
                 return;
@@ -39,11 +39,9 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 ListView list = sender as ListView;
                 Traccia track = list.SelectedItem as Traccia;
-                //PlayerService.Instance.Clear();
-                int index = Opera.Tracce.IndexOf(track);
-                //PlayerService.Instance.Add(Opera.Tracce, index);
+                //int index = Opera.Tracce.IndexOf(track);
                 Debug.WriteLine("Adding " + track.Titolo);
-                await PlayerPageVM.AddTrack(track);
+                PlayerPageVM.PlayTrack(track);
             }
         }
         private bool _isSingleMode;
@@ -60,27 +58,25 @@ namespace ClassicalMusicCSharp.ViewModels
         }
         public void addToPlaylist(Traccia track)
         {
-            //PlayerService.Instance.Add(track);
+            PlayerPageVM.AddTrack(track);
         }
         public void PlayAll(object sender, object e)
         {
-            //PlayerService.Instance.Clear();
-            //PlayerService.Instance.Add(Opera.Tracce, 0);
+            PlayerPageVM.AddTracks(Opera.Tracce, true);
         }
 
         public void PlaySelected(List<Traccia> sel)
         {
-            //PlayerService.Instance.Clear();
-            //PlayerService.Instance.Add(sel, 0);
+            PlayerPageVM.AddTracks(sel, true);
         }
 
         public void PlaylistAll(object s, object e)
         {
-            //PlayerService.Instance.Add(Opera.Tracce);
+            PlayerPageVM.AddTracks(Opera.Tracce);
         }
         public void PlaylistSelected(List<Traccia> l)
         {
-            //PlayerService.Instance.Add(l);
+            PlayerPageVM.AddTracks(l);
         }
         public void SelezioneMultipla(object s, object e)
         {

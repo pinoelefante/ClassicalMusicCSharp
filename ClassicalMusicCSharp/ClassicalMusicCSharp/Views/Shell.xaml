@@ -14,14 +14,14 @@
 
             <Controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False">
                 <Controls:HamburgerMenu.PrimaryButtons>
-                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ArtistsPage">
+                    <Controls:HamburgerButtonInfo PageType="views:ArtistsPage">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Width="48" Height="48" Symbol="Contact" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Composers" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
 
-                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:PlayerPage">
+                    <Controls:HamburgerButtonInfo PageType="views:PlayerPage">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Width="48" Height="48" Symbol="Play" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Player" />
@@ -31,7 +31,12 @@
                 </Controls:HamburgerMenu.PrimaryButtons>
 
                 <Controls:HamburgerMenu.SecondaryButtons>
-                    
+                    <Controls:HamburgerButtonInfo PageType="views:InfoPage">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Width="48" Height="48" Symbol="Emoji2" />
+                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Info &amp; Feedback" />
+                        </StackPanel>
+                    </Controls:HamburgerButtonInfo>
                 </Controls:HamburgerMenu.SecondaryButtons>
             </Controls:HamburgerMenu>
         </Controls:ModalDialog.Content>

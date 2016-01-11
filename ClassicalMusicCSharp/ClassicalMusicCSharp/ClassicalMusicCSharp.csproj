@@ -93,6 +93,19 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Badge.scale-100.png" />
+    <Content Include="Assets\Badge.scale-125.png" />
+    <Content Include="Assets\Badge.scale-150.png" />
+    <Content Include="Assets\Badge.scale-200.png" />
+    <Content Include="Assets\Badge.scale-400.png" />
+    <Content Include="Assets\LockScreenLogo.scale-100.png" />
+    <Content Include="Assets\LockScreenLogo.scale-125.png" />
+    <Content Include="Assets\LockScreenLogo.scale-150.png" />
+    <Content Include="Assets\LockScreenLogo.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="stop.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -112,6 +125,7 @@
     <Compile Include="Converters\NotBoolean.cs" />
     <Compile Include="Converters\NotBoolToSelectionMode.cs" />
     <Compile Include="Converters\NotBoolToVisibility.cs" />
+    <Compile Include="Converters\StringVisibility.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="OneClassical\Categoria.cs" />
     <Compile Include="OneClassical\Compositore.cs" />
@@ -132,6 +146,9 @@
     </Compile>
     <Compile Include="Views\CategoriePage.xaml.cs">
       <DependentUpon>CategoriePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InfoPage.xaml.cs">
+      <DependentUpon>InfoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OperaPage.xaml.cs">
       <DependentUpon>OperaPage.xaml</DependentUpon>
@@ -158,11 +175,6 @@
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -181,6 +193,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CategoriePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

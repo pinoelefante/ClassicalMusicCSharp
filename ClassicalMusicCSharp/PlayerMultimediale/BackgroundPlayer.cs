@@ -51,6 +51,13 @@ namespace PlayerMultimediale
         private void MediaPlayerStateChanged(MediaPlayer sender, object args)
         {
             Debug.WriteLine(sender.CurrentState.ToString());
+            switch (sender.CurrentState)
+            {
+                case MediaPlayerState.Paused:
+                    if (IsTrackEnded() && !Stopped)
+                        NextTrack();
+                    break;
+            }
         }
 
         private void TaskIstance_Cancelled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
@@ -61,7 +68,7 @@ namespace PlayerMultimediale
         private bool Stopped = true;
         private void BackgroundMediaPlayerOnMessageReceivedFromForeground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
-            
+            Debug.WriteLine("Background command received : " + e.Data["Command"].ToString());
             switch (e.Data["Command"].ToString())
             {
                 case "Init":
@@ -70,34 +77,65 @@ namespace PlayerMultimediale
                     Stop();
                     break;
                 case "Play":
+                    if (playlist.GetTracksCount() == 0)
+                        break;
                     if (Stopped && player.Source == null)
                     {
-                        Stopped = false;
                         Track t = playlist.Current;
                         PlayTrack(t);
                     }
                     else
                         player.Play();
                     break;
+                case "PlayTrack":
+                    {
+                        var title = e.Data["Title"].ToString();
+                        var compo = e.Data["Composer"].ToString();
+                        var link = e.Data["Link"].ToString();
+                        var album = e.Data["Album"].ToString();
+                        Track t = new Track() { Title = title, Album = album, Link = link, Composer = compo };
+                        playlist.AddTrack(t);
+                        playlist.SetLast();
+                        PlayTrack(t);
+                    }
+                    break;
+                case "PlayIndex":
+                    {
+                        var index = (int)e.Data["Index"];
+                        if (index >= 0 && index < playlist.GetTracksCount())
+                        {
+                            Track track = playlist.TrackAt(index);
+                            playlist.SetIndex(index);
+                            PlayTrack(track);
+                        }
+                    }
+                    break;
+                case "PlayAlbum":
+                    {
+                        var indexFirstTrack = playlist.GetTracksCount();
+                        var count = (int)e.Data["Count"];
+                        for (int i = 0; i < count; i++)
+                        {
+                            var title = e.Data[$"Track{i}_Title"].ToString();
+                            var compo = e.Data[$"Track{i}_Composer"].ToString();
+                            var link = e.Data[$"Track{i}_Link"].ToString();
+                            var album = e.Data[$"Track{i}_Album"].ToString();
+                            playlist.AddTrack(new Track() { Title = title, Album = album, Link = link, Composer = compo });
+                        }
+                        playlist.CurrentIndex = indexFirstTrack;
+                        Track cur = playlist.Current;
+                        PlayTrack(cur);
+                    }
+                    break;
                 case "Pause":
                     Stopped = false;
                     player.Pause();
                     break;
                 case "Next":
-                    Stopped = false;
-                    if (playlist.HasNext)
-                    {
-                        Track t = playlist.GetNext();
-                        PlayTrack(t);
-                    }
+                    NextTrack();
                     break;
                 case "Prev":
-                    Stopped = false;
-                    if (playlist.HasPrev)
-                    {
-                        Track t = playlist.GetPrev();
-                        PlayTrack(t);
-                    }
+                    PrevTrack();
                     break;
                 case "Repeat":
                     break;
@@ -128,15 +166,44 @@ namespace PlayerMultimediale
                         });
                     }
                     break;
+                case "AddTracks":
+                    {
+                        var count = (int)e.Data["Count"];
+                        for (int i = 0; i < count; i++)
+                        {
+                            var title = e.Data[$"Track{i}_Title"].ToString();
+                            var compo = e.Data[$"Track{i}_Composer"].ToString();
+                            var link = e.Data[$"Track{i}_Link"].ToString();
+                            var album = e.Data[$"Track{i}_Album"].ToString();
+                            playlist.AddTrack(new Track() { Title = title, Album = album, Link = link, Composer = compo });
+                        }
+
+                        BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
+                        {
+                            { "Command", "AddTracks" }
+                        });
+                    }
+                    break;
                 case "RemTrack":
                     {
                         var index = (int)e.Data["Index"];
+                        if (index < 0 || index >= playlist.GetTracksCount())
+                            return;
                         playlist.RemoveTrack(index);
+                        BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
+                        {
+                            { "Command", "TrackRemoved" },
+                            { "Index", index }
+                        });
                     }
                     break;
                 case "CleanPlaylist":
                     playlist.CleanPlaylist();
                     Stop();
+                    BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
+                    {
+                        { "Command", "PlaylistCleaned" }
+                    });
                     break;
                 case "HasTracks":
                     {
@@ -163,7 +230,7 @@ namespace PlayerMultimediale
                         BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
                         {
                             { "Command", "CurrentIndex" },
-                            { "CurrentIndex", playlist.CurrentIndex.ToString() }
+                            { "CurrentIndex", playlist.CurrentIndex }
                         });
                     }
                     break;
@@ -180,7 +247,21 @@ namespace PlayerMultimediale
                     }
                     break;
                 case "Tracks":
-
+                    {
+                        ValueSet vs = new ValueSet();
+                        var count = playlist.GetTracksCount();
+                        vs.Add("Command", "Tracks");
+                        vs.Add("Count", count);
+                        for (int i = 0; i < count; i++)
+                        {
+                            Track t = playlist.TrackAt(i);
+                            vs.Add($"Track{i}_Title", t.Title);
+                            vs.Add($"Track{i}_Composer", t.Composer);
+                            vs.Add($"Track{i}_Link", t.Link);
+                            vs.Add($"Track{i}_Album", t.Album);
+                        }
+                        BackgroundMediaPlayer.SendMessageToForeground(vs);
+                    }
                     break;
             }
         }
@@ -197,18 +278,36 @@ namespace PlayerMultimediale
             player.SetUriSource(new Uri(t.Link));
             player.Play();
             UpdateAudioController();
+            Stopped = false;
+            BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
+            {
+                { "Command", "TrackChanged" }
+            });
         }
         private void BackgroundMediaPlayerCurrentStateChanged(MediaPlayer sender, object args)
         {
             // Update UVC button state
-            if (sender.CurrentState == MediaPlayerState.Playing)
+            switch (sender.CurrentState)
             {
-                systemmediatransportcontrol.PlaybackStatus = MediaPlaybackStatus.Playing;
+                case MediaPlayerState.Paused:
+                    systemmediatransportcontrol.PlaybackStatus = MediaPlaybackStatus.Paused;
+                    break;
+                case MediaPlayerState.Playing:
+                    systemmediatransportcontrol.PlaybackStatus = MediaPlaybackStatus.Playing;
+                    break;
+                case MediaPlayerState.Stopped:
+                    systemmediatransportcontrol.PlaybackStatus = MediaPlaybackStatus.Stopped;
+                    break;
+                case MediaPlayerState.Closed:
+                    systemmediatransportcontrol.PlaybackStatus = MediaPlaybackStatus.Closed;
+                    break;
             }
-            else if (sender.CurrentState == MediaPlayerState.Paused)
-            {
-                systemmediatransportcontrol.PlaybackStatus = MediaPlaybackStatus.Paused;
-            }
+        }
+        private bool IsTrackEnded()
+        {
+            if (player.CurrentState == MediaPlayerState.Paused && player.NaturalDuration == player.Position)
+                return true;
+            return false;
         }
         private void UpdateAudioController()
         {
@@ -239,17 +338,27 @@ namespace PlayerMultimediale
                     BackgroundMediaPlayer.Current.Position = new TimeSpan(0);
                     break;
                 case SystemMediaTransportControlsButton.Next:
-                    BackgroundMediaPlayer.SendMessageToForeground(new Windows.Foundation.Collections.ValueSet()
-                    {
-                        { "Command","Next" }
-                    });
+                    NextTrack();
                     break;
                 case SystemMediaTransportControlsButton.Previous:
-                    BackgroundMediaPlayer.SendMessageToForeground(new Windows.Foundation.Collections.ValueSet()
-                    {
-                        { "Command","Prev" }
-                    });
+                    PrevTrack();
                     break;
+            }
+        }
+        private void NextTrack()
+        {
+            if (playlist.HasNext)
+            {
+                Track track = playlist.GetNext();
+                PlayTrack(track);
+            }
+        }
+        private void PrevTrack()
+        {
+            if (playlist.HasPrev)
+            {
+                Track track = playlist.GetPrev();
+                PlayTrack(track);
             }
         }
     }

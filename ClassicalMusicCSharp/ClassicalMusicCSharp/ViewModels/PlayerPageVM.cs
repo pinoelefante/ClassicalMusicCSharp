@@ -10,24 +10,32 @@ using System.ComponentModel;
 using Windows.Media.Playback;
 using System.Diagnostics;
 using Windows.Foundation.Collections;
+using System.Collections.ObjectModel;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
     public class PlayerPageVM : Mvvm.ViewModelBase
     {
         private DispatcherTimer dt;
+        
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += MessageReceived;
-
-            dt = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
+            if(dt==null)
+                dt = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
             dt.Tick += Update;
             dt.Start();
+            ReadPlayerCurrentStatus();
+            Tracks(); //richiede la playlist
+            BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayerStateChanged;
         }
+
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground -= MessageReceived;
+            dt.Tick -= Update;
             dt.Stop();
+            BackgroundMediaPlayer.Current.CurrentStateChanged -= MediaPlayerStateChanged;
             return base.OnNavigatedFromAsync(state, suspending);
         }
         private void MessageReceived(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -46,11 +54,15 @@ namespace ClassicalMusicCSharp.ViewModels
                     case "HasTracks":
                         HasTracks = bool.Parse(e.Data["HasTracks"].ToString());
                         break;
+                    case "TrackChanged":
+                        RequestTrackInfo();
+                        break;
                     case "Current":
 
                         break;
                     case "CurrentIndex":
-                        CurrentIndex = int.Parse(e.Data["CurrentIndex"].ToString());
+                        CurrentIndex = (int)e.Data["CurrentIndex"];
+                        Debug.WriteLine("CurrentIndex = " + CurrentIndex);
                         break;
                     case "GetPosition":
                         var length = (int)e.Data["Length"] < 1 ? 1 : (int)e.Data["Length"];
@@ -61,13 +73,36 @@ namespace ClassicalMusicCSharp.ViewModels
                     case "AddTrack":
                         Debug.WriteLine("Track added");
                         break;
+                    case "TrackRemoved":
+                        var index = (int)e.Data["Index"];
+                        Playlist.RemoveAt(index);
+                        break;
+                    case "PlaylistCleaned":
+                        Playlist.Clear();
+                        RequestTrackInfo();
+                        break;
                     case "Tracks":
-
+                        {
+                            Playlist.Clear();
+                            RaisePropertyChanged(nameof(Playlist));
+                            var count = (int)e.Data["Count"];
+                            for(int i=0;i< count; i++)
+                            {
+                                var title = e.Data[$"Track{i}_Title"].ToString();
+                                var compo = e.Data[$"Track{i}_Composer"].ToString();
+                                var link = e.Data[$"Track{i}_Link"].ToString();
+                                var album = e.Data[$"Track{i}_Album"].ToString();
+                                PlaylistTrack t = new PlaylistTrack() { Track = title, Album = album, Composer = compo, Link = link };
+                                Playlist.Add(t);
+                            }
+                            RequestTrackInfo();
+                        }
                         break;
                 }
             });
         }
-        private bool _hasNext, _hasPrev, _hasTracks;
+        public ObservableCollection<PlaylistTrack> Playlist { get; } = new ObservableCollection<PlaylistTrack>();
+        private bool _hasNext, _hasPrev, _hasTracks, _playing,_buffering;
         private int _curIndex;
         private int _curPos, _curLength;
         public bool HasNext
@@ -112,6 +147,7 @@ namespace ClassicalMusicCSharp.ViewModels
             set
             {
                 Set<int>(ref _curIndex, value);
+                RaisePropertyChanged(nameof(CurrentTrack));
             }
         }
         public int CurrentPosition
@@ -136,12 +172,41 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<int>(ref _curLength, value);
             }
         }
+        private static readonly PlaylistTrack EMPTYTRACK = new PlaylistTrack();
+        public PlaylistTrack CurrentTrack
+        {
+            get
+            {
+                if(Playlist.Count > 0)
+                    return Playlist[CurrentIndex];
+                return EMPTYTRACK;
+            }
+        }
+        public bool IsPlaying
+        {
+            get
+            {
+                return _playing;
+            }
+            set
+            {
+                Set<bool>(ref _playing, value);
+            }
+        }
+        public bool IsBuffering
+        {
+            get
+            {
+                return _buffering;
+            }
+            set
+            {
+                Set<bool>(ref _buffering, value);
+            }
+        }
         private void Update(object s, object e)
         {
-            Debug.WriteLine("Updating...");
-            HasTracksRequest();
-            HasNextRequest();
-            HasPrevRequest();
+            //Debug.WriteLine("Updating...");
             GetPositionRequest();
         }
         private void GetPositionRequest()
@@ -172,7 +237,7 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","HasTracks" }
             });
         }
-        public static async Task AddTrack(Traccia track)
+        public static void AddTrack(Traccia track)
         {
             Debug.WriteLine("AddTrack adding track");
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
@@ -183,14 +248,33 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Album", track.Opera.Nome },
                 { "Link", track.Link }
             });
-            await Task.Delay(1);
         }
-        public async Task AddTracks(List<Traccia> l)
+        public static void PlayTrack(Traccia track)
         {
-            foreach(Traccia t in l)
+            Debug.WriteLine("PlayTrack adding track");
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
             {
-                await AddTrack(t);
+                { "Command","PlayTrack" },
+                { "Title", track.Titolo },
+                { "Composer", track.Compositore.Nome },
+                { "Album", track.Opera.Nome },
+                { "Link", track.Link }
+            });
+        }
+        public static void AddTracks(List<Traccia> l, bool play = false)
+        {
+            ValueSet vs = new ValueSet();
+            vs.Add("Command", play==false?"AddTracks":"PlayAlbum");
+            vs.Add("Count", l.Count);
+            for(int i = 0; i < l.Count; i++)
+            {
+                Traccia t = l[i];
+                vs.Add($"Track{i}_Title", t.Titolo);
+                vs.Add($"Track{i}_Composer", t.Compositore.Nome);
+                vs.Add($"Track{i}_Link", t.Link);
+                vs.Add($"Track{i}_Album", t.Opera.Nome);
             }
+            BackgroundMediaPlayer.SendMessageToBackground(vs);
         }
         public static void Init()
         {
@@ -206,6 +290,16 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","Play" }
             });
         }
+        
+        public void PlayAt(int index)
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","PlayIndex" },
+                { "Index", index }
+            });
+        }
+        
         public void Pause()
         {
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
@@ -233,6 +327,73 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 { "Command","Prev" }
             });
+        }
+        public void CleanPlaylist(object s = null, object e = null)
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","CleanPlaylist" }
+            });
+        }
+        public void RemoveTrackAt(int index)
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","RemTrack" },
+                { "Index",index }
+            });
+        }
+        private void MediaPlayerStateChanged(MediaPlayer sender, object args)
+        {
+            Template10.Common.WindowWrapper.Current().Dispatcher.Dispatch(() =>
+            {
+                Debug.WriteLine("Foreground MediaState: " + sender.CurrentState.ToString());
+                ReadPlayerCurrentStatus();
+            });
+        }
+        private void RequestCurrentIndex()
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","CurrentIndex" }
+            });
+        }
+        private void Tracks()
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","Tracks" }
+            });
+        }
+        private void RequestTrackInfo()
+        {
+            HasTracksRequest();
+            HasNextRequest();
+            HasPrevRequest();
+            RequestCurrentIndex();
+        }
+        private void ReadPlayerCurrentStatus()
+        {
+            switch (BackgroundMediaPlayer.Current.CurrentState)
+            {
+                case MediaPlayerState.Playing:
+                    IsBuffering = false;
+                    IsPlaying = true;
+                    if (!dt.IsEnabled)
+                        dt.Start();
+                    break;
+                case MediaPlayerState.Opening:
+                case MediaPlayerState.Buffering:
+                    IsBuffering = true;
+                    break;
+                case MediaPlayerState.Paused:
+                case MediaPlayerState.Stopped:
+                case MediaPlayerState.Closed:
+                    IsBuffering = false;
+                    IsPlaying = false;
+                    dt.Stop();
+                    break;
+            }
         }
     }
     public class PlaylistTrack

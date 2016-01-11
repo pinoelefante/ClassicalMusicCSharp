@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,10 @@ namespace PlayerMultimediale
             get
             {
                 return _currentTrack;
+            }
+            set
+            {
+                _currentTrack = value;
             }
         }
         public bool HasNext {
@@ -45,8 +50,9 @@ namespace PlayerMultimediale
         }
         public void RemoveTrack(int index)
         {
-            if (index <= _currentTrack)
+            if (index > 0 && index < _currentTrack)
                 _currentTrack--;
+            Debug.WriteLine("RemoveTrack CurrIndex="+_currentTrack);
             _listTracks.RemoveAt(index);
         }
         public Track GetNext()
@@ -81,6 +87,22 @@ namespace PlayerMultimediale
             {
                 return _listTracks.Count > 0;
             }
+        }
+        public void SetLast()
+        {
+            _currentTrack = _listTracks.Count - 1;
+        }
+        public int GetTracksCount()
+        {
+            return _listTracks.Count;
+        }
+        public Track TrackAt(int i)
+        {
+            return _listTracks[i];
+        }
+        public void SetIndex(int index)
+        {
+            CurrentIndex = index;
         }
     }
 }

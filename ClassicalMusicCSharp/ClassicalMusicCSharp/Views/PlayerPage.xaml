@@ -15,36 +15,53 @@
     <Page.Resources>
         <Converters:BoolToVisibility x:Key="BoolVisibility"/>
         <Converters:NotBoolToVisibility x:Key="NotBoolVisibility"/>
+        <Converters:StringVisibility x:Key="StringVisibility"/>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Player" Frame="{x:Bind Frame}" IsEnabled="False"/>
-<!--
-        <ListView Grid.Row="1" ItemsSource="{Binding Playlist}">
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Player" Frame="{x:Bind Frame}">
+            <controls:PageHeader.SecondaryCommands>
+                <AppBarButton Label="Empty playlist" Icon="Delete" Click="{x:Bind VM.CleanPlaylist}"/>
+            </controls:PageHeader.SecondaryCommands>
+        </controls:PageHeader>
+
+        <ListView x:Name="_xplaylist" Grid.Row="1" ItemsSource="{Binding Playlist}" Tapped="PlaylistItemClicked">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Titolo}"/>
+                    <StackPanel RightTapped="PlaylistItemMenu" Holding="PlaylistItemMenu">
+                        <TextBlock Text="{Binding Track}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
--->
-        <Grid Grid.Row="2">
+
+        <Grid Grid.Row="2" BorderThickness="0,2,0,0" BorderBrush="Gray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-<!--
+
             <StackPanel>
-                <TextBlock Text="{Binding TracciaCorrente.Titolo}"/>
+                <TextBlock Text="{Binding CurrentTrack.Album}" Visibility="{Binding CurrentTrack.Album, Converter={StaticResource StringVisibility}}"/>
+                
+                <TextBlock FontSize="10" Visibility="{Binding CurrentTrack.Track, Converter={StaticResource StringVisibility}}">
+                    <Run Text="Track: "/>
+                    <Run Text="{Binding CurrentTrack.Track}"/>
+                </TextBlock>
+                
+                <TextBlock FontSize="10" Visibility="{Binding CurrentTrack.Composer, Converter={StaticResource StringVisibility}}">
+                    <Run Text="by"/>
+                    <Run Text="{Binding CurrentTrack.Composer}"/>
+                </TextBlock>
             </StackPanel>
--->            
+            
             <Grid Grid.Row="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -52,36 +69,30 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Click="{x:Bind VM.Play}">
+                <ProgressRing Grid.Column="0" Visibility="{Binding IsBuffering, Converter={StaticResource BoolVisibility}}" IsActive="{Binding IsBuffering}"/>
+
+                <Button Grid.Column="1" Click="{x:Bind VM.Play}" Visibility="{Binding IsPlaying, Converter={StaticResource NotBoolVisibility}}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <SymbolIcon Symbol="Play"/>
                 </Button>
-<!--
-                <Button Grid.Column="0" Click="{x:Bind VM.Pause}" Visibility="{Binding IsPlaying, Converter={StaticResource BoolVisibility}}">
+
+                <Button Grid.Column="1" Click="{x:Bind VM.Pause}" Visibility="{Binding IsPlaying, Converter={StaticResource BoolVisibility}}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <SymbolIcon Symbol="Pause"/>
                 </Button>
--->
-                <Button Grid.Column="1" Click="{x:Bind VM.Stop}">
+
+                <Button Grid.Column="2" Click="{x:Bind VM.Stop}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <SymbolIcon Symbol="Stop"/>
                 </Button>
 
-                <Button Grid.Column="2" Click="{x:Bind VM.Prev}" IsEnabled="{Binding HasPrev}">
+                <Button Grid.Column="3" Click="{x:Bind VM.Prev}" IsEnabled="{Binding HasPrev}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <SymbolIcon Symbol="Previous"/>
                 </Button>
 
-                <Button Grid.Column="3" Click="{x:Bind VM.Next}" IsEnabled="{Binding HasNext}">
+                <Button Grid.Column="4" Click="{x:Bind VM.Next}" IsEnabled="{Binding HasNext}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <SymbolIcon Symbol="Next"/>
                 </Button>
 
-                <Slider Grid.Column="4" Value="{Binding CurrentPosition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="{Binding CurrentLength, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-
-
+                <Slider Grid.Column="5" Margin="8,0" Value="{Binding CurrentPosition}" Minimum="0" Maximum="{Binding CurrentLength}" IsEnabled="False"/>
             </Grid>
         </Grid>
-
-        <CommandBar Grid.Row="3">
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Empty playlist" Icon="Delete"/>
-            </CommandBar.PrimaryCommands>
-        </CommandBar>
     </Grid>
 </Page>
