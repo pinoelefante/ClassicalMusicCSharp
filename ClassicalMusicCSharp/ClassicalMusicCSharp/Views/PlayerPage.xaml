@@ -33,7 +33,12 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel RightTapped="PlaylistItemMenu" Holding="PlaylistItemMenu">
-                        <TextBlock Text="{Binding Track}"/>
+                        <TextBlock Text="{Binding Album}" FontSize="14"/>
+                        <TextBlock FontSize="12">
+                            <Run Text="{Binding Track}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding Composer}"/>
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

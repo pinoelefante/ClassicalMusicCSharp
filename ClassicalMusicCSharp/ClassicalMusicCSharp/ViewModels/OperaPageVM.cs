@@ -39,6 +39,8 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 ListView list = sender as ListView;
                 Traccia track = list.SelectedItem as Traccia;
+                if (track == null)
+                    return;
                 //int index = Opera.Tracce.IndexOf(track);
                 Debug.WriteLine("Adding " + track.Titolo);
                 PlayerPageVM.PlayTrack(track);
