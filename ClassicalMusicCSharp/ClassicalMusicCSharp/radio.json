@@ -1,0 +1,23 @@
+{
+	"radio":
+	[
+		{
+			"title": "1.FM - Otto's Baroque Music",
+			"descr": "1.FM's Otto's Baroque Musick is bringing to you the sounds of the baroque era (ca. 1600-1750) for your listening pleasure. You will hear music by some of the greatest composers ever, like JS Bach, Handel, Scarlatti or Telemann. So called minor composers like Geminiani or Sammartini, among others, are well represented and almost all performances are historically informed and/or played on authentic instruments.",
+			"link" : "http:\/\/strm112.1.fm\/baroque_mobile_mp3",
+			"image": "ms-appx:\/\/\/Assets\/radio\/1fm.png"
+		},
+		{
+			"title": "1.FM - Otto's Opera House",
+			"descr": "Listen to over 1000 complete and uninterrupted operas from the baroque era to modern days performances. You will be dazzled by the greatest singers and composers. A great collection of operatic music!",
+			"link" : "http:\/\/sc-opera-128kmp3.1.fm\/;096235807904691stream.nsv",
+			"image": "ms-appx:\/\/\/Assets\/radio\/1fm.png"
+		},
+		{
+			"title": "Classical 91.7",
+			"descr": "",
+			"link" : "http:\/\/stream1.houstonpublicmedia.org\/hpm_classical_mp3",
+			"image": "ms-appx:\/\/\/Assets\/radio\/HPM.png"
+		}
+	]
+}

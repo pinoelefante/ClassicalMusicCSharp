@@ -5,10 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Media;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.UI.Notifications;
+using NotificationsExtensions.Tiles; // NotificationsExtensions.Win10
 
 namespace PlayerMultimediale
 {
@@ -125,6 +128,14 @@ namespace PlayerMultimediale
                         playlist.CurrentIndex = indexFirstTrack;
                         Track cur = playlist.Current;
                         PlayTrack(cur);
+                    }
+                    break;
+                case "PlayRadio":
+                    {
+                        var title = e.Data["Title"].ToString();
+                        var link = e.Data["Link"].ToString();
+                        Track t = new Track() { Title = title, Link = link, Composer = "Live Radio" };
+                        PlayTrack(t, true);
                     }
                     break;
                 case "Pause":
@@ -271,18 +282,67 @@ namespace PlayerMultimediale
             BackgroundMediaPlayer.Current.Position = BackgroundMediaPlayer.Current.NaturalDuration;
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///stop.mp3"));
             BackgroundMediaPlayer.Current.SetFileSource(file);
+            DefaultLiveTile();
             Stopped = true;
         }
-        private void PlayTrack(Track t)
+        private void PlayTrack(Track t, bool pass = false)
         {
             player.SetUriSource(new Uri(t.Link));
             player.Play();
-            UpdateAudioController();
+            UpdateAudioController(pass?t:null);
+            SetLiveTile(t);
             Stopped = false;
             BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
             {
                 { "Command", "TrackChanged" }
             });
+        }
+        private async void SetLiveTile(Track t)
+        {
+            string composer = t.Composer;
+            string opera = t.Album;
+            string track = t.Title;
+
+            TileContent content = new TileContent()
+            {
+                Visual = new TileVisual()
+                {
+                    TileMedium = new TileBinding()
+                    {
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            Children =
+                            {
+                                new TileText() { Text = composer, Style = TileTextStyle.Subtitle },
+                                new TileText() { Text = opera, Style = TileTextStyle.CaptionSubtle, Wrap = true },
+                                new TileText() { Text = track, Style = TileTextStyle.CaptionSubtle }
+                            }
+                        }
+                    },
+
+                    TileWide = new TileBinding()
+                    {
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            Children =
+                            {
+                                new TileText() { Text = composer, Style = TileTextStyle.Subtitle },
+                                new TileText() { Text = opera, Style = TileTextStyle.CaptionSubtle, Wrap = true },
+                                new TileText() { Text = track, Style = TileTextStyle.CaptionSubtle }
+                            }
+                        }
+                    }
+                }
+            };
+            (content.Visual.TileMedium.Content as TileBindingContentAdaptive).BackgroundImage = new TileBackgroundImage() {Source = new TileImageSource(await GetImageTile(t.Composer, TileType.Square)) };
+            (content.Visual.TileWide.Content as TileBindingContentAdaptive).BackgroundImage = new TileBackgroundImage() { Source = new TileImageSource (await GetImageTile(t.Composer, TileType.Wide)) };
+            var notification = new TileNotification(content.GetXml());
+
+            TileUpdateManager.CreateTileUpdaterForApplication("App").Update(notification);
+        }
+        private void DefaultLiveTile()
+        {
+            TileUpdateManager.CreateTileUpdaterForApplication("App").Clear(); //set default live tile
         }
         private void BackgroundMediaPlayerCurrentStateChanged(MediaPlayer sender, object args)
         {
@@ -303,15 +363,31 @@ namespace PlayerMultimediale
                     break;
             }
         }
+        private async Task<string> GetImageTile(string composer, string type)
+        {
+            string to_search = composer.ToLower().Replace(" ", "_") + "_" + type;
+
+            StorageFolder instPath = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            StorageFolder folder = await instPath.GetFolderAsync($@"Assets\composers\{type}");
+
+            IEnumerable<StorageFile> result = (await folder.GetFilesAsync()).Where(f => f.DisplayName.Equals(to_search));
+            if(result?.Count() > 0)
+            {
+                string path = result.ElementAt(0).Path;
+                Debug.WriteLine("Path = " + path);
+                return path;
+            }
+            return "ms-appx:///Assets/spartito.jpg";
+        }
         private bool IsTrackEnded()
         {
             if (player.CurrentState == MediaPlayerState.Paused && player.NaturalDuration == player.Position)
                 return true;
             return false;
         }
-        private void UpdateAudioController()
+        private void UpdateAudioController(Track t = null)
         {
-            Track track = playlist.Current;
+            Track track = t == null ? playlist.Current : t;
             if (track != null)
             {
                 systemmediatransportcontrol.DisplayUpdater.Type = MediaPlaybackType.Music;
@@ -352,6 +428,10 @@ namespace PlayerMultimediale
                 Track track = playlist.GetNext();
                 PlayTrack(track);
             }
+            else
+            {
+                DefaultLiveTile();
+            }
         }
         private void PrevTrack()
         {
@@ -361,5 +441,10 @@ namespace PlayerMultimediale
                 PlayTrack(track);
             }
         }
+    }
+    class TileType
+    {
+        public const string Square = "square";
+        public const string Wide = "wide";
     }
 }

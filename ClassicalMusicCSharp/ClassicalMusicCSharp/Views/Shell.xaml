@@ -14,14 +14,21 @@
 
             <Controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False">
                 <Controls:HamburgerMenu.PrimaryButtons>
-                    <Controls:HamburgerButtonInfo PageType="views:ArtistsPage">
+                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ArtistsPage">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Width="48" Height="48" Symbol="Contact" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Composers" />
                         </StackPanel>
                     </Controls:HamburgerButtonInfo>
 
-                    <Controls:HamburgerButtonInfo PageType="views:PlayerPage">
+                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:RadioPage">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Width="48" Height="48" Symbol="World" />
+                            <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Live radios" />
+                        </StackPanel>
+                    </Controls:HamburgerButtonInfo>
+                    
+                    <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:PlayerPage">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Width="48" Height="48" Symbol="Play" />
                             <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Player" />

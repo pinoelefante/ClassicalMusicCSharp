@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace ClassicalMusicCSharp.Views
 {
@@ -13,6 +14,7 @@ namespace ClassicalMusicCSharp.Views
         public OperePage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
         public OperePageVM VM => this.DataContext as OperePageVM;
     }

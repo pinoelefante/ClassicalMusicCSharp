@@ -26,6 +26,7 @@ namespace ClassicalMusicCSharp.Views
         public ArtistsPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
         public ArtistsPageVM VM => this.DataContext as ArtistsPageVM;
     }

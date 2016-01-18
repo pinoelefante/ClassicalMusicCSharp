@@ -21,13 +21,12 @@ namespace ClassicalMusicCSharp.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class CategoriePage : Page
+    public sealed partial class RadioPage : Page
     {
-        public CategoriePage()
+        public RadioPage()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
-        public CategoriePageVM VM => this.DataContext as CategoriePageVM;
+        public RadioVM VM => this.DataContext as RadioVM;
     }
 }

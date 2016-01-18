@@ -16,11 +16,10 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ClassicalMusicCSharp.App">
       <uap:VisualElements DisplayName="Classical Music in C#" Square150x150Logo="Assets\Square150.png" Square44x44Logo="Assets\Square44.png" Description="Classical Music in C#" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide.png" Square71x71Logo="Assets\Square71.png" Square310x310Logo="Assets\Square310.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide.png" Square71x71Logo="Assets\Square71.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
-            <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="white" />

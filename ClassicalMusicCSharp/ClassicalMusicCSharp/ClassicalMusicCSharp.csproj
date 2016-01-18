@@ -17,7 +17,11 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>ClassicalMusicCSharp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>ClassicalMusicCSharp_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>10C9429740668BBC0B2C69EE25E79AC529F0694A</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +79,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -86,60 +92,32 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Badge.scale-100.png" />
-    <Content Include="Assets\Badge.scale-125.png" />
-    <Content Include="Assets\Badge.scale-150.png" />
-    <Content Include="Assets\Badge.scale-200.png" />
-    <Content Include="Assets\Badge.scale-400.png" />
-    <Content Include="Assets\LockScreenLogo.scale-100.png" />
-    <Content Include="Assets\LockScreenLogo.scale-125.png" />
-    <Content Include="Assets\LockScreenLogo.scale-150.png" />
-    <Content Include="Assets\LockScreenLogo.scale-400.png" />
+    <Content Include="Assets\radio\1fm.png" />
+    <Content Include="Assets\composers\square\beethoven_square.jpg" />
+    <Content Include="Assets\composers\wide\beethoven_wide.jpg" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-200.png" />
     <Content Include="Assets\Logo.scale-400.png" />
+    <Content Include="Assets\radio\HPM.png" />
+    <Content Include="Assets\spartito.jpg" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
-    <Content Include="Assets\Square150.scale-100.png" />
-    <Content Include="Assets\Square150.scale-125.png" />
-    <Content Include="Assets\Square150.scale-150.png" />
+    <None Include="ClassicalMusicCSharp_StoreKey.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\Square150.scale-200.png" />
-    <Content Include="Assets\Square150.scale-400.png" />
-    <Content Include="Assets\Square300.scale-100.png" />
-    <Content Include="Assets\Square300.scale-125.png" />
-    <Content Include="Assets\Square300.scale-150.png" />
-    <Content Include="Assets\Square300.scale-200.png" />
-    <Content Include="Assets\Square300.scale-400.png" />
-    <Content Include="Assets\Square310.scale-100.png" />
-    <Content Include="Assets\Square310.scale-125.png" />
-    <Content Include="Assets\Square310.scale-150.png" />
-    <Content Include="Assets\Square310.scale-200.png" />
-    <Content Include="Assets\Square310.scale-400.png" />
-    <Content Include="Assets\Square44.scale-100.png" />
     <Content Include="Assets\Square44.scale-200.png" />
-    <Content Include="Assets\Square44.scale-400.png" />
-    <Content Include="Assets\Square71.scale-100.png" />
-    <Content Include="Assets\Square71.scale-125.png" />
-    <Content Include="Assets\Square71.scale-150.png" />
     <Content Include="Assets\Square71.scale-200.png" />
-    <Content Include="Assets\Square71.scale-400.png" />
-    <Content Include="Assets\Store.scale-100.png" />
-    <Content Include="Assets\Store.scale-125.png" />
-    <Content Include="Assets\Store.scale-150.png" />
     <Content Include="Assets\Store.scale-200.png" />
-    <Content Include="Assets\Store.scale-400.png" />
-    <Content Include="Assets\Wide.scale-100.png" />
     <Content Include="Assets\Wide.scale-200.png" />
-    <Content Include="Assets\Wide.scale-400.png" />
     <Content Include="stop.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -148,18 +126,22 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="project.json" />
+    <Content Include="radio.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Grouping\AlphaGrouping.cs" />
+    <Compile Include="Classes\Radio\RadioManager.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\NotBoolean.cs" />
     <Compile Include="Converters\NotBoolToSelectionMode.cs" />
     <Compile Include="Converters\NotBoolToVisibility.cs" />
+    <Compile Include="Converters\StringToUri.cs" />
     <Compile Include="Converters\StringVisibility.cs" />
+    <Compile Include="Models\RadioWrapper.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="OneClassical\Categoria.cs" />
     <Compile Include="OneClassical\Compositore.cs" />
@@ -176,6 +158,7 @@
     <Compile Include="ViewModels\OperaPageVM.cs" />
     <Compile Include="ViewModels\OperePageVM.cs" />
     <Compile Include="ViewModels\PlayerPageVM.cs" />
+    <Compile Include="ViewModels\RadioVM.cs" />
     <Compile Include="Views\ArtistsPage.xaml.cs">
       <DependentUpon>ArtistsPage.xaml</DependentUpon>
     </Compile>
@@ -194,6 +177,9 @@
     <Compile Include="Views\PlayerPage.xaml.cs">
       <DependentUpon>PlayerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RadioPage.xaml.cs">
+      <DependentUpon>RadioPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -208,7 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +232,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RadioPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -257,7 +246,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Strings\" />
   </ItemGroup>
   <ItemGroup>

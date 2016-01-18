@@ -8,9 +8,9 @@ namespace PlayerMultimediale
 {
     public sealed class Track
     {
-        public string Link { get; set; }
-        public string Composer { get; set; }
-        public string Album { get; set; }
-        public string Title { get; set; }
+        public string Link { get; set; } = string.Empty;
+        public string Composer { get; set; } = string.Empty;
+        public string Album { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
     }
 }

@@ -58,8 +58,8 @@
                 <AppBarButton Icon="Add" Label="Add selected to playlist" Click="playlistSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Selezione multipla" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Label="Selezione singola" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+                <AppBarButton Label="Multiple selection" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Label="Single selection" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Grid>

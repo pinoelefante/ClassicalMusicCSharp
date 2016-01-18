@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassicalMusicCSharp.Classes.Radio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -114,6 +115,7 @@ namespace ClassicalMusicCSharp.OneClassical
                 ListaCompositori = compositori;
                 Loaded = true;
             }
+            RadioManager.LoadRadio();
             return ListaCompositori;
         }
     }

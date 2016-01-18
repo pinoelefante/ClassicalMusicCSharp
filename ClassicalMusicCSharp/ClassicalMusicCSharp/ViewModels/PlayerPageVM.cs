@@ -11,6 +11,8 @@ using Windows.Media.Playback;
 using System.Diagnostics;
 using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
+using Windows.UI.Notifications;
+using Windows.ApplicationModel.Core;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
