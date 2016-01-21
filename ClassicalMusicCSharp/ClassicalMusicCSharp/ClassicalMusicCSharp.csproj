@@ -144,6 +144,11 @@
     <Content Include="Assets\composers\square\strauss_r_square.jpg" />
     <Content Include="Assets\composers\square\strauss_square.jpg" />
     <Content Include="Assets\composers\square\stravinsky_square.jpg" />
+    <Content Include="Assets\composers\square\tchaikovsky_square.jpg" />
+    <Content Include="Assets\composers\square\telemann_square.jpg" />
+    <Content Include="Assets\composers\square\vivaldi_square.jpg" />
+    <Content Include="Assets\composers\square\wagner_square.jpg" />
+    <Content Include="Assets\composers\square\weber_square.jpg" />
     <Content Include="Assets\composers\wide\albinoni_wide.jpg" />
     <Content Include="Assets\composers\wide\bach_wide.jpg" />
     <Content Include="Assets\composers\wide\berlioz_wide.jpg" />
@@ -189,6 +194,11 @@
     <Content Include="Assets\composers\wide\strauss_r_wide.jpg" />
     <Content Include="Assets\composers\wide\strauss_wide.jpg" />
     <Content Include="Assets\composers\wide\stravinsky_wide.jpg" />
+    <Content Include="Assets\composers\wide\tchaikovsky_wide.jpg" />
+    <Content Include="Assets\composers\wide\telemann_wide.jpg" />
+    <Content Include="Assets\composers\wide\vivaldi_wide.jpg" />
+    <Content Include="Assets\composers\wide\wagner_wide.jpg" />
+    <Content Include="Assets\composers\wide\weber_wide.jpg" />
     <Content Include="Assets\radio\1fm.png" />
     <Content Include="Assets\composers\square\beethoven_square.jpg" />
     <Content Include="Assets\composers\wide\beethoven_wide.jpg" />
