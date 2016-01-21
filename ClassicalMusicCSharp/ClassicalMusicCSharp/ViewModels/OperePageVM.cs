@@ -51,14 +51,10 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<List<Opera>>(ref _opere, value);
             }
         }
-        public void goToOpera(object sender, object e)
+        public void goToOpera(object sender, ItemClickEventArgs e)
         {
-            if(sender is ListView)
-            {
-                ListView list = sender as ListView;
-                Opera opera = list.SelectedItem as Opera;
-                NavigationService.Navigate(typeof(OperaPage), opera);
-            }
+            Opera opera = (Opera)e.ClickedItem;
+            NavigationService.Navigate(typeof(OperaPage), opera);
         }
     }
 }

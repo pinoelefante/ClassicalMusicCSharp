@@ -29,16 +29,10 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<Compositore>(ref _comp, value);
             }
         }
-        public void goToCategoria(object sender, object e)
+        public void goToCategoria(object sender, ItemClickEventArgs e)
         {
-            if (sender is ListView)
-            {
-                ListView list = sender as ListView;
-                Categoria cat = list.SelectedItem as Categoria;
-                NavigationService.Navigate(typeof(OperePage), cat);
-            }
-            else
-                Debug.WriteLine("Blabla");
+            Categoria cat = e.ClickedItem as Categoria;
+            NavigationService.Navigate(typeof(OperePage), cat);
         }
     }
 }

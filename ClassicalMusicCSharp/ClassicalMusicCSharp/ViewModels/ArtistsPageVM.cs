@@ -36,21 +36,16 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<Dictionary<String, List<Compositore>>>(ref _l, value);
             }
         }
-        public void goToArtist(object sender, object e)
+        public void goToArtist(object sender, ItemClickEventArgs e)
         {
-            if (sender is ListView)
+            Compositore comp = e.ClickedItem as Compositore;
+            if (comp.HasCategorie)
             {
-                ListView list = sender as ListView;
-                Debug.WriteLine(list.SelectedItem.GetType());
-                Compositore comp = list.SelectedItem as Compositore;
-                if (comp.HasCategorie)
-                {
-                    NavigationService.Navigate(typeof(CategoriePage), comp);
-                }
-                else
-                {
-                    NavigationService.Navigate(typeof(OperePage), comp);
-                }
+                NavigationService.Navigate(typeof(CategoriePage), comp);
+            }
+            else
+            {
+                NavigationService.Navigate(typeof(OperePage), comp);
             }
         }
     }

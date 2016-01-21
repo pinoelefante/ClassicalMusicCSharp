@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="{Binding Compositore.Nome}" IsEnabled="False"/>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Compositore.Categorie}" Tapped="{x:Bind VM.goToCategoria}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Compositore.Categorie}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.goToCategoria}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

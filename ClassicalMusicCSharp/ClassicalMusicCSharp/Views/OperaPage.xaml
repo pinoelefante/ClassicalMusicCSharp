@@ -30,7 +30,7 @@
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Opera.Nome}"/>
 
-        <ListView Grid.Row="1" x:Name="lista" ItemsSource="{Binding Opera.Tracce}" Tapped="{x:Bind VM.onTrack}" IsTapEnabled="{Binding IsSingleMode}" SelectionMode="{Binding IsSingleMode, Converter={StaticResource NotBoolSelection}}">
+        <ListView Grid.Row="1" x:Name="lista" ItemsSource="{Binding Opera.Tracce}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.onTrack}" IsTapEnabled="{Binding IsSingleMode}" SelectionMode="{Binding IsSingleMode, Converter={StaticResource NotBoolSelection}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

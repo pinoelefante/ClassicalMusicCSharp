@@ -18,9 +18,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader Grid.Row="0" BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Title}" />
+        <controls:PageHeader Grid.Row="0" BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Title}" IsEnabled="False"/>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding ListaOpere}" Tapped="{x:Bind VM.goToOpera}">
+        <ListView Grid.Row="1" ItemsSource="{Binding ListaOpere}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.goToOpera}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Nome}"/>

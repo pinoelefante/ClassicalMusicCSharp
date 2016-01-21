@@ -25,7 +25,7 @@
 
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding Source={StaticResource ListeCompositori}}" Tapped="{x:Bind VM.goToArtist}">
+                <ListView ItemsSource="{Binding Source={StaticResource ListeCompositori}}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.goToArtist}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

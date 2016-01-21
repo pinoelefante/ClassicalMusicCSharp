@@ -30,21 +30,16 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<Opera>(ref _opera, value);
             }
         }
-        public void onTrack(object sender, object e)
+        public void onTrack(object sender, ItemClickEventArgs e)
         {
             if (!IsSingleMode)
                 return;
 
-            if (sender is ListView)
-            {
-                ListView list = sender as ListView;
-                Traccia track = list.SelectedItem as Traccia;
-                if (track == null)
-                    return;
-                //int index = Opera.Tracce.IndexOf(track);
-                Debug.WriteLine("Adding " + track.Titolo);
-                PlayerPageVM.PlayTrack(track);
-            }
+            Traccia track = e.ClickedItem as Traccia;
+            if (track == null)
+                return;
+
+            PlayerPageVM.PlayTrack(track);
         }
         private bool _isSingleMode;
         public bool IsSingleMode
