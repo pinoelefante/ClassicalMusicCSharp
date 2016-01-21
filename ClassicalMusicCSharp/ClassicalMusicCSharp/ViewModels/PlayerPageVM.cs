@@ -29,6 +29,7 @@ namespace ClassicalMusicCSharp.ViewModels
             dt.Start();
             ReadPlayerCurrentStatus();
             Tracks(); //richiede la playlist
+            RequestIsRadioPlaying();
             BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayerStateChanged;
         }
 
@@ -100,11 +101,22 @@ namespace ClassicalMusicCSharp.ViewModels
                             RequestTrackInfo();
                         }
                         break;
+                    case "IsRadioPlaying":
+                        {
+                            _radioPlaying = (bool)e.Data["IsRadioPlaying"];
+                            if (_radioPlaying)
+                            {
+                                var title = e.Data["Title"].ToString();
+                                RadioTrack = new PlaylistTrack() { Track = title };
+                            }
+                            RaisePropertyChanged(nameof(CurrentTrack));
+                        }
+                        break;
                 }
             });
         }
         public ObservableCollection<PlaylistTrack> Playlist { get; } = new ObservableCollection<PlaylistTrack>();
-        private bool _hasNext, _hasPrev, _hasTracks, _playing,_buffering;
+        private bool _hasNext, _hasPrev, _hasTracks, _playing,_buffering, _radioPlaying;
         private int _curIndex;
         private int _curPos, _curLength;
         public bool HasNext
@@ -174,11 +186,14 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<int>(ref _curLength, value);
             }
         }
+        private PlaylistTrack RadioTrack;
         private static readonly PlaylistTrack EMPTYTRACK = new PlaylistTrack();
         public PlaylistTrack CurrentTrack
         {
             get
             {
+                if (_radioPlaying && RadioTrack != null)
+                    return RadioTrack;
                 if(Playlist.Count > 0)
                     return Playlist[CurrentIndex];
                 return EMPTYTRACK;
@@ -374,6 +389,13 @@ namespace ClassicalMusicCSharp.ViewModels
             HasPrevRequest();
             RequestCurrentIndex();
         }
+        private void RequestIsRadioPlaying()
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","IsRadioPlaying" }
+            });
+        }
         private void ReadPlayerCurrentStatus()
         {
             switch (BackgroundMediaPlayer.Current.CurrentState)
@@ -400,9 +422,9 @@ namespace ClassicalMusicCSharp.ViewModels
     }
     public class PlaylistTrack
     {
-        public string Composer { get; set; }
-        public string Track { get; set; }
-        public string Link { get; set; }
-        public string Album { get; set; }
+        public string Composer { get; set; } = string.Empty;
+        public string Track { get; set; } = string.Empty;
+        public string Link { get; set; } = string.Empty;
+        public string Album { get; set; } = string.Empty;
     }
 }

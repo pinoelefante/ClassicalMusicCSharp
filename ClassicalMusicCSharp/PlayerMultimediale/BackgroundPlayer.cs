@@ -47,10 +47,10 @@ namespace PlayerMultimediale
 
             deferral = taskInstance.GetDeferral();
             taskInstance.Canceled += TaskIstance_Cancelled;
+
             if (playlist == null)
                 playlist = new Playlist();
         }
-
         private void MediaPlayerStateChanged(MediaPlayer sender, object args)
         {
             Debug.WriteLine(sender.CurrentState.ToString());
@@ -68,6 +68,8 @@ namespace PlayerMultimediale
             Stop();
             deferral.Complete();
         }
+        private bool IsRadioPlay { get; set; } = false;
+        private Track RadioTrack { get; set; }
         private bool Stopped = true;
         private void BackgroundMediaPlayerOnMessageReceivedFromForeground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
@@ -80,6 +82,12 @@ namespace PlayerMultimediale
                     Stop();
                     break;
                 case "Play":
+                    if (IsRadioPlay)
+                    {
+                        PlayTrack(RadioTrack, true);
+                        break;
+                    }
+
                     if (playlist.GetTracksCount() == 0)
                         break;
                     if (Stopped && player.Source == null)
@@ -136,6 +144,18 @@ namespace PlayerMultimediale
                         var link = e.Data["Link"].ToString();
                         Track t = new Track() { Title = title, Link = link, Composer = "Live Radio" };
                         PlayTrack(t, true);
+                    }
+                    break;
+                case "IsRadioPlaying":
+                    {
+                        ValueSet vs = new ValueSet()
+                        {
+                            {"Command","IsRadioPlaying" },
+                            {"IsRadioPlaying", IsRadioPlay }
+                        };
+                        if(IsRadioPlay)
+                            vs.Add("Title", RadioTrack?.Title );
+                        BackgroundMediaPlayer.SendMessageToForeground(vs);
                     }
                     break;
                 case "Pause":
@@ -285,11 +305,14 @@ namespace PlayerMultimediale
             DefaultLiveTile();
             Stopped = true;
         }
-        private void PlayTrack(Track t, bool pass = false)
+        private void PlayTrack(Track t, bool radio = false)
         {
+            IsRadioPlay = radio;
+            RadioTrack = t;
+
             player.SetUriSource(new Uri(t.Link));
             player.Play();
-            UpdateAudioController(pass?t:null);
+            UpdateAudioController(radio?t:null);
             SetLiveTile(t);
             Stopped = false;
             BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
