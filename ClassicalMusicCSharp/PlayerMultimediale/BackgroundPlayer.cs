@@ -230,7 +230,8 @@ namespace PlayerMultimediale
                     break;
                 case "CleanPlaylist":
                     playlist.CleanPlaylist();
-                    Stop();
+                    if(!IsRadioPlay)
+                        Stop();
                     BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
                     {
                         { "Command", "PlaylistCleaned" }

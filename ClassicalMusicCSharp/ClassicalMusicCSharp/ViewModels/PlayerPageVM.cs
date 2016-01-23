@@ -13,6 +13,7 @@ using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
 using Windows.UI.Notifications;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml.Controls;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -82,6 +83,7 @@ namespace ClassicalMusicCSharp.ViewModels
                         break;
                     case "PlaylistCleaned":
                         Playlist.Clear();
+                        RaisePropertyChanged(nameof(Playlist));
                         RequestTrackInfo();
                         break;
                     case "Tracks":
@@ -307,7 +309,12 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","Play" }
             });
         }
-        
+        public void ItemClicked(object sender, ItemClickEventArgs e)
+        {
+            PlaylistTrack t = e.ClickedItem as PlaylistTrack;
+            int index = Playlist.IndexOf(t);
+            PlayAt(index);
+        }
         public void PlayAt(int index)
         {
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()

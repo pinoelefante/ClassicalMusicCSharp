@@ -29,10 +29,10 @@
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
 
-        <ListView x:Name="_xplaylist" Grid.Row="1" ItemsSource="{Binding Playlist}" Tapped="PlaylistItemClicked">
+        <ListView x:Name="_xplaylist" Grid.Row="1" ItemsSource="{Binding Playlist}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel RightTapped="PlaylistItemMenu" Holding="PlaylistItemMenu">
+                    <StackPanel RightTapped="PlaylistItemMenu">
                         <TextBlock Text="{Binding Album}" FontSize="14"/>
                         <TextBlock FontSize="12">
                             <Run Text="{Binding Track}"/>

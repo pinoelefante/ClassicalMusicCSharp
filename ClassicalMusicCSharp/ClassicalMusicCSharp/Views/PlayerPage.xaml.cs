@@ -53,5 +53,12 @@ namespace ClassicalMusicCSharp.Views
             dialog.CancelCommandIndex = 1;
             await dialog.ShowAsync();
         }
+
+        private void PlaylistItemMenuHolding(object sender, HoldingRoutedEventArgs e)
+        {
+            Debug.WriteLine("sender = " + sender.GetType());
+            Debug.WriteLine("Holding source = " + e.OriginalSource.GetType());
+            e.Handled = true;
+        }
     }
 }

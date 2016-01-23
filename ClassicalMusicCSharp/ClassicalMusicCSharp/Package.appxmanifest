@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="28069pinoelefante.ClassicalMusicinC" Publisher="CN=91875298-DE48-43C6-B1C0-A6D3351D7095" Version="1.0.0.0" />
+  <Identity Name="28069pinoelefante.ClassicalMusicinC" Publisher="CN=91875298-DE48-43C6-B1C0-A6D3351D7095" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="8f9e4fe4-9237-4a5c-b393-e9dffbdfaf9d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Classical Music in C#</DisplayName>
