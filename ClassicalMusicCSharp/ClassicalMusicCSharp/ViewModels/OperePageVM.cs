@@ -1,7 +1,9 @@
 ﻿using ClassicalMusicCSharp.OneClassical;
 using ClassicalMusicCSharp.Views;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +17,17 @@ namespace ClassicalMusicCSharp.ViewModels
     {
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            ValueSet parameters = parameter as ValueSet;
-            Composer = parameters["Composer"] as Compositore;
+            Dictionary<string, object> parameters = parameter as Dictionary<string, object>;
+            string composername = parameters["Composer"].ToString();
+            Composer = OneClassicalHub.Instance.GetComposerByName(composername);
+
+            Category = null;
             if (parameters.ContainsKey("Category"))
             {
-                Categoria cat = parameters["Category"] as Categoria;
-                ListaOpere = (cat).Opere;
-                Title = cat.Nome;
+                string catName = parameters["Category"].ToString();
+                Category = Composer.Categorie.Where(x => x.Nome.Equals(catName)).First();
+                ListaOpere = Category.Opere;
+                Title = Category.Nome;
             }
             else
             {
@@ -31,6 +37,7 @@ namespace ClassicalMusicCSharp.ViewModels
             return Task.CompletedTask;
         }
         private Compositore Composer;
+        private Categoria Category;
         private string _title;
         public string Title
         {
@@ -58,11 +65,13 @@ namespace ClassicalMusicCSharp.ViewModels
         public void goToOpera(object sender, ItemClickEventArgs e)
         {
             Opera opera = (Opera)e.ClickedItem;
-            ValueSet parameters = new ValueSet()
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                {"Composer", Composer },
-                {"Opera", opera }
+                {"Composer", Composer.Nome },
+                {"Opera", opera.Nome }
             };
+            if (Category != null)
+                parameters.Add("Category", Category.Nome);
             NavigationService.Navigate(typeof(OperaPage), parameters);
         }
     }

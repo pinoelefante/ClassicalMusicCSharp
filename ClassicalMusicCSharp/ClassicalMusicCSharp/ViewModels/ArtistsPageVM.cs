@@ -40,17 +40,17 @@ namespace ClassicalMusicCSharp.ViewModels
         public void goToArtist(object sender, ItemClickEventArgs e)
         {
             Compositore comp = e.ClickedItem as Compositore;
-            ValueSet parameters = new ValueSet()
+            Dictionary<string,object> parameters = new Dictionary<string, object>()
             {
-                {"Composer", comp }
+                {"Composer", comp.Nome }
             };
             if (comp.HasCategorie)
             {
-                NavigationService.Navigate(typeof(CategoriePage), comp);
+                NavigationService.Navigate(typeof(CategoriePage), parameters);
             }
             else
             {
-                NavigationService.Navigate(typeof(OperePage), comp);
+                NavigationService.Navigate(typeof(OperePage), parameters);
             }
         }
     }

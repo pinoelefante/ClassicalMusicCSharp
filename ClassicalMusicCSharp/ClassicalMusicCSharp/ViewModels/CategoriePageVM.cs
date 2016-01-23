@@ -1,5 +1,6 @@
 ﻿using ClassicalMusicCSharp.OneClassical;
 using ClassicalMusicCSharp.Views;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,8 +17,9 @@ namespace ClassicalMusicCSharp.ViewModels
     {
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            ValueSet parameters = parameter as ValueSet;
-            Compositore = parameters["Composer"] as Compositore;
+            Dictionary<string, object> parameters = parameter as Dictionary<string, object>;
+            string compname = parameters["Composer"].ToString();
+            Compositore = OneClassicalHub.Instance.GetComposerByName(compname);
             return Task.CompletedTask;
         }
         private Compositore _comp;
@@ -35,10 +37,10 @@ namespace ClassicalMusicCSharp.ViewModels
         public void goToCategoria(object sender, ItemClickEventArgs e)
         {
             Categoria cat = e.ClickedItem as Categoria;
-            ValueSet parameters = new ValueSet()
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                {"Composer", Compositore },
-                {"Category", cat }
+                {"Composer", Compositore.Nome },
+                {"Category", cat.Nome }
             };
             NavigationService.Navigate(typeof(OperePage), parameters);
         }

@@ -28,6 +28,10 @@ namespace ClassicalMusicCSharp.OneClassical
         public bool Loaded { get; set; } = false;
         private OneClassicalHub() { }
         public List<Compositore> ListaCompositori { get; private set; }
+        public Compositore GetComposerByName(string name)
+        {
+            return ListaCompositori.Where(x => x.Nome.Equals(name)).First();
+        }
         public async Task<List<Compositore>> readJson()
         {
             if (!Loaded)
