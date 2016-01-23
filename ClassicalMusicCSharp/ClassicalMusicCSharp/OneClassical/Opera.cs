@@ -15,7 +15,7 @@ namespace ClassicalMusicCSharp.OneClassical
         public string Libretto { get; }
         public string Immagine { get; }
 
-        public Categoria Categoria { get; set; }
-        public Compositore Compositore { get; set; }
+        //public Categoria Categoria { get; set; }
+        //public Compositore Compositore { get; set; }
     }
 }

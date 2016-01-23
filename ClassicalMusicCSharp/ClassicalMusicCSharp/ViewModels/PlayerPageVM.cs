@@ -21,7 +21,7 @@ namespace ClassicalMusicCSharp.ViewModels
     {
         private DispatcherTimer dt;
         
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += MessageReceived;
             if(dt==null)
@@ -32,6 +32,7 @@ namespace ClassicalMusicCSharp.ViewModels
             Tracks(); //richiede la playlist
             RequestIsRadioPlaying();
             BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayerStateChanged;
+            return Task.CompletedTask;
         }
 
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
@@ -256,31 +257,31 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","HasTracks" }
             });
         }
-        public static void AddTrack(Traccia track)
+        public static void AddTrack(Traccia track, string composer, string opera)
         {
             Debug.WriteLine("AddTrack adding track");
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
             {
                 { "Command","AddTrack" },
                 { "Title", track.Titolo },
-                { "Composer", track.Compositore.Nome },
-                { "Album", track.Opera.Nome },
+                { "Composer", composer },
+                { "Album", opera },
                 { "Link", track.Link }
             });
         }
-        public static void PlayTrack(Traccia track)
+        public static void PlayTrack(Traccia track, string composer, string opera)
         {
             Debug.WriteLine("PlayTrack adding track");
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
             {
                 { "Command","PlayTrack" },
                 { "Title", track.Titolo },
-                { "Composer", track.Compositore.Nome },
-                { "Album", track.Opera.Nome },
+                { "Composer", composer },
+                { "Album", opera },
                 { "Link", track.Link }
             });
         }
-        public static void AddTracks(List<Traccia> l, bool play = false)
+        public static void AddTracks(List<Traccia> l, string composer, string opera, bool play = false)
         {
             ValueSet vs = new ValueSet();
             vs.Add("Command", play==false?"AddTracks":"PlayAlbum");
@@ -289,9 +290,9 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 Traccia t = l[i];
                 vs.Add($"Track{i}_Title", t.Titolo);
-                vs.Add($"Track{i}_Composer", t.Compositore.Nome);
+                vs.Add($"Track{i}_Composer", composer);
                 vs.Add($"Track{i}_Link", t.Link);
-                vs.Add($"Track{i}_Album", t.Opera.Nome);
+                vs.Add($"Track{i}_Album", opera);
             }
             BackgroundMediaPlayer.SendMessageToBackground(vs);
         }

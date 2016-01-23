@@ -9,7 +9,7 @@ namespace ClassicalMusicCSharp.OneClassical
     public class Categoria
     {
         public string Nome { get; set; }
-        public Compositore Compositore { get; set; }
+        //public Compositore Compositore { get; set; }
         public List<Opera> Opere { get; set; }
     }
 }

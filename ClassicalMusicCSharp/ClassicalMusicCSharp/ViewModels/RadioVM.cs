@@ -15,7 +15,7 @@ namespace ClassicalMusicCSharp.ViewModels
 {
     public class RadioVM : Mvvm.ViewModelBase
     {
-        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += MessageReceived;
             BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayerStateChanged;

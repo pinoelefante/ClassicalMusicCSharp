@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -12,21 +13,24 @@ namespace ClassicalMusicCSharp.ViewModels
 {
     public class OperePageVM : Mvvm.ViewModelBase
     {
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if(parameter is Categoria)
+            ValueSet parameters = parameter as ValueSet;
+            Composer = parameters["Composer"] as Compositore;
+            if (parameters.ContainsKey("Category"))
             {
-                Categoria cat = parameter as Categoria;
-                ListaOpere = cat.Opere;
+                Categoria cat = parameters["Category"] as Categoria;
+                ListaOpere = (cat).Opere;
                 Title = cat.Nome;
             }
-            else if(parameter is Compositore)
+            else
             {
-                Compositore comp = parameter as Compositore;
-                ListaOpere = comp.Opere;
-                Title = comp.Nome;
+                ListaOpere = Composer.Opere;
+                Title = Composer.Nome;
             }
+            return Task.CompletedTask;
         }
+        private Compositore Composer;
         private string _title;
         public string Title
         {
@@ -54,7 +58,12 @@ namespace ClassicalMusicCSharp.ViewModels
         public void goToOpera(object sender, ItemClickEventArgs e)
         {
             Opera opera = (Opera)e.ClickedItem;
-            NavigationService.Navigate(typeof(OperaPage), opera);
+            ValueSet parameters = new ValueSet()
+            {
+                {"Composer", Composer },
+                {"Opera", opera }
+            };
+            NavigationService.Navigate(typeof(OperaPage), parameters);
         }
     }
 }

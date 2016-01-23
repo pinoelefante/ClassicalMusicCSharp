@@ -5,6 +5,10 @@ using ClassicalMusicCSharp.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
 using ClassicalMusicCSharp.OneClassical;
 using ClassicalMusicCSharp.ViewModels;
+using Template10.Common;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using Template10.Services.SerializationService;
 
 namespace ClassicalMusicCSharp
 {
@@ -17,11 +21,9 @@ namespace ClassicalMusicCSharp
 
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
+            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
-            SplashFactory = (e) => new Views.Splash(e);
+            //SplashFactory = (e) => new Views.Splash(e);
 
             #region App settings
 
@@ -50,7 +52,6 @@ namespace ClassicalMusicCSharp
 
             // navigate to first page
             NavigationService.Navigate(typeof(Views.ArtistsPage));
-            //PlayerService.Instance.Init();
             PlayerPageVM.Init();
         }
     }

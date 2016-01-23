@@ -10,7 +10,7 @@ namespace ClassicalMusicCSharp.OneClassical
     {
         public string Titolo { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
-        public Opera Opera { get; set; } = null;
-        public Compositore Compositore { get; set; } = null;
+        //public Opera Opera { get; set; } = null;
+        //public Compositore Compositore { get; set; } = null;
     }
 }

@@ -1,24 +1,52 @@
 ﻿<Page
-    x:Class="ClassicalMusicCSharp.Views.PlayerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ClassicalMusicCSharp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     xmlns:controls="using:Template10.Controls"
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
-    xmlns:Converters="using:ClassicalMusicCSharp.Converters">
-    <Page.DataContext>
-        <vm:PlayerPageVM/>
-    </Page.DataContext>
+    xmlns:Converters="using:ClassicalMusicCSharp.Converters" 
+    xmlns:Universal="using:Microsoft.AdMediator.Universal"
+    x:Class="ClassicalMusicCSharp.Views.PlayerPage"
+    mc:Ignorable="d"
+    >
     <Page.Resources>
         <Converters:BoolToVisibility x:Key="BoolVisibility"/>
         <Converters:NotBoolToVisibility x:Key="NotBoolVisibility"/>
         <Converters:StringVisibility x:Key="StringVisibility"/>
     </Page.Resources>
+    <Page.DataContext>
+        <vm:PlayerPageVM/>
+    </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="normal">
+                    <VisualState.Setters>
+                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Width)" Value="480"/>
+                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Height)" Value="80"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                
+                <VisualState x:Name="horizontal">
+                    <VisualState.Setters>
+                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Width)" Value="728"/>
+                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Height)" Value="90"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -29,22 +57,24 @@
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
 
-        <ListView x:Name="_xplaylist" Grid.Row="1" ItemsSource="{Binding Playlist}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
+        <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_2CC0C6" HorizontalAlignment="Center" Height="80" Id="AdMediator-Id-129CB7E0-91CD-4FA9-B0F0-D676CCC32A61" VerticalAlignment="Top" Width="480" SizeChanged="AdSizeChanged"/>
+
+        <ListView x:Name="_xplaylist" Grid.Row="2" ItemsSource="{Binding Playlist}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel RightTapped="PlaylistItemMenu">
                         <TextBlock Text="{Binding Album}" FontSize="14"/>
                         <TextBlock FontSize="12">
-                            <Run Text="{Binding Track}"/>
-                            <Run Text=" - "/>
-                            <Run Text="{Binding Composer}"/>
+							<Run Text="{Binding Track}"/>
+							<Run Text=" - "/>
+							<Run Text="{Binding Composer}"/>
                         </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Row="2" BorderThickness="0,2,0,0" BorderBrush="Gray">
+        <Grid Grid.Row="3" BorderThickness="0,2,0,0" BorderBrush="Gray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -52,18 +82,18 @@
 
             <StackPanel>
                 <TextBlock Text="{Binding CurrentTrack.Album}" Visibility="{Binding CurrentTrack.Album, Converter={StaticResource StringVisibility}}"/>
-                
+
                 <TextBlock FontSize="10" Visibility="{Binding CurrentTrack.Track, Converter={StaticResource StringVisibility}}">
-                    <Run Text="Track: "/>
-                    <Run Text="{Binding CurrentTrack.Track}"/>
+					<Run Text="Track: "/>
+					<Run Text="{Binding CurrentTrack.Track}"/>
                 </TextBlock>
-                
+
                 <TextBlock FontSize="10" Visibility="{Binding CurrentTrack.Composer, Converter={StaticResource StringVisibility}}">
-                    <Run Text="by"/>
-                    <Run Text="{Binding CurrentTrack.Composer}"/>
+					<Run Text="by"/>
+					<Run Text="{Binding CurrentTrack.Composer}"/>
                 </TextBlock>
             </StackPanel>
-            
+
             <Grid Grid.Row="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

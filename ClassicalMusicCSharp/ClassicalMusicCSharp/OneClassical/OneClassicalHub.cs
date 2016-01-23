@@ -56,7 +56,7 @@ namespace ClassicalMusicCSharp.OneClassical
                         {
                             JsonObject jcat = jCategorie[j].GetObject();
                             string nomeCat = jcat["categoria"].GetString();
-                            Categoria categoria = new Categoria() { Nome = nomeCat, Compositore = comp };
+                            Categoria categoria = new Categoria() { Nome = nomeCat };
 
                             JsonArray jOpere = jcat["opere"].GetArray();
                             List<Opera> listOpere = new List<Opera>(jOpere.Count);
@@ -68,14 +68,14 @@ namespace ClassicalMusicCSharp.OneClassical
                                 JsonArray jListTracce = jOpera["tracce"].GetArray();
                                 List<Traccia> tracce = new List<Traccia>(jListTracce.Count);
 
-                                Opera opera = new Opera() { Nome = nomeOpera, Tracce = tracce, Categoria = categoria, Compositore = comp };
+                                Opera opera = new Opera() { Nome = nomeOpera, Tracce = tracce};
 
                                 for (int x = 0; x < jListTracce.Count; x++)
                                 {
                                     JsonObject jtraccia = jListTracce[x].GetObject();
                                     string titolo = jtraccia["titolo"].GetString();
                                     string link = jtraccia["link"].GetString();
-                                    Traccia track = new Traccia() { Titolo = titolo, Link = link, Opera = opera, Compositore = comp };
+                                    Traccia track = new Traccia() { Titolo = titolo, Link = link};
                                     tracce.Add(track);
                                 }
                                 listOpere.Add(opera);
@@ -97,13 +97,13 @@ namespace ClassicalMusicCSharp.OneClassical
 
                             JsonArray jListTracce = jOpera["tracce"].GetArray();
                             List<Traccia> tracce = new List<Traccia>(jListTracce.Count);
-                            Opera opera = new Opera() { Nome = nomeOpera, Tracce = tracce, Compositore = comp };
+                            Opera opera = new Opera() { Nome = nomeOpera, Tracce = tracce};
                             for (int z = 0; z < jListTracce.Count; z++)
                             {
                                 JsonObject jtraccia = jListTracce[z].GetObject();
                                 string titolo = jtraccia["titolo"].GetString();
                                 string link = jtraccia["link"].GetString();
-                                Traccia track = new Traccia() { Titolo = titolo, Link = link, Opera = opera, Compositore = comp };
+                                Traccia track = new Traccia() { Titolo = titolo, Link = link};
                                 tracce.Add(track);
                             }
                             listOpere.Add(opera);
@@ -115,7 +115,7 @@ namespace ClassicalMusicCSharp.OneClassical
                 ListaCompositori = compositori;
                 Loaded = true;
             }
-            RadioManager.LoadRadio();
+            await RadioManager.LoadRadio();
             return ListaCompositori;
         }
     }

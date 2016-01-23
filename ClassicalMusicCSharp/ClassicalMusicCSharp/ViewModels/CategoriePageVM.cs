@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,9 +14,11 @@ namespace ClassicalMusicCSharp.ViewModels
 {
     public class CategoriePageVM : Mvvm.ViewModelBase
     {
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            Compositore = parameter as Compositore;
+            ValueSet parameters = parameter as ValueSet;
+            Compositore = parameters["Composer"] as Compositore;
+            return Task.CompletedTask;
         }
         private Compositore _comp;
         public Compositore Compositore
@@ -32,7 +35,12 @@ namespace ClassicalMusicCSharp.ViewModels
         public void goToCategoria(object sender, ItemClickEventArgs e)
         {
             Categoria cat = e.ClickedItem as Categoria;
-            NavigationService.Navigate(typeof(OperePage), cat);
+            ValueSet parameters = new ValueSet()
+            {
+                {"Composer", Compositore },
+                {"Category", cat }
+            };
+            NavigationService.Navigate(typeof(OperePage), parameters);
         }
     }
 }

@@ -54,11 +54,10 @@ namespace ClassicalMusicCSharp.Views
             await dialog.ShowAsync();
         }
 
-        private void PlaylistItemMenuHolding(object sender, HoldingRoutedEventArgs e)
+        private void AdSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Debug.WriteLine("sender = " + sender.GetType());
-            Debug.WriteLine("Holding source = " + e.OriginalSource.GetType());
-            e.Handled = true;
+            Debug.WriteLine("Size changed");
+            AdMediator_2CC0C6.Resume();
         }
     }
 }

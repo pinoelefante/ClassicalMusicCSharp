@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -14,9 +15,9 @@ namespace ClassicalMusicCSharp.ViewModels
 {
     public class ArtistsPageVM : Mvvm.ViewModelBase
     {
-        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            Debug.WriteLine("OneClassical loaded = "+ OneClassicalHub.Instance.Loaded);
+            Debug.WriteLine("OneClassical loaded = " + OneClassicalHub.Instance.Loaded);
             if (Compositori == null || Compositori.Count == 0)
             {
                 List<Compositore> list = await OneClassicalHub.Instance.readJson();
@@ -39,6 +40,10 @@ namespace ClassicalMusicCSharp.ViewModels
         public void goToArtist(object sender, ItemClickEventArgs e)
         {
             Compositore comp = e.ClickedItem as Compositore;
+            ValueSet parameters = new ValueSet()
+            {
+                {"Composer", comp }
+            };
             if (comp.HasCategorie)
             {
                 NavigationService.Navigate(typeof(CategoriePage), comp);

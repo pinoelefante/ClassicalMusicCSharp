@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -13,11 +14,15 @@ namespace ClassicalMusicCSharp.ViewModels
 {
     public class OperaPageVM : Mvvm.ViewModelBase
     {
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            Opera = parameter as Opera;
+            ValueSet parameters = parameter as ValueSet;
+            _composer = parameters["Composer"] as Compositore;
+            Opera = parameters["Opera"] as Opera;
             IsSingleMode = true;
+            return Task.CompletedTask;
         }
+        private Compositore _composer;
         private Opera _opera;
         public Opera Opera
         {
@@ -39,7 +44,7 @@ namespace ClassicalMusicCSharp.ViewModels
             if (track == null)
                 return;
 
-            PlayerPageVM.PlayTrack(track);
+            PlayerPageVM.PlayTrack(track, _composer.Nome, Opera.Nome);
         }
         private bool _isSingleMode;
         public bool IsSingleMode
@@ -55,25 +60,25 @@ namespace ClassicalMusicCSharp.ViewModels
         }
         public void addToPlaylist(Traccia track)
         {
-            PlayerPageVM.AddTrack(track);
+            PlayerPageVM.AddTrack(track, _composer.Nome, Opera.Nome);
         }
         public void PlayAll(object sender, object e)
         {
-            PlayerPageVM.AddTracks(Opera.Tracce, true);
+            PlayerPageVM.AddTracks(Opera.Tracce, _composer.Nome, Opera.Nome, true);
         }
 
         public void PlaySelected(List<Traccia> sel)
         {
-            PlayerPageVM.AddTracks(sel, true);
+            PlayerPageVM.AddTracks(sel, _composer.Nome, Opera.Nome, true);
         }
 
         public void PlaylistAll(object s, object e)
         {
-            PlayerPageVM.AddTracks(Opera.Tracce);
+            PlayerPageVM.AddTracks(Opera.Tracce, _composer.Nome, Opera.Nome);
         }
         public void PlaylistSelected(List<Traccia> l)
         {
-            PlayerPageVM.AddTracks(l);
+            PlayerPageVM.AddTracks(l, _composer.Nome, Opera.Nome);
         }
         public void SelezioneMultipla(object s, object e)
         {
