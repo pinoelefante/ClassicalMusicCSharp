@@ -1,4 +1,5 @@
-﻿using ClassicalMusicCSharp.ViewModels;
+﻿using ClassicalMusicCSharp.Classes.Playlist;
+using ClassicalMusicCSharp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

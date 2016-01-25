@@ -59,7 +59,7 @@
 
         <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_2CC0C6" HorizontalAlignment="Center" Height="80" Id="AdMediator-Id-129CB7E0-91CD-4FA9-B0F0-D676CCC32A61" VerticalAlignment="Top" Width="480" SizeChanged="AdSizeChanged"/>
 
-        <ListView x:Name="_xplaylist" Grid.Row="2" ItemsSource="{Binding Playlist}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
+        <ListView x:Name="_xplaylist" Grid.Row="2" ItemsSource="{x:Bind VM.Playlist.List}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel RightTapped="PlaylistItemMenu">
@@ -83,12 +83,12 @@
             <StackPanel>
                 <TextBlock Text="{Binding CurrentTrack.Album}" Visibility="{Binding CurrentTrack.Album, Converter={StaticResource StringVisibility}}"/>
 
-                <TextBlock FontSize="10" Visibility="{Binding CurrentTrack.Track, Converter={StaticResource StringVisibility}}">
+                <TextBlock FontSize="12" Visibility="{Binding CurrentTrack.Track, Converter={StaticResource StringVisibility}}">
 					<Run Text="Track: "/>
 					<Run Text="{Binding CurrentTrack.Track}"/>
                 </TextBlock>
 
-                <TextBlock FontSize="10" Visibility="{Binding CurrentTrack.Composer, Converter={StaticResource StringVisibility}}">
+                <TextBlock FontSize="12" Visibility="{Binding CurrentTrack.Composer, Converter={StaticResource StringVisibility}}">
 					<Run Text="by"/>
 					<Run Text="{Binding CurrentTrack.Composer}"/>
                 </TextBlock>

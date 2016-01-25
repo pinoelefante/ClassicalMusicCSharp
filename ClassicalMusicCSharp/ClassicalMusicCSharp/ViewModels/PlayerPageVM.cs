@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Notifications;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Controls;
+using ClassicalMusicCSharp.Classes.Playlist;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -99,7 +100,7 @@ namespace ClassicalMusicCSharp.ViewModels
                                 var link = e.Data[$"Track{i}_Link"].ToString();
                                 var album = e.Data[$"Track{i}_Album"].ToString();
                                 PlaylistTrack t = new PlaylistTrack() { Track = title, Album = album, Composer = compo, Link = link };
-                                Playlist.Add(t);
+                                Playlist.AddItem(t);
                             }
                             RequestTrackInfo();
                         }
@@ -118,7 +119,8 @@ namespace ClassicalMusicCSharp.ViewModels
                 }
             });
         }
-        public ObservableCollection<PlaylistTrack> Playlist { get; } = new ObservableCollection<PlaylistTrack>();
+        //public ObservableCollection<PlaylistTrack> Playlist { get; } = new ObservableCollection<PlaylistTrack>();
+        public Playlist Playlist { get; } = PlaylistManager.Instance.GetPlayingNowPlaylist();
         private bool _hasNext, _hasPrev, _hasTracks, _playing,_buffering, _radioPlaying;
         private int _curIndex;
         private int _curPos, _curLength;
@@ -198,7 +200,7 @@ namespace ClassicalMusicCSharp.ViewModels
                 if (_radioPlaying && RadioTrack != null)
                     return RadioTrack;
                 if(Playlist.Count > 0)
-                    return Playlist[CurrentIndex];
+                    return Playlist.ElementAt(CurrentIndex);
                 return EMPTYTRACK;
             }
         }
@@ -427,12 +429,5 @@ namespace ClassicalMusicCSharp.ViewModels
                     break;
             }
         }
-    }
-    public class PlaylistTrack
-    {
-        public string Composer { get; set; } = string.Empty;
-        public string Track { get; set; } = string.Empty;
-        public string Link { get; set; } = string.Empty;
-        public string Album { get; set; } = string.Empty;
     }
 }

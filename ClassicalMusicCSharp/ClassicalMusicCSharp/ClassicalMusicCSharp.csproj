@@ -199,6 +199,7 @@
     <Content Include="Assets\composers\wide\vivaldi_wide.jpg" />
     <Content Include="Assets\composers\wide\wagner_wide.jpg" />
     <Content Include="Assets\composers\wide\weber_wide.jpg" />
+    <Content Include="Assets\IAPTest.xml" />
     <Content Include="Assets\radio\1fm.png" />
     <Content Include="Assets\composers\square\beethoven_square.jpg" />
     <Content Include="Assets\composers\wide\beethoven_wide.jpg" />
@@ -234,6 +235,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Grouping\AlphaGrouping.cs" />
+    <Compile Include="Classes\IAPManager.cs" />
+    <Compile Include="Classes\Playlist\PlaylistManager.cs" />
     <Compile Include="Classes\Radio\RadioManager.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
@@ -259,12 +262,19 @@
     <Compile Include="ViewModels\OperaPageVM.cs" />
     <Compile Include="ViewModels\OperePageVM.cs" />
     <Compile Include="ViewModels\PlayerPageVM.cs" />
+    <Compile Include="ViewModels\PlaylistPageVM.cs" />
     <Compile Include="ViewModels\RadioVM.cs" />
     <Compile Include="Views\ArtistsPage.xaml.cs">
       <DependentUpon>ArtistsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CategoriePage.xaml.cs">
       <DependentUpon>CategoriePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentDialogs\AddPlaylistContentDialog.xaml.cs">
+      <DependentUpon>AddPlaylistContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentDialogs\BuyPlaylistsContentDialog.xaml.cs">
+      <DependentUpon>BuyPlaylistsContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InfoPage.xaml.cs">
       <DependentUpon>InfoPage.xaml</DependentUpon>
@@ -277,6 +287,9 @@
     </Compile>
     <Compile Include="Views\PlayerPage.xaml.cs">
       <DependentUpon>PlayerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaylistPage.xaml.cs">
+      <DependentUpon>PlaylistPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RadioPage.xaml.cs">
       <DependentUpon>RadioPage.xaml</DependentUpon>
@@ -317,6 +330,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ContentDialogs\AddPlaylistContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentDialogs\BuyPlaylistsContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -330,6 +351,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlayerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaylistPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
