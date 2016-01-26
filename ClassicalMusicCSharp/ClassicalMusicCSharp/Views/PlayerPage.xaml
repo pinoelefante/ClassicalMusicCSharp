@@ -56,8 +56,11 @@
                 <AppBarButton Label="Empty playlist" Icon="Delete" Click="{x:Bind VM.CleanPlaylist}"/>
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
-
-        <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_2CC0C6" HorizontalAlignment="Center" Height="80" Id="AdMediator-Id-129CB7E0-91CD-4FA9-B0F0-D676CCC32A61" VerticalAlignment="Top" Width="480" SizeChanged="AdSizeChanged"/>
+        
+        <Grid BorderBrush="Yellow" BorderThickness="2" Grid.Row="1" Visibility="{Binding AdsRemoved, Converter={StaticResource NotBoolVisibility}}" x:Name="AdsContainer" x:DeferLoadStrategy="Lazy">
+            <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_2CC0C6" HorizontalAlignment="Left" Height="80" Id="AdMediator-Id-129CB7E0-91CD-4FA9-B0F0-D676CCC32A61" VerticalAlignment="Top" Width="480" Canvas.ZIndex="0"/>
+            <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Canvas.ZIndex="1" Click="{x:Bind VM.RemoveAds}"/>
+        </Grid>
 
         <ListView x:Name="_xplaylist" Grid.Row="2" ItemsSource="{x:Bind VM.Playlist.List}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>

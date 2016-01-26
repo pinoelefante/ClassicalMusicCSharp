@@ -1,4 +1,6 @@
-﻿using ClassicalMusicCSharp.OneClassical;
+﻿using ClassicalMusicCSharp.Classes.Playlist;
+using ClassicalMusicCSharp.OneClassical;
+using ClassicalMusicCSharp.Views.ContentDialogs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -85,13 +87,60 @@ namespace ClassicalMusicCSharp.ViewModels
             PlayerPageVM.AddTracks(sel, _composer, Opera.Nome, true);
         }
 
-        public void PlaylistAll(object s, object e)
+        public async void PlaylistAll(object s, object e)
         {
-            PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome);
+            Action<Playlist> action = (x) =>
+            {
+                if(x == PlaylistManager.Instance.GetPlayingNowPlaylist())
+                {
+                    PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome);
+                }
+                else
+                {
+                    foreach (var t in Opera.Tracce)
+                    {
+                        PlaylistTrack track = new PlaylistTrack()
+                        {
+                            Album = Opera.Nome,
+                            Composer = _composer,
+                            Track = t.Titolo,
+                            Link = t.Link
+                        };
+                        PlaylistManager.Instance.AddTrackToPlaylist(track, x, false);
+                    }
+                    x.SaveJson();
+                }
+            };
+            PlaylistChoiserContentDialog dlg = new PlaylistChoiserContentDialog(action);
+            await dlg.ShowAsync();
         }
-        public void PlaylistSelected(List<Traccia> l)
+        public async void PlaylistSelected(List<Traccia> l)
         {
-            PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
+            //PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
+            Action<Playlist> action = (x) =>
+            {
+                if (x == PlaylistManager.Instance.GetPlayingNowPlaylist())
+                {
+                    PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
+                }
+                else
+                {
+                    foreach (var t in l)
+                    {
+                        PlaylistTrack track = new PlaylistTrack()
+                        {
+                            Album = Opera.Nome,
+                            Composer = _composer,
+                            Track = t.Titolo,
+                            Link = t.Link
+                        };
+                        PlaylistManager.Instance.AddTrackToPlaylist(track, x, false);
+                    }
+                    x.SaveJson();
+                }
+            };
+            PlaylistChoiserContentDialog dlg = new PlaylistChoiserContentDialog(action);
+            await dlg.ShowAsync();
         }
         public void SelezioneMultipla(object s, object e)
         {

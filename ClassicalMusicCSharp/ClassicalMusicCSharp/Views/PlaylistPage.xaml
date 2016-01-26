@@ -21,11 +21,16 @@
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Playlists" Frame="{x:Bind Frame}"/>
 
-        <ListView Grid.Row="1">
+        <ListView Grid.Row="1" ItemsSource="{x:Bind VM.Playlists}" ItemClick="{x:Bind VM.OpenPlaylist}" IsItemClickEnabled="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             
         </ListView>
         
-        <Button Grid.Row="2" Click="ButtonClick" HorizontalAlignment="Stretch" Height="60" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Button Grid.Row="2" Click="{x:Bind VM.AddPlaylist}" HorizontalAlignment="Stretch" Height="60" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Orientation="Horizontal">
                 <SymbolIcon Symbol="Add"/>
                 <TextBlock Text="Add playlist" FontSize="20" Margin="8,0"/>

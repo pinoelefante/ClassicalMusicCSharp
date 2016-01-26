@@ -2,17 +2,28 @@
 using ClassicalMusicCSharp.Views.ContentDialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
     public class PlaylistPageVM : Mvvm.ViewModelBase
     {
-        public PlaylistPageVM() { }
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            return base.OnNavigatedToAsync(parameter, mode, state);
+        }
+        public ObservableCollection<Playlist> Playlists { get; } = PlaylistManager.Instance.Playlists;
+        public async void AddPlaylist(object s, object e)
+        {
+            await CreateNewPlaylist();
+        }
         public static async Task<bool> CreateNewPlaylist()
         {
             
@@ -38,6 +49,10 @@ namespace ClassicalMusicCSharp.ViewModels
             
             return true;
         }
-        private void s(object s, object e) { }
+        public void OpenPlaylist(object s, ItemClickEventArgs e)
+        {
+            Playlist playlist = e.ClickedItem as Playlist;
+            Debug.WriteLine("Clicked " + playlist.Name);
+        }
     }
 }

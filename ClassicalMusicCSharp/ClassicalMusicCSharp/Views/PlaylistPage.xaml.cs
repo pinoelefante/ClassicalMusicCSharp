@@ -29,9 +29,5 @@ namespace ClassicalMusicCSharp.Views
             this.InitializeComponent();
         }
         public PlaylistPageVM VM => this.DataContext as PlaylistPageVM;
-        private async void ButtonClick(object sender, RoutedEventArgs e)
-        {
-            await PlaylistPageVM.CreateNewPlaylist();
-        }
     }
 }

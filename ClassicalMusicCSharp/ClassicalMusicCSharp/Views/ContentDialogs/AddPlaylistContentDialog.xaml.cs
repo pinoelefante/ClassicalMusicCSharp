@@ -25,14 +25,14 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
         {
             this.InitializeComponent();
         }
-        private void AddPlaylist(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void AddPlaylist(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             string name = textbox.Text.Trim();
             if (string.IsNullOrEmpty(name))
             {
                 Debug.WriteLine("name empty");
             }
-            bool insert = PlaylistManager.Instance.AddNewPlaylist(name);
+            bool insert = await PlaylistManager.Instance.AddNewPlaylist(name);
             Debug.WriteLine("Insert = " + insert);
         }
 

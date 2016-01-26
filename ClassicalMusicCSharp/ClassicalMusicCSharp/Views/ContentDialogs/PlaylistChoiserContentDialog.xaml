@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="ClassicalMusicCSharp.Views.ContentDialogs.PlaylistChoiserContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassicalMusicCSharp.Views.ContentDialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Playlists"
+    SecondaryButtonText="Cancel"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" 
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border BorderThickness="0,0,0,2" BorderBrush="White" Margin="0,16">
+            <Button HorizontalAlignment="Stretch" Content="Now Playing..." HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="16" Click="AddToNowPlaying" Height="32"/>
+        </Border>
+
+        <ListView Margin="0" Grid.Row="1" ItemsSource="{Binding Playlists}" IsItemClickEnabled="True" ItemClick="PlaylistChosen">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" Height="30" FontSize="16"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentDialog>

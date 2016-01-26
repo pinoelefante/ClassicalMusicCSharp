@@ -245,6 +245,7 @@
     <Compile Include="Converters\NotBoolToVisibility.cs" />
     <Compile Include="Converters\StringToUri.cs" />
     <Compile Include="Converters\StringVisibility.cs" />
+    <Compile Include="Models\PlaylistWrapper.cs" />
     <Compile Include="Models\RadioWrapper.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="OneClassical\Categoria.cs" />
@@ -275,6 +276,12 @@
     </Compile>
     <Compile Include="Views\ContentDialogs\BuyPlaylistsContentDialog.xaml.cs">
       <DependentUpon>BuyPlaylistsContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentDialogs\BuyRemoveAdsContentDialog.xaml.cs">
+      <DependentUpon>BuyRemoveAdsContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml.cs">
+      <DependentUpon>PlaylistChoiserContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InfoPage.xaml.cs">
       <DependentUpon>InfoPage.xaml</DependentUpon>
@@ -335,6 +342,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentDialogs\BuyPlaylistsContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentDialogs\BuyRemoveAdsContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

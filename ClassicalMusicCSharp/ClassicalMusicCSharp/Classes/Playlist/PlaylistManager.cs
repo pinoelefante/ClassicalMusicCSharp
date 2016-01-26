@@ -1,10 +1,16 @@
-﻿using System;
+﻿using ClassicalMusicCSharp.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace ClassicalMusicCSharp.Classes.Playlist
 {
@@ -12,10 +18,11 @@ namespace ClassicalMusicCSharp.Classes.Playlist
     {
         private const int FREE_PLAYLISTS = 2;
         private int PlaylistAvailable = FREE_PLAYLISTS;
-        private List<Playlist> playlists;
-        private Playlist RiproduzioneInCorso;
+        public ObservableCollection<Playlist> Playlists { get; }
+        private Playlist NowPlayingPlaylist { get; }
         private long current_id = 0;
         private static PlaylistManager _inst;
+        private bool IsLoaded { get; set; }
         public static PlaylistManager Instance
         {
             get
@@ -29,9 +36,9 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         private PlaylistManager()
         {
             LoadPlaylistAvailable();
-            playlists = new List<Playlist>();
+            Playlists = new ObservableCollection<Playlist>();
             LoadSavedPlaylists();
-            RiproduzioneInCorso = new Playlist(string.Empty) { Id = 0 };
+            NowPlayingPlaylist = new Playlist(string.Empty) { Id = 0 };
         }
         public void LoadPlaylistAvailable()
         {
@@ -43,48 +50,147 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         }
         public bool CanAddNewPlaylist()
         {
-            return playlists.Count < PlaylistAvailable;
+            return Playlists.Count < PlaylistAvailable;
         }
         public bool CanPurchase()
         {
             return PlaylistAvailable != int.MaxValue;
         }
-        public bool AddNewPlaylist(string name)
+        public async Task<bool> AddNewPlaylist(string name)
         {
-            Playlist playlist = new Playlist(name) { Id = ++current_id};
-            playlists.Add(playlist);
-            playlist.SaveJson();
-            return SavePlaylistsJson();
+            if (IsNomeOk(name))
+            {
+                Playlist playlist = new Playlist(name) { Id = ++current_id };
+                Playlists.Add(playlist);
+                if (await SavePlaylistsJson())
+                {
+                    playlist.SaveJson();
+                    return true;
+                }
+                else
+                {
+                    current_id--;
+                    Playlists.Remove(playlist);
+                    return false;
+                }
+            }
+            return false;
         }
-        private void LoadSavedPlaylists()
+        public bool IsNomeOk(string name)
         {
-
-        }
-        private bool SavePlaylistsJson()
-        {
+            if (Playlists.Where(x => x.Name.ToLower().CompareTo(name.ToLower()) == 0).Count() > 0)
+                return false;
             return true;
         }
-        public async Task<bool> PayNewPlaylist()
+        private async void LoadSavedPlaylists()
+        {
+            /* Read Json file */
+            try
+            {
+                StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync("playlists.json");
+                string json = File.ReadAllText(sfile.Path);
+                Debug.WriteLine(json);
+                //StorageFile sfile = await StorageFile.GetFileFromPathAsync("playlists.json");
+
+                PlaylistWrapper.PlaylistExternal _playlist = null;
+                using (StreamReader file = new StreamReader(await sfile.OpenStreamForReadAsync(), true))
+                {
+                    string fileContent = await file.ReadToEndAsync();
+                    _playlist = JsonConvert.DeserializeObject<PlaylistWrapper.PlaylistExternal>(fileContent);
+                }
+
+                /* Inizializza campi dopo creazione file Json */
+                current_id = _playlist.currentId;
+                foreach (var p in _playlist.playlists)
+                {
+                    if (CanAddNewPlaylist())
+                    {
+                        Playlist playlist = new Playlist(p);
+                        playlist.LoadJson();
+                        Playlists.Add(playlist);
+                    }
+                    else
+                        break;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("playlists.json");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.GetType() + " " + e.Message + "\n" + e.StackTrace);
+            }
+            IsLoaded = true;
+        }
+        private async Task<bool> SavePlaylistsJson()
+        {
+            List<string> playlistsName = new List<string>();
+            try
+            {
+                StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync("playlists.json");
+                
+                using (StreamWriter fw = new StreamWriter(await sfile.OpenStreamForWriteAsync()))
+                using (JsonWriter writer = new JsonTextWriter(fw))
+                {
+                    writer.Formatting = Formatting.Indented;
+
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("currentId");
+                    writer.WriteValue(current_id);
+
+                    writer.WritePropertyName("playlists");
+                    writer.WriteStartArray();
+                    foreach (var item in Playlists)
+                    {
+                        writer.WriteValue(item.Name);
+                    }
+                    writer.WriteEndArray(); //Chiude l'array dei nomi delle playlist
+                    writer.WriteEndObject(); //chiude l'oggetto esterno
+                }
+                return true;
+            }
+
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.GetType() + " " + e.Message + "\n" + e.StackTrace);
+                return false;
+            }
+
+        }
+        public async Task<bool> BuyUnlimitedPlaylists()
         {
             bool res = await IAPManager.Instance.RequestProductPurchase(IAPCodes.UNLIMITED_PLAYLISTS, false);
             if (res)
                 LoadPlaylistAvailable();
             return res;
         }
+        public async void DeletePlaylist(Playlist p)
+        {
+            string name = $"playlist_{p.Name}.json";
+            Playlists.Remove(p);
+            try
+            {
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(name);
+                file.DeleteAsync();
+            }
+            catch
+            {
+                Debug.WriteLine($"Remove file {name} failed");
+            }
+            
+        }
         public Playlist GetPlayingNowPlaylist()
         {
-            return RiproduzioneInCorso;
+            return NowPlayingPlaylist;
         }
-        public void AddToPlayingNow(PlaylistTrack t)
+        public void AddTrackToPlaylist(PlaylistTrack t, Playlist playlist, bool save = true)
         {
-            RiproduzioneInCorso.AddItem(t);
+            playlist.AddItem(t, save);
         }
-        public void AddToPlayingNow(List<PlaylistTrack> t)
+        public void AddTrackToPlaylist(List<PlaylistTrack> t, Playlist playlist, bool save = true)
         {
-            foreach (var item in t)
-            {
-                RiproduzioneInCorso.AddItem(item);
-            }
+            playlist.AddItem(t, save);
         }
     }
     public class Playlist
@@ -99,7 +205,14 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         public void AddItem(PlaylistTrack t, bool save = false)
         {
             List.Add(t);
-            if(save)
+            if (save)
+                SaveJson();
+        }
+        public void AddItem(List<PlaylistTrack> t, bool save = false)
+        {
+            foreach (var i in t)
+                List.Add(i);
+            if (save)
                 SaveJson();
         }
         public void RemoveAt(int i)
@@ -121,13 +234,83 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             if (save)
                 SaveJson();
         }
-        public void SaveJson()
+        public async void SaveJson()
         {
+            try
+            {
+                StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync($"playlist_{Name}.json");
 
+                using(StreamWriter fw = new StreamWriter(await sfile.OpenStreamForWriteAsync()))
+                using (JsonWriter writer = new JsonTextWriter(fw))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    
+                    writer.WriteStartObject();
+
+                    writer.WritePropertyName("id");
+                    writer.WriteValue(Id);
+
+                    writer.WritePropertyName("tracks");
+                    writer.WriteStartArray();
+                    foreach(var track in List)
+                    {
+                        writer.WriteStartObject();
+                        writer.WritePropertyName("album");
+                        writer.WriteValue(track.Album);
+                        writer.WritePropertyName("composer");
+                        writer.WriteValue(track.Composer);
+                        writer.WritePropertyName("link");
+                        writer.WriteValue(track.Link);
+                        writer.WritePropertyName("track");
+                        writer.WriteValue(track.Track);
+                        writer.WriteEndObject();
+                    }
+                    writer.WriteEndArray();
+
+                    writer.WriteEndObject();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                await ApplicationData.Current.LocalFolder.CreateFileAsync($"playlist_{Name}.json");
+                SaveJson();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.GetType() + " " + e.Message + "\n" + e.StackTrace);
+            }
         }
-        public void LoadJson()
+        public async void LoadJson()
         {
+            try
+            {
+                StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync($"playlist_{Name}.json");
+                string json = File.ReadAllText(sfile.Path);
 
+                PlaylistWrapper.PlaylistJson _playlist = null;
+                using (StreamReader file = new StreamReader(await sfile.OpenStreamForReadAsync(), true))
+                {
+                    string fileContent = await file.ReadToEndAsync();
+                    _playlist = JsonConvert.DeserializeObject<PlaylistWrapper.PlaylistJson>(fileContent);
+                }
+
+                Id = _playlist.id;
+                foreach (var p in _playlist.tracks)
+                {
+                    PlaylistTrack track = new PlaylistTrack()
+                    {
+                        Album = p.album,
+                        Composer = p.composer,
+                        Link = p.link,
+                        Track = p.track
+                    };
+                    AddItem(track);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                await ApplicationData.Current.LocalFolder.CreateFileAsync($"playlist_{Name}.json");
+            }
         }
     }
     public class PlaylistTrack

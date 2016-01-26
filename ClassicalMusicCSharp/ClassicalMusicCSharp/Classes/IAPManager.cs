@@ -36,8 +36,6 @@ namespace ClassicalMusicCSharp.Classes
         }
         public bool IsProductActive(string code)
         {
-            if (!licenseInfo.ProductLicenses.ContainsKey(code))
-                return false;
             return licenseInfo.ProductLicenses[code].IsActive;
         }
         public async Task<bool> RequestProductPurchase(string code, bool error_return = false)
