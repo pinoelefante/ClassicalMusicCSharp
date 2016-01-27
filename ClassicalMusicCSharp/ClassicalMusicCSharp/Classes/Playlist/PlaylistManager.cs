@@ -169,8 +169,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         public async Task<bool> BuyUnlimitedPlaylists()
         {
             bool res = await IAPManager.Instance.RequestProductPurchase(IAPCodes.UNLIMITED_PLAYLISTS, false);
-            if (res)
-                LoadPlaylistAvailable();
+            LoadPlaylistAvailable();
             return res;
         }
         public async void DeletePlaylist(Playlist p)

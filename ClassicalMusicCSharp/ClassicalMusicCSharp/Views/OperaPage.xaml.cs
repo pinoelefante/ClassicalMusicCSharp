@@ -58,9 +58,16 @@ namespace ClassicalMusicCSharp.Views
             SemanticZoomControl.ToggleActiveView(); //chiude zoomout
         }
 
-        private void CreateNewPlaylist(object sender, RoutedEventArgs e)
+        private async void CreateNewPlaylist(object sender, RoutedEventArgs e)
         {
+            if(await PlaylistPageVM.CreateNewPlaylist())
+            {
 
+            }
+            else
+            {
+                //TODO Show error
+            }
         }
 
         private void AddToNowPlaying(object sender, RoutedEventArgs e)

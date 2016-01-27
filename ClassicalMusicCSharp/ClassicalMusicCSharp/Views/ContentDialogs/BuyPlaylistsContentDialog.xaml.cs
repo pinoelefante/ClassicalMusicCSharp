@@ -26,13 +26,14 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
         {
             this.InitializeComponent();
         }
-
+        public Action<bool> OnBuySucceded { get; set; }
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             bool result = await PlaylistManager.Instance.BuyUnlimitedPlaylists();
             this.Hide();
             if (result)
                 await new MessageDialog("You have just unlocked unlimited playlists", "Congratulation!").ShowAsync();
+            OnBuySucceded?.Invoke(result);
             this.Hide();
         }
 

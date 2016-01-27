@@ -26,7 +26,6 @@ namespace ClassicalMusicCSharp.ViewModels
         }
         public static async Task<bool> CreateNewPlaylist()
         {
-            
             if (PlaylistManager.Instance.CanAddNewPlaylist())
             {
                 ContentDialog dlg = new AddPlaylistContentDialog();
@@ -35,14 +34,18 @@ namespace ClassicalMusicCSharp.ViewModels
             }
             else if (PlaylistManager.Instance.CanPurchase())
             {
-                ContentDialog dlg = new BuyPlaylistsContentDialog();
-                await dlg.ShowAsync();
-                if (PlaylistManager.Instance.CanAddNewPlaylist())
+                Action<bool> OnSucced = async (bool res) =>
                 {
-                    ContentDialog dlg2 = new AddPlaylistContentDialog();
-                    await dlg2.ShowAsync();
-                    return true;
-                }
+                    if (res)
+                    { 
+                        ContentDialog dlg2 = new AddPlaylistContentDialog();
+                        await dlg2.ShowAsync();
+                    }
+                };
+                BuyPlaylistsContentDialog dlg = new BuyPlaylistsContentDialog();
+                dlg.OnBuySucceded = OnSucced;
+                await dlg.ShowAsync();
+                
             }
             else 
                 return false;
