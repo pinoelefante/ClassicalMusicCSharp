@@ -85,7 +85,8 @@ namespace ClassicalMusicCSharp.ViewModels
 
         public void PlaySelected(List<Traccia> sel)
         {
-            PlayerPageVM.AddTracks(sel, _composer, Opera.Nome, true);
+            if(sel.Count > 0)
+                PlayerPageVM.AddTracks(sel, _composer, Opera.Nome, true);
         }
 
         public void PlaylistAll(Playlist list)
@@ -112,6 +113,9 @@ namespace ClassicalMusicCSharp.ViewModels
         }
         public void PlaylistSelected(List<Traccia> l, Playlist x)
         {
+            if (l.Count == 0)
+                return;
+
             if (x == PlaylistManager.Instance.GetPlayingNowPlaylist())
             {
                 PlayerPageVM.AddTracks(l, _composer, Opera.Nome);

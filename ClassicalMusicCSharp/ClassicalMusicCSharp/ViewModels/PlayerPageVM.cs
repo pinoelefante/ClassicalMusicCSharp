@@ -458,5 +458,17 @@ namespace ClassicalMusicCSharp.ViewModels
             };
             await dlg.ShowAsync();
         }
+        public async void SavePlaylist(object s, object e)
+        {
+            if (await PlaylistPageVM.CreateNewPlaylist())
+            {
+                Playlist playlist = PlaylistManager.Instance.Playlists.Last();
+                PlaylistManager.Instance.AddTrackToPlaylist(Playlist.List.ToList(), playlist, true);
+            }
+            else
+            {
+                //TODO show error
+            }
+        }
     }
 }
