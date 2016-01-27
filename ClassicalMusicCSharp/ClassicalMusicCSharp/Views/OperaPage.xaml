@@ -29,33 +29,86 @@
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Opera.Nome}"/>
+        
+        <SemanticZoom Grid.Row="1" x:Name="SemanticZoomControl">
+            <SemanticZoom.ZoomedOutView>
+                <ListView ItemsSource="{x:Bind VM.Playlists}" IsItemClickEnabled="True" ItemClick="PlaylistSelected">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Click="ClosePlaylists" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                    <SymbolIcon Symbol="Back"/>
+                                </Button>
+                                <TextBlock Grid.Column="1" Text="Playlists" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                            </Grid>
+                            
+                            <Border Grid.Row="2" BorderThickness="0,0,0,4" BorderBrush="White" Margin="0,8">
+                                <Button Margin="0,0,0,4" HorizontalAlignment="Stretch" Content="Now Playing..." HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="16" Click="AddToNowPlaying" Height="40" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+                            </Border>
+                            
+                            <Border Grid.Row="1" BorderThickness="0,0,0,4" BorderBrush="White" Margin="0,8">
+                                <Button Margin="0,0,0,4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Click="CreateNewPlaylist" Height="40" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Add"/>
+                                        <TextBlock Text="Create new playlist" FontSize="16" Margin="8,0"/>
+                                    </StackPanel>
+                                </Button>
+                            </Border>
+                        </Grid>
+                    </ListView.Header>
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Tapped="ListView_Tapped" HorizontalAlignment="Stretch">
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                        </Grid>
+                    </ListView.Footer>
+                </ListView>
+            </SemanticZoom.ZoomedOutView>
 
-        <ListView Grid.Row="1" x:Name="lista" ItemsSource="{Binding Opera.Tracce}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.onTrack}" IsTapEnabled="{Binding IsSingleMode}" SelectionMode="{Binding IsSingleMode, Converter={StaticResource NotBoolSelection}}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel RightTapped="openMenu" Holding="openMenu">
-                        <TextBlock Text="{Binding Titolo}"/>
-                        <FlyoutBase.AttachedFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="Add to playlist" Click="addToPlaylist"/>
-                            </MenuFlyout>
-                        </FlyoutBase.AttachedFlyout>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
+            <SemanticZoom.ZoomedInView>
+                <ListView Grid.Row="1" x:Name="lista" ItemsSource="{Binding Opera.Tracce}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.onTrack}" IsTapEnabled="{Binding IsSingleMode}" SelectionMode="{Binding IsSingleMode, Converter={StaticResource NotBoolSelection}}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Titolo}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+        </SemanticZoom>
+        
         <CommandBar Grid.Row="2">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Play" Label="Play all" Click="{x:Bind VM.PlayAll}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Icon="Add" Label="Add all to playlist" Click="{x:Bind VM.PlaylistAll}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Icon="Add" Label="Add all to playlist" Click="OpenPlaylistMenu" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
                 <AppBarButton Icon="Play" Label="Play selected tracks" Click="playSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
-                <AppBarButton Icon="Add" Label="Add selected to playlist" Click="playlistSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+                <AppBarButton Icon="Add" Label="Add selected to playlist" Click="OpenPlaylistMenu" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Multiple selection" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>

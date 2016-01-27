@@ -50,7 +50,11 @@ namespace ClassicalMusicCSharp.OneClassical
                 {
                     JsonObject jComp = listComp[i].GetObject();
                     string nome = jComp["nome"].GetString();
-                    Compositore comp = new Compositore() { Nome = nome };
+                    Compositore comp = new Compositore()
+                    {
+                        Nome = nome,
+                        Image = $"ms-appx:///Assets/composers/square/{nome.ToLower().Replace(" ", "_")}_square.jpg"
+                    };
 
                     if (jComp.ContainsKey("categorie"))
                     {
@@ -121,6 +125,22 @@ namespace ClassicalMusicCSharp.OneClassical
             }
             await RadioManager.LoadRadio();
             return ListaCompositori;
+        }
+
+        private async Task<string> GetImageTile(string composer, string type = "square")
+        {
+            string to_search = composer.ToLower().Replace(" ", "_") + "_" + type;
+
+            StorageFolder instPath = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            StorageFolder folder = await instPath.GetFolderAsync($@"Assets\composers\{type}");
+
+            IEnumerable<StorageFile> result = (await folder.GetFilesAsync()).Where(f => f.DisplayName.Equals(to_search));
+            if (result?.Count() > 0)
+            {
+                string path = result.ElementAt(0).Path;
+                return path;
+            }
+            return "ms-appx:///Assets/spartito.jpg";
         }
     }
 }

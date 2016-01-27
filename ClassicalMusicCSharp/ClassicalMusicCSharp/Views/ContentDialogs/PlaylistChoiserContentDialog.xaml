@@ -10,7 +10,7 @@
     SecondaryButtonText="Cancel"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick" 
     DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,16 +18,26 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="0,0,0,2" BorderBrush="White" Margin="0,16">
-            <Button HorizontalAlignment="Stretch" Content="Now Playing..." HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="16" Click="AddToNowPlaying" Height="32"/>
+        <Border Grid.Row="0" BorderThickness="0,0,0,4" BorderBrush="White" Margin="0,8">
+            <Button Margin="0,0,0,4" HorizontalAlignment="Stretch" Content="Now Playing..." HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="16" Click="AddToNowPlaying" Height="32"/>
         </Border>
 
-        <ListView Margin="0" Grid.Row="1" ItemsSource="{Binding Playlists}" IsItemClickEnabled="True" ItemClick="PlaylistChosen">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" Height="30" FontSize="16"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid Grid.Row="1">
+            <ListView ItemsSource="{Binding Playlists}" IsItemClickEnabled="True" ItemClick="PlaylistChosen">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" Height="30" FontSize="16"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Border Grid.Row="2" BorderThickness="0,4,0,0" BorderBrush="White" Margin="0,8">
+            <Button Margin="0,4,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Click="CreateNewPlaylist" Height="32">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Add"/>
+                    <TextBlock Text="Create new playlist" FontSize="16" Margin="8,0"/>
+                </StackPanel>
+            </Button>
+        </Border>
     </Grid>
 </ContentDialog>

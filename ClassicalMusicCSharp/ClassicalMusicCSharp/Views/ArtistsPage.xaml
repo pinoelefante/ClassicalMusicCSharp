@@ -7,12 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
-    xmlns:controls="using:Template10.Controls">
+    xmlns:controls="using:Template10.Controls"
+    xmlns:conv="using:ClassicalMusicCSharp.Converters">
     <Page.DataContext>
         <vm:ArtistsPageVM/>
     </Page.DataContext>
     <Page.Resources>
         <CollectionViewSource IsSourceGrouped="True" Source="{Binding Compositori}" ItemsPath="Value" x:Key="ListeCompositori"/>
+        <conv:StringToUri x:Key="StringToUri"/>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -33,7 +35,18 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Nome}"/>
+                            <Grid Margin="0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Ellipse Height="50">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding Image, Converter={StaticResource StringToUri}}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Margin="8,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Nome}"/>
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.GroupStyle>

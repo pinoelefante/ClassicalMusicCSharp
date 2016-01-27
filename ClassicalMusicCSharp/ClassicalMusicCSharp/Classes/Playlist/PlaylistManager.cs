@@ -123,13 +123,13 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             }
             IsLoaded = true;
         }
-        private async Task<bool> SavePlaylistsJson()
+        private async Task<bool> SavePlaylistsJson(bool secondRound = false)
         {
             List<string> playlistsName = new List<string>();
             try
             {
                 StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync("playlists.json");
-                
+
                 using (StreamWriter fw = new StreamWriter(await sfile.OpenStreamForWriteAsync()))
                 using (JsonWriter writer = new JsonTextWriter(fw))
                 {
@@ -150,7 +150,15 @@ namespace ClassicalMusicCSharp.Classes.Playlist
                 }
                 return true;
             }
-
+            catch (FileNotFoundException)
+            {
+                if (!secondRound)
+                {
+                    await ApplicationData.Current.LocalFolder.CreateFileAsync("playlists.json");
+                    return await SavePlaylistsJson(true);
+                }
+                return false;
+            }
             catch (Exception e)
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message + "\n" + e.StackTrace);
@@ -234,7 +242,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             if (save)
                 SaveJson();
         }
-        public async void SaveJson()
+        public async void SaveJson(bool secondRound = false)
         {
             try
             {
@@ -273,7 +281,8 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             catch (FileNotFoundException)
             {
                 await ApplicationData.Current.LocalFolder.CreateFileAsync($"playlist_{Name}.json");
-                SaveJson();
+                if(!secondRound)
+                    SaveJson(true);
             }
             catch (Exception e)
             {

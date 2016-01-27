@@ -17,25 +17,19 @@ namespace ClassicalMusicCSharp.Models
             [DataMember]
             public List<string> playlists { get; set; }
         }
-        [DataContract]
+
         public class TrackJson
         {
-            [DataMember]
             public string composer { get; set; }
-            [DataMember]
             public string album { get; set; }
-            [DataMember]
             public string track { get; set; }
-            [DataMember]
             public string link { get; set; }
         }
-        [DataContract]
+
         public class PlaylistJson
         {
-            [DataMember]
-            public List<TrackJson> tracks { get; set; }
-            [DataMember]
             public int id { get; set; }
+            public List<TrackJson> tracks { get; set; }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ClassicalMusicCSharp.OneClassical;
+﻿using ClassicalMusicCSharp.Classes.Playlist;
+using ClassicalMusicCSharp.OneClassical;
 using ClassicalMusicCSharp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -30,28 +31,72 @@ namespace ClassicalMusicCSharp.Views
             this.InitializeComponent();
         }
         public OperaPageVM VM => this.DataContext as OperaPageVM;
-
-        private void addToPlaylist(object sender, RoutedEventArgs e)
+        
+        private void OpenPlaylistMenu(object sender, RoutedEventArgs e)
         {
-            Traccia track = (sender as FrameworkElement).DataContext as Traccia;
-            VM.addToPlaylist(track);
+            SemanticZoomControl.ToggleActiveView();
         }
-
-        private void openMenu(object sender, object e)
-        {
-            Flyout.ShowAttachedFlyout(sender as FrameworkElement);
-        }
-
-        private void playlistSelected(object sender, RoutedEventArgs e)
-        {
-            List<Traccia> sel = lista.SelectedItems.Cast<Traccia>().ToList();
-            VM.PlaylistSelected(sel);
-        }
-
         private void playSelected(object sender, RoutedEventArgs e)
         {
             List<Traccia> sel = lista.SelectedItems.Cast<Traccia>().ToList();
             VM.PlaySelected(sel);
+        }
+
+        private void PlaylistSelected(object sender, ItemClickEventArgs e)
+        {
+            Playlist playlist = e.ClickedItem as Playlist;
+            Debug.WriteLine("Selezionata la playlist: " + playlist.Name);
+            if (VM.IsSingleMode) //playlist all
+            {
+                VM.PlaylistAll(playlist);
+            }
+            else
+            {
+                List<Traccia> sel = lista.SelectedItems.Cast<Traccia>().ToList();
+                VM.PlaylistSelected(sel, playlist);
+            }
+            SemanticZoomControl.ToggleActiveView(); //chiude zoomout
+        }
+
+        private void CreateNewPlaylist(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddToNowPlaying(object sender, RoutedEventArgs e)
+        {
+            Playlist playlist = PlaylistManager.Instance.GetPlayingNowPlaylist();
+            if (VM.IsSingleMode) //playlist all
+            {
+                VM.PlaylistAll(playlist);
+            }
+            else
+            {
+                List<Traccia> sel = lista.SelectedItems.Cast<Traccia>().ToList();
+                VM.PlaylistSelected(sel, playlist);
+            }
+            SemanticZoomControl.ToggleActiveView(); //chiude zoomout
+        }
+        private void ListView_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Debug.WriteLine("Source:"+e.OriginalSource.GetType()+"\nSender: "+sender.GetType());
+            Playlist playlist = (sender as FrameworkElement).DataContext as Playlist;
+            Debug.WriteLine("Selected "+playlist.Name);
+            if (VM.IsSingleMode) //playlist all
+            {
+                VM.PlaylistAll(playlist);
+            }
+            else
+            {
+                List<Traccia> sel = lista.SelectedItems.Cast<Traccia>().ToList();
+                VM.PlaylistSelected(sel, playlist);
+            }
+            e.Handled = true;
+        }
+
+        private void ClosePlaylists(object sender, RoutedEventArgs e)
+        {
+            SemanticZoomControl.IsZoomedInViewActive = true;
         }
     }
 }

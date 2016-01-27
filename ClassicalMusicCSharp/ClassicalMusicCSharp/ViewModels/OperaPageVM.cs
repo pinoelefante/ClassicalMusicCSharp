@@ -4,6 +4,7 @@ using ClassicalMusicCSharp.Views.ContentDialogs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -87,60 +88,49 @@ namespace ClassicalMusicCSharp.ViewModels
             PlayerPageVM.AddTracks(sel, _composer, Opera.Nome, true);
         }
 
-        public async void PlaylistAll(object s, object e)
+        public void PlaylistAll(Playlist list)
         {
-            Action<Playlist> action = (x) =>
+            if (list == PlaylistManager.Instance.GetPlayingNowPlaylist())
             {
-                if(x == PlaylistManager.Instance.GetPlayingNowPlaylist())
+                PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome);
+            }
+            else
+            {
+                foreach (var t in Opera.Tracce)
                 {
-                    PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome);
-                }
-                else
-                {
-                    foreach (var t in Opera.Tracce)
+                    PlaylistTrack track = new PlaylistTrack()
                     {
-                        PlaylistTrack track = new PlaylistTrack()
-                        {
-                            Album = Opera.Nome,
-                            Composer = _composer,
-                            Track = t.Titolo,
-                            Link = t.Link
-                        };
-                        PlaylistManager.Instance.AddTrackToPlaylist(track, x, false);
-                    }
-                    x.SaveJson();
+                        Album = Opera.Nome,
+                        Composer = _composer,
+                        Track = t.Titolo,
+                        Link = t.Link
+                    };
+                    PlaylistManager.Instance.AddTrackToPlaylist(track, list, false);
                 }
-            };
-            PlaylistChoiserContentDialog dlg = new PlaylistChoiserContentDialog(action);
-            await dlg.ShowAsync();
+                list.SaveJson();
+            }
         }
-        public async void PlaylistSelected(List<Traccia> l)
+        public void PlaylistSelected(List<Traccia> l, Playlist x)
         {
-            //PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
-            Action<Playlist> action = (x) =>
+            if (x == PlaylistManager.Instance.GetPlayingNowPlaylist())
             {
-                if (x == PlaylistManager.Instance.GetPlayingNowPlaylist())
+                PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
+            }
+            else
+            {
+                foreach (var t in l)
                 {
-                    PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
-                }
-                else
-                {
-                    foreach (var t in l)
+                    PlaylistTrack track = new PlaylistTrack()
                     {
-                        PlaylistTrack track = new PlaylistTrack()
-                        {
-                            Album = Opera.Nome,
-                            Composer = _composer,
-                            Track = t.Titolo,
-                            Link = t.Link
-                        };
-                        PlaylistManager.Instance.AddTrackToPlaylist(track, x, false);
-                    }
-                    x.SaveJson();
+                        Album = Opera.Nome,
+                        Composer = _composer,
+                        Track = t.Titolo,
+                        Link = t.Link
+                    };
+                    PlaylistManager.Instance.AddTrackToPlaylist(track, x, false);
                 }
-            };
-            PlaylistChoiserContentDialog dlg = new PlaylistChoiserContentDialog(action);
-            await dlg.ShowAsync();
+                x.SaveJson();
+            }
         }
         public void SelezioneMultipla(object s, object e)
         {
@@ -150,5 +140,6 @@ namespace ClassicalMusicCSharp.ViewModels
         {
             IsSingleMode = true;
         }
+        public ObservableCollection<Playlist> Playlists { get; } = PlaylistManager.Instance.Playlists;
     }
 }

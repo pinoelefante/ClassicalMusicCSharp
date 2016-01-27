@@ -48,5 +48,10 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
                 ActionOnChosen.Invoke(playlist);
             Hide();
         }
+
+        private void CreateNewPlaylist(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
