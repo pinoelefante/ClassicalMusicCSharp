@@ -29,10 +29,10 @@ namespace ClassicalMusicCSharp.Classes
             //StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
             //StorageFile file = await folder.GetFileAsync("IAPTest.xml");
             //await CurrentAppSimulator.ReloadSimulatorAsync(file);
-            licenseInfo = CurrentAppSimulator.LicenseInformation;
+            //licenseInfo = CurrentAppSimulator.LicenseInformation;
 
             //RELEASE
-            //licenseInfo = CurrentApp.LicenseInformation;
+            licenseInfo = CurrentApp.LicenseInformation;
         }
         public bool IsProductActive(string code)
         {
@@ -45,9 +45,9 @@ namespace ClassicalMusicCSharp.Classes
                 try
                 {
                     //DEVELOPING
-                    PurchaseResults res = await CurrentAppSimulator.RequestProductPurchaseAsync(code);
+                    //PurchaseResults res = await CurrentAppSimulator.RequestProductPurchaseAsync(code);
                     //RELEASE
-                    //PurchaseResults res = await CurrentApp.RequestProductPurchaseAsync(code);
+                    PurchaseResults res = await CurrentApp.RequestProductPurchaseAsync(code);
 
                     Debug.WriteLine("Stato acquisto: " + res.Status.ToString() + "\n" + res.ReceiptXml.ToString());
                     Debug.WriteLine(code + " isActive: " + licenseInfo.ProductLicenses[code].IsActive);

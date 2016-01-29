@@ -129,9 +129,9 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             try
             {
                 StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync("playlists.json");
-
-                using (StreamWriter fw = new StreamWriter(await sfile.OpenStreamForWriteAsync()))
-                using (JsonWriter writer = new JsonTextWriter(fw))
+                StringBuilder sb = new StringBuilder();
+                StringWriter sw = new StringWriter(sb);
+                using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     writer.Formatting = Formatting.Indented;
 
@@ -148,6 +148,8 @@ namespace ClassicalMusicCSharp.Classes.Playlist
                     writer.WriteEndArray(); //Chiude l'array dei nomi delle playlist
                     writer.WriteEndObject(); //chiude l'oggetto esterno
                 }
+
+                await FileIO.WriteTextAsync(sfile, sb.ToString());
                 return true;
             }
             catch (FileNotFoundException)
@@ -178,14 +180,24 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             Playlists.Remove(p);
             try
             {
+                await SavePlaylistsJson();
                 StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(name);
-                file.DeleteAsync();
+                await file.DeleteAsync();
             }
             catch
             {
                 Debug.WriteLine($"Remove file {name} failed");
             }
             
+        }
+        public Playlist GetPlaylistById(long id)
+        {
+            IEnumerable<Playlist> select = Playlists.Where(x => x.Id == id);
+            if (select.Count() > 0 && select.Count() == 1)
+            {
+                return select.First();
+            }
+            return null;
         }
         public Playlist GetPlayingNowPlaylist()
         {
@@ -204,7 +216,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public ObservableCollection<PlaylistTrack> List { get; } = new ObservableCollection<PlaylistTrack>();
+        public ObservableCollection<PlaylistTrack> List { get; private set; } = new ObservableCollection<PlaylistTrack>();
         public Playlist(string name)
         {
             Name = name;
@@ -246,36 +258,8 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             try
             {
                 StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync($"playlist_{Name}.json");
-
-                using(StreamWriter fw = new StreamWriter(await sfile.OpenStreamForWriteAsync()))
-                using (JsonWriter writer = new JsonTextWriter(fw))
-                {
-                    writer.Formatting = Formatting.Indented;
-                    
-                    writer.WriteStartObject();
-
-                    writer.WritePropertyName("id");
-                    writer.WriteValue(Id);
-
-                    writer.WritePropertyName("tracks");
-                    writer.WriteStartArray();
-                    foreach(var track in List)
-                    {
-                        writer.WriteStartObject();
-                        writer.WritePropertyName("album");
-                        writer.WriteValue(track.Album);
-                        writer.WritePropertyName("composer");
-                        writer.WriteValue(track.Composer);
-                        writer.WritePropertyName("link");
-                        writer.WriteValue(track.Link);
-                        writer.WritePropertyName("track");
-                        writer.WriteValue(track.Track);
-                        writer.WriteEndObject();
-                    }
-                    writer.WriteEndArray();
-
-                    writer.WriteEndObject();
-                }
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                await FileIO.WriteTextAsync(sfile, json);
             }
             catch (FileNotFoundException)
             {
@@ -294,26 +278,9 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             {
                 StorageFile sfile = await ApplicationData.Current.LocalFolder.GetFileAsync($"playlist_{Name}.json");
                 string json = File.ReadAllText(sfile.Path);
-
-                PlaylistWrapper.PlaylistJson _playlist = null;
-                using (StreamReader file = new StreamReader(await sfile.OpenStreamForReadAsync(), true))
-                {
-                    string fileContent = await file.ReadToEndAsync();
-                    _playlist = JsonConvert.DeserializeObject<PlaylistWrapper.PlaylistJson>(fileContent);
-                }
-
-                Id = _playlist.id;
-                foreach (var p in _playlist.tracks)
-                {
-                    PlaylistTrack track = new PlaylistTrack()
-                    {
-                        Album = p.album,
-                        Composer = p.composer,
-                        Link = p.link,
-                        Track = p.track
-                    };
-                    AddItem(track);
-                }
+                Playlist l = JsonConvert.DeserializeObject<Playlist>(json);
+                this.Id = l.Id;
+                this.List = l.List;
             }
             catch (FileNotFoundException)
             {

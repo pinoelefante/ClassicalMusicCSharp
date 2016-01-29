@@ -264,6 +264,7 @@
     <Compile Include="ViewModels\OperePageVM.cs" />
     <Compile Include="ViewModels\PlayerPageVM.cs" />
     <Compile Include="ViewModels\PlaylistPageVM.cs" />
+    <Compile Include="ViewModels\PlaylistViewerVM.cs" />
     <Compile Include="ViewModels\RadioVM.cs" />
     <Compile Include="Views\ArtistsPage.xaml.cs">
       <DependentUpon>ArtistsPage.xaml</DependentUpon>
@@ -279,6 +280,12 @@
     </Compile>
     <Compile Include="Views\ContentDialogs\BuyRemoveAdsContentDialog.xaml.cs">
       <DependentUpon>BuyRemoveAdsContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentDialogs\DeletePlaylistTracksContentDialog.xaml.cs">
+      <DependentUpon>DeletePlaylistTracksContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentDialogs\DeletePlaylistContentDialog.xaml.cs">
+      <DependentUpon>DeletePlaylistContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml.cs">
       <DependentUpon>PlaylistChoiserContentDialog.xaml</DependentUpon>
@@ -297,6 +304,9 @@
     </Compile>
     <Compile Include="Views\PlaylistPage.xaml.cs">
       <DependentUpon>PlaylistPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaylistViewerPage.xaml.cs">
+      <DependentUpon>PlaylistViewerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RadioPage.xaml.cs">
       <DependentUpon>RadioPage.xaml</DependentUpon>
@@ -349,6 +359,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ContentDialogs\DeletePlaylistTracksContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ContentDialogs\DeletePlaylistContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -370,6 +388,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlaylistPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaylistViewerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

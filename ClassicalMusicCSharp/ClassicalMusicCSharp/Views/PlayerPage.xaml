@@ -53,14 +53,14 @@
         </Grid.RowDefinitions>
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Player" Frame="{x:Bind Frame}">
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton Icon="Save" Click="{x:Bind VM.SavePlaylist}"/>
+                <AppBarButton Icon="Save" Label="Save playlist" Click="{x:Bind VM.SavePlaylist}"/>
             </controls:PageHeader.PrimaryCommands>
             <controls:PageHeader.SecondaryCommands>
                 <AppBarButton Label="Empty playlist" Icon="Delete" Click="{x:Bind VM.CleanPlaylist}"/>
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
         
-        <Grid BorderBrush="Yellow" BorderThickness="2" Grid.Row="1" Visibility="{Binding AdsRemoved, Converter={StaticResource NotBoolVisibility}}" x:Name="AdsContainer" x:DeferLoadStrategy="Lazy">
+        <Grid BorderBrush="Yellow" BorderThickness="1" Grid.Row="1" Visibility="{Binding AdsRemoved, Converter={StaticResource NotBoolVisibility}}" x:Name="AdsContainer">
             <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_2CC0C6" HorizontalAlignment="Left" Height="80" Id="AdMediator-Id-129CB7E0-91CD-4FA9-B0F0-D676CCC32A61" VerticalAlignment="Top" Width="480" Canvas.ZIndex="0"/>
             <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Gray" Opacity=".5" Canvas.ZIndex="1" Click="{x:Bind VM.RemoveAds}"/>
         </Grid>

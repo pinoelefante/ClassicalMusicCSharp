@@ -45,9 +45,11 @@ namespace ClassicalMusicCSharp
             var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
             Window.Current.Content = new Views.Shell(nav);
 
+            /* FOR IAP DEVELOPMENT
             StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
             StorageFile file = await folder.GetFileAsync("IAPTest.xml");
             await CurrentAppSimulator.ReloadSimulatorAsync(file);
+            */
 
             await Task.Yield();
         }

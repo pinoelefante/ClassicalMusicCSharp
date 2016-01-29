@@ -161,6 +161,8 @@ namespace PlayerMultimediale
                 case "Pause":
                     Stopped = false;
                     player.Pause();
+                    if (IsRadioPlay)
+                        Stop();
                     break;
                 case "Next":
                     NextTrack();
@@ -213,6 +215,23 @@ namespace PlayerMultimediale
                         {
                             { "Command", "AddTracks" }
                         });
+                    }
+                    break;
+                case "ChangePlaylist":
+                    {
+                        Stop();
+                        playlist.CleanPlaylist();
+                        var count = (int)e.Data["Count"];
+                        for (int i = 0; i < count; i++)
+                        {
+                            var title = e.Data[$"Track{i}_Title"].ToString();
+                            var compo = e.Data[$"Track{i}_Composer"].ToString();
+                            var link = e.Data[$"Track{i}_Link"].ToString();
+                            var album = e.Data[$"Track{i}_Album"].ToString();
+                            playlist.AddTrack(new Track() { Title = title, Album = album, Link = link, Composer = compo });
+                        }
+                        playlist.CurrentIndex = 0;
+                        PlayTrack(playlist.Current);
                     }
                     break;
                 case "RemTrack":

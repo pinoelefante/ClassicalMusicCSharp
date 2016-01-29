@@ -23,24 +23,24 @@ namespace ClassicalMusicCSharp.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PlaylistPage : Page
+    public sealed partial class PlaylistViewerPage : Page
     {
-        public PlaylistPage()
+        public PlaylistViewerPage()
         {
             this.InitializeComponent();
         }
-        public PlaylistPageVM VM => this.DataContext as PlaylistPageVM;
+        public PlaylistViewerVM VM => this.DataContext as PlaylistViewerVM;
 
         private async void DeleteSelection(object sender, RoutedEventArgs e)
         {
             if (listPlaylist.SelectedItems.Count > 0)
             {
-                Action deleteAction = () =>
+                Action delete = () =>
                 {
-                    List<Playlist> list = listPlaylist.SelectedItems.Cast<Playlist>().ToList();
-                    VM.DeletePlaylists(list);
+                    List<PlaylistTrack> tracks = listPlaylist.SelectedItems.Cast<PlaylistTrack>().ToList();
+                    VM.DeleteTracks(tracks);
                 };
-                DeletePlaylistContentDialog dlg = new DeletePlaylistContentDialog(deleteAction);
+                DeletePlaylistTracksContentDialog dlg = new DeletePlaylistTracksContentDialog(delete);
                 await dlg.ShowAsync();
             }
         }

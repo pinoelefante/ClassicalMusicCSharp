@@ -286,6 +286,17 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Link", track.Link }
             });
         }
+        public static void PlayTrack(PlaylistTrack track)
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","PlayTrack" },
+                { "Title", track.Track },
+                { "Composer", track.Composer },
+                { "Album", track.Album },
+                { "Link", track.Link }
+            });
+        }
         public static void AddTracks(List<Traccia> l, string composer, string opera, bool play = false)
         {
             ValueSet vs = new ValueSet();
@@ -298,6 +309,22 @@ namespace ClassicalMusicCSharp.ViewModels
                 vs.Add($"Track{i}_Composer", composer);
                 vs.Add($"Track{i}_Link", t.Link);
                 vs.Add($"Track{i}_Album", opera);
+            }
+            BackgroundMediaPlayer.SendMessageToBackground(vs);
+        }
+        public static void ChangePlaylist(Playlist playlist, bool play = false)
+        {
+
+            ValueSet vs = new ValueSet();
+            vs.Add("Command", "ChangePlaylist");
+            vs.Add("Count", playlist.List.Count);
+            for (int i = 0; i < playlist.List.Count; i++)
+            {
+                PlaylistTrack t = playlist.List[i];
+                vs.Add($"Track{i}_Title", t.Track);
+                vs.Add($"Track{i}_Composer", t.Composer);
+                vs.Add($"Track{i}_Link", t.Link);
+                vs.Add($"Track{i}_Album", t.Album);
             }
             BackgroundMediaPlayer.SendMessageToBackground(vs);
         }
@@ -358,7 +385,11 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","Prev" }
             });
         }
-        public void CleanPlaylist(object s = null, object e = null)
+        public void CleanPlaylist(object s, object e)
+        {
+            CleanPlaylist();
+        }
+        public static void CleanPlaylist()
         {
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
             {
