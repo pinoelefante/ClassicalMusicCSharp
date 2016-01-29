@@ -26,7 +26,7 @@ namespace ClassicalMusicCSharp
         {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
-            //SplashFactory = (e) => new Views.Splash(e);
+            SplashFactory = (e) => new Views.Splash(e);
 
             #region App settings
 
