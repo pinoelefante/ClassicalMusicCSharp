@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Data;
 
 namespace ClassicalMusicCSharp.Converters
 {
-    class BoolToSelectionMode : IValueConverter
+    public class BoolToSelectionMode : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

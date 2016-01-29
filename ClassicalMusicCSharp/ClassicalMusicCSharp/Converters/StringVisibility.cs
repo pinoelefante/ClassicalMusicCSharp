@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Data;
 
 namespace ClassicalMusicCSharp.Converters
 {
-    class StringVisibility : IValueConverter
+    public class StringVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 
 namespace ClassicalMusicCSharp.Converters
 {
-    class NotBoolean : IValueConverter
+    public class NotBoolean : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

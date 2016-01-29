@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace ClassicalMusicCSharp.Converters
 {
-    class StringToUri : IValueConverter
+    public class StringToUri : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
