@@ -56,7 +56,7 @@
                 <AppBarButton Icon="Save" Label="Save playlist" Click="{x:Bind VM.SavePlaylist}"/>
             </controls:PageHeader.PrimaryCommands>
             <controls:PageHeader.SecondaryCommands>
-                <AppBarButton Label="Empty playlist" Icon="Delete" Click="{x:Bind VM.CleanPlaylist}"/>
+                <AppBarButton Label="Empty playlist" Icon="Delete" Click="{x:Bind VM.CleanPlaylistAction}"/>
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
         

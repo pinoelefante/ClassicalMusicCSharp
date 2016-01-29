@@ -385,7 +385,7 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","Prev" }
             });
         }
-        public void CleanPlaylist(object s, object e)
+        public void CleanPlaylistAction(object s, object e)
         {
             CleanPlaylist();
         }
