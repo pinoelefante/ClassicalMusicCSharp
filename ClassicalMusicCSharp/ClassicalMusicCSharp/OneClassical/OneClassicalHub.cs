@@ -86,11 +86,14 @@ namespace ClassicalMusicCSharp.OneClassical
                                     Traccia track = new Traccia() { Titolo = titolo, Link = link};
                                     tracce.Add(track);
                                 }
+                                tracce.TrimExcess();
                                 listOpere.Add(opera);
                             }
+                            listOpere.TrimExcess();
                             categoria.Opere = listOpere;
                             listCategorie.Add(categoria);
                         }
+                        listCategorie.TrimExcess();
                         comp.Categorie = listCategorie;
                     }
 
@@ -114,8 +117,10 @@ namespace ClassicalMusicCSharp.OneClassical
                                 Traccia track = new Traccia() { Titolo = titolo, Link = link};
                                 tracce.Add(track);
                             }
+                            tracce.TrimExcess();
                             listOpere.Add(opera);
                         }
+                        listOpere.TrimExcess();
                         comp.Opere = listOpere;
                     }
                     compositori.Add(comp);

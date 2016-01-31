@@ -236,6 +236,7 @@
     </Compile>
     <Compile Include="Classes\Grouping\AlphaGrouping.cs" />
     <Compile Include="Classes\IAPManager.cs" />
+    <Compile Include="Classes\Interfaces\Cleanable.cs" />
     <Compile Include="Classes\Playlist\PlaylistManager.cs" />
     <Compile Include="Classes\Radio\RadioManager.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />

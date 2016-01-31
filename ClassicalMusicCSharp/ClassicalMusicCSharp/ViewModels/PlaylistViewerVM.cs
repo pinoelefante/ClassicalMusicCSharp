@@ -19,11 +19,13 @@ namespace ClassicalMusicCSharp.ViewModels
         {
             long idPlaylist = (long)parameter;
             Playlist = PlaylistManager.Instance.GetPlaylistById(idPlaylist);
+            Playlist.Reload();
             return Task.CompletedTask;
         }
         public override Task OnNavigatingFromAsync(NavigatingEventArgs args)
         {
             Playlist.SaveJson();
+            Playlist.Clean();
             return Task.CompletedTask;
         }
         public Playlist Playlist

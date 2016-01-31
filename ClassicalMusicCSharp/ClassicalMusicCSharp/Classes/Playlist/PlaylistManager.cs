@@ -1,4 +1,5 @@
-﻿using ClassicalMusicCSharp.Models;
+﻿using ClassicalMusicCSharp.Classes.Interfaces;
+using ClassicalMusicCSharp.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -106,7 +107,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
                     if (CanAddNewPlaylist())
                     {
                         Playlist playlist = new Playlist(p);
-                        playlist.LoadJson();
+                        //playlist.LoadJson();
                         Playlists.Add(playlist);
                     }
                     else
@@ -212,7 +213,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             playlist.AddItem(t, save);
         }
     }
-    public class Playlist
+    public class Playlist : Cleanable
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -223,12 +224,14 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         }
         public void AddItem(PlaylistTrack t, bool save = false)
         {
+            Reload();
             List.Add(t);
             if (save)
                 SaveJson();
         }
         public void AddItem(List<PlaylistTrack> t, bool save = false)
         {
+            Reload();
             foreach (var i in t)
                 List.Add(i);
             if (save)
@@ -236,15 +239,33 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         }
         public void RemoveAt(int i)
         {
+            Reload();
             List.RemoveAt(i);
         }
         public int IndexOf(PlaylistTrack t)
         {
+            Reload();
             return List.IndexOf(t);
         }
         public int Count { get { return List.Count; } }
+
+        private bool _isLoaded;
+        public bool IsLoaded
+        {
+            get
+            {
+                return _isLoaded;
+            }
+
+            set
+            {
+                _isLoaded = value;
+            }
+        }
+
         public PlaylistTrack ElementAt(int index)
         {
+            Reload();
             return List[index];
         }
         public void Clear(bool save = false)
@@ -285,6 +306,21 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             catch (FileNotFoundException)
             {
                 await ApplicationData.Current.LocalFolder.CreateFileAsync($"playlist_{Name}.json");
+            }
+        }
+
+        public void Clean()
+        {
+            List.Clear();
+            IsLoaded = false;
+        }
+
+        public void Reload()
+        {
+            if (!IsLoaded)
+            {
+                LoadJson();
+                IsLoaded = true;
             }
         }
     }
