@@ -80,6 +80,10 @@ namespace PlayerMultimediale
                     break;
                 case "Stop":
                     Stop();
+                    BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()
+                    {
+                        { "Command", "Stopped" }
+                    });
                     break;
                 case "Play":
                     if (IsRadioPlay)

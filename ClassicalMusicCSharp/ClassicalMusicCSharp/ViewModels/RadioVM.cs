@@ -85,6 +85,7 @@ namespace ClassicalMusicCSharp.ViewModels
                         }
                         break;
                     case "TrackChanged":
+                    case "Stopped":
                         RequestIsRadioPlaying();
                         break;
                 }
