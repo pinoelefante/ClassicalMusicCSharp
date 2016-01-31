@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Live radio" IsEnabled="False" Frame="{x:Bind Frame}"/>
@@ -53,5 +54,11 @@
                 <Run Text="{Binding RadioTitle}"/>
             </TextBlock>
         </StackPanel>
+
+        <CommandBar Grid.Row="3" Visibility="{Binding RadioPlaying, Converter={StaticResource BoolVisibility}}">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Stop" Icon="Stop" Click="{x:Bind VM.Stop}"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
     </Grid>
 </Page>

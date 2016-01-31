@@ -62,6 +62,13 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Command","IsRadioPlaying" }
             });
         }
+        public void Stop(object s, object e)
+        {
+            BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
+            {
+                { "Command","Stop" }
+            });
+        }
         private void MessageReceived(object sender, MediaPlayerDataReceivedEventArgs e)
         {
             Template10.Common.WindowWrapper.Current().Dispatcher.Dispatch(() =>

@@ -25,12 +25,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Playlists" Frame="{x:Bind Frame}">
-            <AppBarButton Label="Delete" Icon="Delete" Click="DeleteSelection" Visibility="{Binding IsMultipleSelection, Converter={StaticResource BoolToVisibility}}"/>
-            <AppBarButton Label="Change selection" Icon="Bullets" Click="{x:Bind VM.ChangeSelectionMode}"/>
-        </controls:PageHeader>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Playlists" Frame="{x:Bind Frame}"/>
 
         <ListView x:Name="listPlaylist" SelectionMode="{Binding IsMultipleSelection, Converter={StaticResource BoolToSelectionMode}}" Grid.Row="1" ItemsSource="{x:Bind VM.Playlists}" ItemClick="{x:Bind VM.OpenPlaylist}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
@@ -48,6 +46,12 @@
             </StackPanel>
         </Button>
 
+        <CommandBar Grid.Row="3">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Delete" Icon="Delete" Click="DeleteSelection" Visibility="{Binding IsMultipleSelection, Converter={StaticResource BoolToVisibility}}"/>
+                <AppBarButton Label="Change selection" Icon="Bullets" Click="{x:Bind VM.ChangeSelectionMode}"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
 
     </Grid>
 </Page>

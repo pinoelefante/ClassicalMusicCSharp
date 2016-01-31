@@ -28,18 +28,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Opera.Nome}">
-            <controls:PageHeader.PrimaryCommands>
-                <AppBarButton Icon="Play" Label="Play all" Click="{x:Bind VM.PlayAll}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Icon="Add" Label="Add all to playlist" Click="OpenPlaylistMenu" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Icon="Play" Label="Play selected tracks" Click="playSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
-                <AppBarButton Icon="Add" Label="Add selected to playlist" Click="OpenPlaylistMenu" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
-            </controls:PageHeader.PrimaryCommands>
-            <controls:PageHeader.SecondaryCommands>
-                <AppBarButton Label="Multiple selection" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Label="Single selection" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
-            </controls:PageHeader.SecondaryCommands>
-        </controls:PageHeader>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Opera.Nome}"/>
 
         <SemanticZoom Grid.Row="1" x:Name="SemanticZoomControl">
             <SemanticZoom.ZoomedOutView>
@@ -113,15 +102,18 @@
                 </ListView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
-        <!--
+
         <CommandBar Grid.Row="2">
             <CommandBar.PrimaryCommands>
-                
+                <AppBarButton Icon="Play" Label="Play all" Click="{x:Bind VM.PlayAll}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                    <AppBarButton Icon="Add" Label="Add all to playlist" Click="OpenPlaylistMenu" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                    <AppBarButton Icon="Play" Label="Play selected tracks" Click="playSelected" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+                <AppBarButton Icon="Add" Label="Add selected to playlist" Click="OpenPlaylistMenu" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                
+                <AppBarButton Label="Multiple selection" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Label="Single selection" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
-        -->
     </Grid>
 </Page>

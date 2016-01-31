@@ -33,6 +33,10 @@ namespace ClassicalMusicCSharp.Classes
 
             //RELEASE
             licenseInfo = CurrentApp.LicenseInformation;
+            foreach (var item in licenseInfo.ProductLicenses)
+            {
+                Debug.WriteLine(item.Key + "=" + item.Value);
+            }
         }
         public bool IsProductActive(string code)
         {
@@ -47,14 +51,18 @@ namespace ClassicalMusicCSharp.Classes
                     //DEVELOPING
                     //PurchaseResults res = await CurrentAppSimulator.RequestProductPurchaseAsync(code);
                     //RELEASE
-                    PurchaseResults res = await CurrentApp.RequestProductPurchaseAsync(code);
-
+                    /*PurchaseResults res = */
+                    await CurrentApp.RequestProductPurchaseAsync(code,false);
+                    /*
                     Debug.WriteLine("Stato acquisto: " + res.Status.ToString() + "\n" + res.ReceiptXml.ToString());
                     Debug.WriteLine(code + " isActive: " + licenseInfo.ProductLicenses[code].IsActive);
                     if (res.Status == ProductPurchaseStatus.Succeeded || res.Status == ProductPurchaseStatus.AlreadyPurchased)
                     {
                         return !error_return;
                     }
+                    */
+                    if (licenseInfo.ProductLicenses[code].IsActive)
+                        return !error_return;
                     return error_return;
                 }
                 catch (Exception e)

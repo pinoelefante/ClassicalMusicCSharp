@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
     xmlns:controls="using:Template10.Controls"
-    xmlns:conv="using:ClassicalMusicCSharp.Converters">
+    xmlns:conv="using:ClassicalMusicCSharp.Converters"
+    xmlns:uc="using:ClassicalMusicCSharp.Views.UserControls">
     <Page.DataContext>
         <vm:ArtistsPageVM/>
     </Page.DataContext>
@@ -27,29 +28,20 @@
 
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding Source={StaticResource ListeCompositori}}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.goToArtist}">
+                <GridView ItemsSource="{Binding Source={StaticResource ListeCompositori}}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.goToArtist}">
+                    <!--
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
+                    -->
+                    <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Ellipse Height="50">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding Image, Converter={StaticResource StringToUri}}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <TextBlock Margin="8,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Nome}"/>
-                            </Grid>
+                            <uc:ArtistUC/>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.GroupStyle>
+                    </GridView.ItemTemplate>
+                    <GridView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True">
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
@@ -57,8 +49,8 @@
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
                         </GroupStyle>
-                    </ListView.GroupStyle>
-                </ListView>
+                    </GridView.GroupStyle>
+                </GridView>
             </SemanticZoom.ZoomedInView>
             <SemanticZoom.ZoomedOutView>
                 <GridView ItemsSource="{Binding Source={StaticResource ListeCompositori}, Path=CollectionGroups}" HorizontalAlignment="Center">
