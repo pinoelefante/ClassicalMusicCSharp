@@ -25,14 +25,16 @@ namespace ClassicalMusicCSharp.Classes
         }
         private IAPManager()
         {
+#if DEBUG
             //DEVELOPING
             //StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
             //StorageFile file = await folder.GetFileAsync("IAPTest.xml");
             //await CurrentAppSimulator.ReloadSimulatorAsync(file);
-            //licenseInfo = CurrentAppSimulator.LicenseInformation;
-
+            licenseInfo = CurrentAppSimulator.LicenseInformation;
+#else
             //RELEASE
             licenseInfo = CurrentApp.LicenseInformation;
+#endif
             foreach (var item in licenseInfo.ProductLicenses)
             {
                 Debug.WriteLine(item.Key + "=" + item.Value);
@@ -48,19 +50,14 @@ namespace ClassicalMusicCSharp.Classes
             {
                 try
                 {
+
+#if DEBUG
                     //DEVELOPING
-                    //PurchaseResults res = await CurrentAppSimulator.RequestProductPurchaseAsync(code);
+                    await CurrentAppSimulator.RequestProductPurchaseAsync(code, false);
+#else
                     //RELEASE
-                    /*PurchaseResults res = */
                     await CurrentApp.RequestProductPurchaseAsync(code,false);
-                    /*
-                    Debug.WriteLine("Stato acquisto: " + res.Status.ToString() + "\n" + res.ReceiptXml.ToString());
-                    Debug.WriteLine(code + " isActive: " + licenseInfo.ProductLicenses[code].IsActive);
-                    if (res.Status == ProductPurchaseStatus.Succeeded || res.Status == ProductPurchaseStatus.AlreadyPurchased)
-                    {
-                        return !error_return;
-                    }
-                    */
+#endif
                     if (licenseInfo.ProductLicenses[code].IsActive)
                         return !error_return;
                     return error_return;

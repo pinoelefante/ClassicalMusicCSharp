@@ -20,31 +20,6 @@
         <vm:PlayerPageVM/>
     </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="VisualStateGroup">
-                <VisualState x:Name="normal">
-                    <VisualState.Setters>
-                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Width)" Value="480"/>
-                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Height)" Value="80"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                
-                <VisualState x:Name="horizontal">
-                    <VisualState.Setters>
-                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Width)" Value="728"/>
-                        <Setter Target="AdMediator_2CC0C6.(FrameworkElement.Height)" Value="90"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="800"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -53,11 +28,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Player" Frame="{x:Bind Frame}"/>
-
-        <Grid BorderBrush="Yellow" BorderThickness="1" Grid.Row="1" Visibility="{Binding AdsRemoved, Converter={StaticResource NotBoolVisibility}}" x:Name="AdsContainer">
-            <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_2CC0C6" HorizontalAlignment="Left" Height="80" Id="AdMediator-Id-129CB7E0-91CD-4FA9-B0F0-D676CCC32A61" VerticalAlignment="Top" Width="480" Canvas.ZIndex="0"/>
-            <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Gray" Opacity=".5" Canvas.ZIndex="1" Click="{x:Bind VM.RemoveAds}"/>
-        </Grid>
 
         <ListView x:Name="_xplaylist" Grid.Row="2" ItemsSource="{x:Bind VM.Playlist.List}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>

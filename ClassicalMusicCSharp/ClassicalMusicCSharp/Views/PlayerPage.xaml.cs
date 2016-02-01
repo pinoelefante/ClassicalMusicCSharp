@@ -54,11 +54,5 @@ namespace ClassicalMusicCSharp.Views
             dialog.CancelCommandIndex = 1;
             await dialog.ShowAsync();
         }
-
-        private void AdSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Debug.WriteLine("Size changed");
-            AdMediator_2CC0C6.Resume();
-        }
     }
 }

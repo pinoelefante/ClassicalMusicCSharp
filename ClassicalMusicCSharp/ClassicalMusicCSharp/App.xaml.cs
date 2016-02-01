@@ -44,13 +44,12 @@ namespace ClassicalMusicCSharp
             // setup hamburger shell
             var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
             Window.Current.Content = new Views.Shell(nav);
-
-            /* FOR IAP DEVELOPMENT
+#if DEBUG
+            //FOR IAP DEVELOPMENT
             StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
             StorageFile file = await folder.GetFileAsync("IAPTest.xml");
             await CurrentAppSimulator.ReloadSimulatorAsync(file);
-            */
-
+#endif
             await Task.Yield();
         }
 

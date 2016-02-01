@@ -10,6 +10,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.ComponentModel;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -19,12 +20,24 @@ namespace ClassicalMusicCSharp.ViewModels
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += MessageReceived;
             BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayerStateChanged;
-            if (!RadioManager.IsLoaded)
-                await RadioManager.LoadRadio();
-            RadioList = RadioManager.Radios.radio;
+            IsLoading = true;
+            RadioList = await RadioManager.Instance.LoadRadio();
+            IsLoading = false;
             RequestIsRadioPlaying();
+            //return Task.CompletedTask;
         }
-
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+            set
+            {
+                Set(ref _isLoading, value);
+            }
+        }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground -= MessageReceived;
@@ -40,7 +53,7 @@ namespace ClassicalMusicCSharp.ViewModels
             }
             set
             {
-                Set<List<RadioWrapper.Radio>>(ref _list, value);
+                Set(ref _list, value);
             }
         }
         public void RadioSelected(object sender, ItemClickEventArgs e)

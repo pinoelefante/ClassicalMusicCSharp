@@ -9,33 +9,43 @@
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
     xmlns:controls="using:Template10.Controls"
     xmlns:conv="using:ClassicalMusicCSharp.Converters"
-    xmlns:uc="using:ClassicalMusicCSharp.Views.UserControls">
+    xmlns:uc="using:ClassicalMusicCSharp.Views.UserControls"
+    xmlns:Universal="using:Microsoft.AdMediator.Universal"
+    Loaded="OnPageLoaded">
     <Page.DataContext>
         <vm:ArtistsPageVM/>
     </Page.DataContext>
     <Page.Resources>
         <CollectionViewSource IsSourceGrouped="True" Source="{Binding Compositori}" ItemsPath="Value" x:Key="ListeCompositori"/>
         <conv:StringToUri x:Key="StringToUri"/>
+        <conv:NotBoolToVisibility x:Key="NotBoolVisibility"/>
+        <conv:NotBoolean x:Key="NotBool"/>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader Grid.Row="0" BackButtonVisibility="Collapsed" Content="Composers" Frame="{x:Bind Frame}" IsEnabled="False"/>
+        <controls:PageHeader Grid.Row="0" BackButtonVisibility="Collapsed" Content="Composers" Frame="{x:Bind Frame}">
+            <!--
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Icon="Accept" Click="Test"/>
+            </controls:PageHeader.PrimaryCommands>
+            -->
+        </controls:PageHeader>
 
-        <SemanticZoom Grid.Row="1">
+        <Grid BorderBrush="Yellow" BorderThickness="1" Grid.Row="1" Visibility="Collapsed" x:DeferLoadStrategy="Lazy" x:Name="AdsContainer">
+            <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_D58149" Height="80" Id="AdMediator-Id-39AD79B3-C64B-463B-B0D1-B8F0E2249B77" Width="480" Canvas.ZIndex="0"/>
+            <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Gray" Opacity=".5" Canvas.ZIndex="1" Click="{x:Bind VM.RemoveAds}"/>
+        </Grid>
+
+        <ProgressRing Grid.Row="2" Width="100" Height="100" IsActive="{Binding IsLoaded, Converter={StaticResource NotBool}}" Visibility="{Binding IsLoaded, Converter={StaticResource NotBoolVisibility}}"/>
+
+        <SemanticZoom Grid.Row="2">
             <SemanticZoom.ZoomedInView>
                 <GridView ItemsSource="{Binding Source={StaticResource ListeCompositori}}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.goToArtist}">
-                    <!--
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    -->
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <uc:ArtistUC/>

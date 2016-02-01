@@ -35,7 +35,6 @@ namespace ClassicalMusicCSharp.ViewModels
             Tracks(); //richiede la playlist
             RequestIsRadioPlaying();
             BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayerStateChanged;
-            AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
             return Task.CompletedTask;
         }
 
@@ -202,7 +201,7 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 if (_radioPlaying && RadioTrack != null)
                     return RadioTrack;
-                if(Playlist.Count > 0)
+                if(!Playlist.IsEmpty())
                     return Playlist.ElementAt(CurrentIndex);
                 return EMPTYTRACK;
             }
@@ -463,32 +462,7 @@ namespace ClassicalMusicCSharp.ViewModels
                     break;
             }
         }
-        private bool _adsRemoved = false;
-        public bool AdsRemoved {
-            get
-            {
-                return _adsRemoved;
-            }
-            set
-            {
-                Set<bool>(ref _adsRemoved, value);
-            }
-        }
-        public async void RemoveAds(object sender, object ev)
-        {   
-            BuyRemoveAdsContentDialog dlg = new BuyRemoveAdsContentDialog();
-            dlg.AtFinish = () => 
-            {
-                Template10.Common.WindowWrapper.Current().Dispatcher.Dispatch(() => 
-                {
-                    Debug.WriteLine("Running AtFinish");
-                    AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
-                    Debug.WriteLine("AdsRemoved value = " + AdsRemoved);
-                });
-                return true;
-            };
-            await dlg.ShowAsync();
-        }
+
         public async void SavePlaylist(object s, object e)
         {
             if (await PlaylistPageVM.CreateNewPlaylist())

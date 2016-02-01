@@ -74,10 +74,6 @@ namespace ClassicalMusicCSharp.ViewModels
                 Set<bool>(ref _isSingleMode, value);
             }
         }
-        public void addToPlaylist(Traccia track)
-        {
-            PlayerPageVM.AddTrack(track, _composer, Opera.Nome);
-        }
         public void PlayAll(object sender, object e)
         {
             PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome, true);
@@ -97,6 +93,7 @@ namespace ClassicalMusicCSharp.ViewModels
             }
             else
             {
+                List<PlaylistTrack> listAdd = new List<PlaylistTrack>(Opera.Tracce.Count);
                 foreach (var t in Opera.Tracce)
                 {
                     PlaylistTrack track = new PlaylistTrack()
@@ -106,23 +103,23 @@ namespace ClassicalMusicCSharp.ViewModels
                         Track = t.Titolo,
                         Link = t.Link
                     };
-                    PlaylistManager.Instance.AddTrackToPlaylist(track, list, false);
+                    listAdd.Add(track);
                 }
-                list.SaveJson();
+                PlaylistManager.Instance.AddTrackToPlaylist(listAdd, list, true);
             }
         }
-        public void PlaylistSelected(List<Traccia> l, Playlist x)
+        public void PlaylistSelected(List<Traccia> tracks, Playlist playlist)
         {
-            if (l.Count == 0)
+            if (tracks.Count == 0)
                 return;
 
-            if (x == PlaylistManager.Instance.GetPlayingNowPlaylist())
+            if (playlist == PlaylistManager.Instance.GetPlayingNowPlaylist())
             {
-                PlayerPageVM.AddTracks(l, _composer, Opera.Nome);
+                PlayerPageVM.AddTracks(tracks, _composer, Opera.Nome);
             }
             else
             {
-                foreach (var t in l)
+                foreach (var t in tracks)
                 {
                     PlaylistTrack track = new PlaylistTrack()
                     {
@@ -131,9 +128,9 @@ namespace ClassicalMusicCSharp.ViewModels
                         Track = t.Titolo,
                         Link = t.Link
                     };
-                    PlaylistManager.Instance.AddTrackToPlaylist(track, x, false);
+                    PlaylistManager.Instance.AddTrackToPlaylist(track, playlist, false);
                 }
-                x.SaveJson();
+                playlist.SaveJson();
             }
         }
         public void SelezioneMultipla(object s, object e)

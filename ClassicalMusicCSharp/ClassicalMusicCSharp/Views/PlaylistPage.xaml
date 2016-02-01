@@ -30,7 +30,14 @@
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Playlists" Frame="{x:Bind Frame}"/>
 
+        <ProgressRing Grid.Row="1" Width="100" Height="100" IsActive="{Binding IsLoading}" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}"/>
+
         <ListView x:Name="listPlaylist" SelectionMode="{Binding IsMultipleSelection, Converter={StaticResource BoolToSelectionMode}}" Grid.Row="1" ItemsSource="{x:Bind VM.Playlists}" ItemClick="{x:Bind VM.OpenPlaylist}" IsItemClickEnabled="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>

@@ -19,13 +19,10 @@ namespace ClassicalMusicCSharp.ViewModels
         {
             long idPlaylist = (long)parameter;
             Playlist = PlaylistManager.Instance.GetPlaylistById(idPlaylist);
-            Playlist.Reload();
             return Task.CompletedTask;
         }
         public override Task OnNavigatingFromAsync(NavigatingEventArgs args)
         {
-            Playlist.SaveJson();
-            Playlist.Clean();
             return Task.CompletedTask;
         }
         public Playlist Playlist
@@ -50,8 +47,11 @@ namespace ClassicalMusicCSharp.ViewModels
         }
         public void PlayPlaylist(object sender, object e)
         {
-            PlayerPageVM.CleanPlaylist();
-            PlayerPageVM.ChangePlaylist(Playlist, true);
+            if (!Playlist.IsEmpty())
+            {
+                PlayerPageVM.CleanPlaylist();
+                PlayerPageVM.ChangePlaylist(Playlist, true);
+            }
         }
         public void SavePlaylist(object sender, object e)
         {

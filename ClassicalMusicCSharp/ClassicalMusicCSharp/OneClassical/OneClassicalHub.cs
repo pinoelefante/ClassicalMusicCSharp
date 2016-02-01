@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
@@ -12,9 +13,11 @@ using Windows.Storage;
 
 namespace ClassicalMusicCSharp.OneClassical
 {
-    public class OneClassicalHub
+    public class OneClassicalHub : INotifyPropertyChanged
     {
         private static OneClassicalHub instance;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public static OneClassicalHub Instance
         {
@@ -25,8 +28,23 @@ namespace ClassicalMusicCSharp.OneClassical
                 return instance;
             }
         }
-        public bool Loaded { get; set; } = false;
-        private OneClassicalHub() { }
+        private bool _loaded = false;
+        public bool Loaded
+        {
+            get
+            {
+                return _loaded;
+            }
+            set
+            {
+                _loaded = value;
+                NotifyProperty();
+            }
+        }
+        private OneClassicalHub()
+        {
+            readJson();
+        }
         public List<Compositore> ListaCompositori { get; private set; }
         public Compositore GetComposerByName(string name)
         {
@@ -128,7 +146,6 @@ namespace ClassicalMusicCSharp.OneClassical
                 ListaCompositori = compositori;
                 Loaded = true;
             }
-            await RadioManager.LoadRadio();
             return ListaCompositori;
         }
 
@@ -146,6 +163,13 @@ namespace ClassicalMusicCSharp.OneClassical
                 return path;
             }
             return "ms-appx:///Assets/spartito.jpg";
+        }
+        public void NotifyProperty([CallerMemberName]string p = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(p));
+            }
         }
     }
 }

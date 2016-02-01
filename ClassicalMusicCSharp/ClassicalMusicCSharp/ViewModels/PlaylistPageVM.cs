@@ -19,15 +19,24 @@ namespace ClassicalMusicCSharp.ViewModels
     {
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if(parameter != null)
+            IsLoading = true;
+            if (parameter != null)
             {
                 bool cleanStack = (bool)parameter;
                 NavigationService.ClearHistory();
                 NavigationService.ClearCache();
             }
+            Playlists = PlaylistManager.Instance.Playlists;
+            IsLoading = false;
             return base.OnNavigatedToAsync(parameter, mode, state);
         }
-        public ObservableCollection<Playlist> Playlists { get; } = PlaylistManager.Instance.Playlists;
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { Set(ref _isLoading, value); }
+        }
+        public ObservableCollection<Playlist> Playlists { get; private set; } 
         public async void AddPlaylist(object s, object e)
         {
             await CreateNewPlaylist();

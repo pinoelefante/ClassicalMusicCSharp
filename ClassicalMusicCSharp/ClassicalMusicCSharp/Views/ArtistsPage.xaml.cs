@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.ComponentModel;
+using System.Diagnostics;
+using ClassicalMusicCSharp.Classes;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,7 +30,54 @@ namespace ClassicalMusicCSharp.Views
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Required;
+            VM.PropertyChanged += OnPropertyChanged;
         }
+        private void OnPageLoaded(object sender, RoutedEventArgs e)
+        {
+            VM.AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
+            if (!VM.AdsRemoved)
+            {
+                FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;
+                if (adsCont != null)
+                    adsCont.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                if(AdsContainer != null)
+                {
+                    AdsContainer.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("PropertyChanged: " + e.PropertyName);
+            switch (e.PropertyName)
+            {
+                case "AdsRemoved":
+                    if (VM.AdsRemoved == false) //ADS Visibile
+                    {
+                        FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;
+                        if (adsCont != null)
+                            adsCont.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        if (AdsContainer != null)
+                        {
+                            AdsContainer.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                    break;
+            }
+        }
+
         public ArtistsPageVM VM => this.DataContext as ArtistsPageVM;
+
+        private void Test(object sender, RoutedEventArgs e)
+        {
+            VM.AdsRemoved = !VM.AdsRemoved;
+        }
     }
 }

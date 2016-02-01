@@ -37,6 +37,6 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
         {
             this.Hide();
         }
-        public Func<bool> AtFinish { get; set; }
+        public Action AtFinish { get; set; }
     }
 }

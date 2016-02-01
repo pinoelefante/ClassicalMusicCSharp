@@ -29,6 +29,8 @@
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Live radio" IsEnabled="False" Frame="{x:Bind Frame}"/>
 
+        <ProgressRing Grid.Row="1" Width="100" Height="100" IsActive="{Binding IsLoading}" Visibility="{Binding IsLoading, Converter={StaticResource BoolVisibility}}"/>
+
         <GridView Grid.Row="1" ItemsSource="{x:Bind VM.RadioList}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.RadioSelected}">
             <GridView.ItemTemplate>
                 <DataTemplate>
