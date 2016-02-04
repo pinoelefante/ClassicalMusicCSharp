@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     xmlns:controls="using:Template10.Controls"
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
-    xmlns:conv="using:ClassicalMusicCSharp.Converters">
+    xmlns:conv="using:ClassicalMusicCSharp.Converters"
+    xmlns:uc="using:ClassicalMusicCSharp.Views.UserControls">
 
     <Page.DataContext>
         <vm:PlaylistViewerVM/>
@@ -38,14 +39,7 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Album}" FontSize="14"/>
-                        <TextBlock FontSize="12">
-							<Run Text="{Binding Track}"/>
-							<Run Text=" - "/>
-							<Run Text="{Binding Composer}"/>
-                        </TextBlock>
-                    </StackPanel>
+                    <uc:TrackUC />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

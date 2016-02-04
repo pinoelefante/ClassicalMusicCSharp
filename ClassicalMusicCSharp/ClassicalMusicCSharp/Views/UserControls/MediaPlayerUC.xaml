@@ -1,0 +1,75 @@
+﻿<UserControl
+    x:Class="ClassicalMusicCSharp.Views.UserControls.MediaPlayerUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassicalMusicCSharp.Views.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    xmlns:conv="using:ClassicalMusicCSharp.Converters" 
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
+    <UserControl.Resources>
+        <conv:BoolToVisibility x:Key="BoolVisibility"/>
+        <conv:NotBoolToVisibility x:Key="NotBoolVisibility"/>
+        <conv:StringVisibility x:Key="StringVisibility"/>
+    </UserControl.Resources>
+
+    <Grid BorderThickness="0,2,0,0" BorderBrush="Gray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="8">
+            <TextBlock Text="{Binding CurrentTrack.Album}" Visibility="{Binding CurrentTrack.Album, Converter={StaticResource StringVisibility}}"/>
+
+            <TextBlock FontSize="12" Visibility="{Binding CurrentTrack.Track, Converter={StaticResource StringVisibility}}">
+					<Run Text="Track: "/>
+					<Run Text="{Binding CurrentTrack.Track}"/>
+            </TextBlock>
+
+            <TextBlock FontSize="12" Visibility="{Binding CurrentTrack.Composer, Converter={StaticResource StringVisibility}}">
+					<Run Text="by"/>
+					<Run Text="{Binding CurrentTrack.Composer}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ProgressRing Grid.Column="0" Visibility="{Binding IsBuffering, Converter={StaticResource BoolVisibility}}" IsActive="{Binding IsBuffering}"/>
+
+            <Button Grid.Column="1" Click="Play" Visibility="{Binding IsPlaying, Converter={StaticResource NotBoolVisibility}}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <SymbolIcon Symbol="Play"/>
+            </Button>
+
+            <Button Grid.Column="1" Click="Pause" Visibility="{Binding IsPlaying, Converter={StaticResource BoolVisibility}}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <SymbolIcon Symbol="Pause"/>
+            </Button>
+
+            <Button Grid.Column="2" Click="Stop" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <SymbolIcon Symbol="Stop"/>
+            </Button>
+
+            <Button Grid.Column="3" Click="Prev" IsEnabled="{Binding HasPrev}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <SymbolIcon Symbol="Previous"/>
+            </Button>
+
+            <Button Grid.Column="4" Click="Next" IsEnabled="{Binding HasNext}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <SymbolIcon Symbol="Next"/>
+            </Button>
+
+            <Slider Grid.Column="5" Margin="8,0" Value="{Binding CurrentPosition}" Minimum="0" Maximum="{Binding CurrentLength}" IsEnabled="False"/>
+        </Grid>
+    </Grid>
+</UserControl>

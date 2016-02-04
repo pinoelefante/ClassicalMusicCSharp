@@ -66,7 +66,9 @@ namespace ClassicalMusicCSharp.Views
                     {
                         if (AdsContainer != null)
                         {
+                            AdsContainer.Children.Clear();
                             AdsContainer.Visibility = Visibility.Collapsed;
+                            AdsContainer = null;
                         }
                     }
                     break;
@@ -74,10 +76,5 @@ namespace ClassicalMusicCSharp.Views
         }
 
         public ArtistsPageVM VM => this.DataContext as ArtistsPageVM;
-
-        private void Test(object sender, RoutedEventArgs e)
-        {
-            VM.AdsRemoved = !VM.AdsRemoved;
-        }
     }
 }

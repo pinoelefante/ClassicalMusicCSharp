@@ -10,7 +10,7 @@
     xmlns:Universal="using:Microsoft.AdMediator.Universal"
     x:Class="ClassicalMusicCSharp.Views.PlayerPage"
     mc:Ignorable="d"
-    >
+    xmlns:uc="using:ClassicalMusicCSharp.Views.UserControls">
     <Page.Resources>
         <Converters:BoolToVisibility x:Key="BoolVisibility"/>
         <Converters:NotBoolToVisibility x:Key="NotBoolVisibility"/>
@@ -27,19 +27,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
         <controls:PageHeader BackButtonVisibility="Collapsed" Content="Player" Frame="{x:Bind Frame}"/>
 
         <ListView x:Name="_xplaylist" Grid.Row="2" ItemsSource="{x:Bind VM.Playlist.List}" ItemClick="{x:Bind VM.ItemClicked}" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel RightTapped="PlaylistItemMenu">
-                        <TextBlock Text="{Binding Album}" FontSize="14"/>
-                        <TextBlock FontSize="12">
-							<Run Text="{Binding Track}"/>
-							<Run Text=" - "/>
-							<Run Text="{Binding Composer}"/>
-                        </TextBlock>
-                    </StackPanel>
+                    <uc:TrackUC RightTapped="PlaylistItemMenu"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

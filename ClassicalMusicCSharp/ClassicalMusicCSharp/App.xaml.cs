@@ -12,6 +12,7 @@ using Template10.Services.SerializationService;
 using Windows.ApplicationModel.Store;
 using Windows.Storage;
 using Windows.ApplicationModel;
+using ClassicalMusicCSharp.Classes;
 
 namespace ClassicalMusicCSharp
 {

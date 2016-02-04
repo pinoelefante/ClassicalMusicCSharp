@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="ClassicalMusicCSharp.Views.UserControls.TrackUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassicalMusicCSharp.Views.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid Padding="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Ellipse Grid.Column="0" Width="50" Height="50">
+            <Ellipse.Fill>
+                <ImageBrush x:Name="Image"/>
+            </Ellipse.Fill>
+        </Ellipse>
+        <StackPanel Grid.Column="1" Margin="8,0" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Album}" FontSize="14"/>
+            <TextBlock FontSize="12">
+                <Run Text="{Binding Track}"/>
+			    <Run Text=" - "/>
+			    <Run x:Name="ComposerName" Text="{Binding Composer}"/>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

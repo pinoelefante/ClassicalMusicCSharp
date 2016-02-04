@@ -35,14 +35,14 @@ namespace ClassicalMusicCSharp.Classes
             //RELEASE
             licenseInfo = CurrentApp.LicenseInformation;
 #endif
-            foreach (var item in licenseInfo.ProductLicenses)
-            {
-                Debug.WriteLine(item.Key + "=" + item.Value);
-            }
         }
         public bool IsProductActive(string code)
         {
             return licenseInfo.ProductLicenses[code].IsActive;
+        }
+        public void LoadInfoFromStore()
+        {
+            
         }
         public async Task<bool> RequestProductPurchase(string code, bool error_return = false)
         {
