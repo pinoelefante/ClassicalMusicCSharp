@@ -1,9 +1,14 @@
+using ClassicalMusicCSharp.Classes;
+using ClassicalMusicCSharp.Views.ContentDialogs;
+using System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using System.ComponentModel;
-using Template10.Common;
+using System.Diagnostics;
 using Template10.Controls;
 using Template10.Services.NavigationService;
+using Template10.Common;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 
 namespace ClassicalMusicCSharp.Views
 {
@@ -39,6 +44,58 @@ namespace ClassicalMusicCSharp.Views
                 Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(IsBusy)));
                 Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(BusyText)));
             });
+        }
+        private void OnPageLoaded(object sender, RoutedEventArgs e)
+        {
+            AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
+            if (!AdsRemoved)
+            {
+                FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;
+                if (adsCont != null)
+                    adsCont.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                if (AdsContainer != null)
+                {
+                    AdsContainer.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+        private bool _adsRemoved = false;
+        public bool AdsRemoved
+        {
+            get
+            {
+                return _adsRemoved;
+            }
+            set
+            {
+                _adsRemoved = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdsRemoved)));
+            }
+        }
+        private void CloseAds()
+        {
+            if (AdsContainer != null)
+            {
+                AdsContainer.Children.Clear();
+                AdsContainer.Visibility = Visibility.Collapsed;
+                AdsContainer = null;
+            }
+        }
+        public async void RemoveAds(object sender, object ev)
+        {
+            BuyRemoveAdsContentDialog dlg = new BuyRemoveAdsContentDialog();
+            dlg.AtFinish = () =>
+            {
+                Debug.WriteLine("Running AtFinish");
+                AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
+                if (AdsRemoved)
+                    CloseAds();
+                Debug.WriteLine("AdsRemoved value = " + AdsRemoved);
+            };
+            await dlg.ShowAsync();
         }
     }
 }

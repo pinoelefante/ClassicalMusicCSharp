@@ -75,29 +75,6 @@ namespace ClassicalMusicCSharp.ViewModels
                 NavigationService.Navigate(typeof(OperePage), parameters);
             }
         }
-        private bool _adsRemoved = false;
-        public bool AdsRemoved
-        {
-            get
-            {
-                return _adsRemoved;
-            }
-            set
-            {
-                Set<bool>(ref _adsRemoved, value);
-            }
-        }
-        public async void RemoveAds(object sender, object ev)
-        {
-            BuyRemoveAdsContentDialog dlg = new BuyRemoveAdsContentDialog();
-            dlg.AtFinish = () =>
-            {
-                Debug.WriteLine("Running AtFinish");
-                AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
-                Debug.WriteLine("AdsRemoved value = " + AdsRemoved);
-            };
-            await dlg.ShowAsync();
-        }
         private bool _loaded;
         public bool IsLoaded
         {

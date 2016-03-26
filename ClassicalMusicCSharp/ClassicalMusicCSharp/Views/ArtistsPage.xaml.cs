@@ -30,25 +30,8 @@ namespace ClassicalMusicCSharp.Views
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Required;
-            VM.PropertyChanged += OnPropertyChanged;
         }
-        private void OnPageLoaded(object sender, RoutedEventArgs e)
-        {
-            VM.AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
-            if (!VM.AdsRemoved)
-            {
-                FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;
-                if (adsCont != null)
-                    adsCont.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                if(AdsContainer != null)
-                {
-                    AdsContainer.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
+        /*
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -74,7 +57,7 @@ namespace ClassicalMusicCSharp.Views
                     break;
             }
         }
-
+        */
         public ArtistsPageVM VM => this.DataContext as ArtistsPageVM;
     }
 }
