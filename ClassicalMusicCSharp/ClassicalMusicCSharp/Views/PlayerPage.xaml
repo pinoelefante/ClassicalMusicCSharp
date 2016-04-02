@@ -65,7 +65,9 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <ProgressRing Grid.Column="0" Visibility="{Binding IsBuffering, Converter={StaticResource BoolVisibility}}" IsActive="{Binding IsBuffering}"/>
@@ -89,8 +91,9 @@
                 <Button Grid.Column="4" Click="{x:Bind VM.Next}" IsEnabled="{Binding HasNext}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <SymbolIcon Symbol="Next"/>
                 </Button>
-
-                <Slider Grid.Column="5" Margin="8,0" Value="{Binding CurrentPosition}" Minimum="0" Maximum="{Binding CurrentLength}" IsEnabled="False"/>
+                <TextBlock Grid.Column="5" Text="{Binding CurrTimeString}" VerticalAlignment="Center" Margin="4,0"/>
+                <Slider Grid.Column="6" Margin="8,0" Value="{Binding CurrentPosition}" Minimum="0" Maximum="{Binding CurrentLength}" IsEnabled="False" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="7" Text="{Binding CurrLengthString}" VerticalAlignment="Center" Margin="4,0"/>
             </Grid>
         </Grid>
         <CommandBar Grid.Row="4">

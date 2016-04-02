@@ -29,7 +29,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader Grid.Row="0" Content="{Binding Playlist.Name}" BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}"/>
+        <controls:PageHeader Grid.Row="0" Content="{Binding Playlist.Name}" BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}">
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Icon="Bullets" Label="Change selection mode" Click="{x:Bind VM.ChangeSelectionMode}"/>
+            </controls:PageHeader.PrimaryCommands>
+        </controls:PageHeader>
 
         <ListView x:Name="listPlaylist" SelectionMode="{Binding IsMultipleSelection, Converter={StaticResource BoolSelection}}" Grid.Row="2" ItemsSource="{Binding Playlist.List}" AllowDrop="True" CanReorderItems="True" ReorderMode="Enabled" ItemClick="{x:Bind VM.PlayTrack}" IsItemClickEnabled="True">
             <ListView.ItemContainerStyle>
@@ -50,7 +54,8 @@
                 <AppBarButton Icon="Save" Label="Save" Click="{x:Bind VM.SavePlaylist}"/>
                 <AppBarButton Icon="Delete" Label="Delete playlist" Click="{x:Bind VM.DeletePlaylist}" Visibility="{Binding IsMultipleSelection, Converter={StaticResource NotBoolVisibility}}"/>
                 <AppBarButton Icon="Delete" Label="Delete selection" Click="DeleteSelection" Visibility="{Binding IsMultipleSelection, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Icon="Bullets" Label="Change selection mode" Click="{x:Bind VM.ChangeSelectionMode}"/>
+                <AppBarButton Icon="Download" Label="Download tracks" Click="Download" Visibility="{Binding IsMultipleSelection, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Icon="Download" Label="Download playlist" Click="{x:Bind VM.DownloadAll}" Visibility="{Binding IsMultipleSelection, Converter={StaticResource NotBoolVisibility}}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Grid>

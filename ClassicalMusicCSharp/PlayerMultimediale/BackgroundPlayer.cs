@@ -329,14 +329,23 @@ namespace PlayerMultimediale
             DefaultLiveTile();
             Stopped = true;
         }
-        private void PlayTrack(Track t, bool radio = false)
+        private async void PlayTrack(Track t, bool radio = false)
         {
             IsRadioPlay = radio;
             RadioTrack = t;
-
-            player.SetUriSource(new Uri(t.Link));
+            if(await FileManager.FileExists(t.Composer, t.Album, t.Link))
+            {
+                var path = await FileManager.GetPath(t.Composer, t.Album, t.Link);
+                StorageFile fileOff = await StorageFile.GetFileFromPathAsync(path);
+                BackgroundMediaPlayer.Current.SetFileSource(fileOff);
+                Debug.WriteLine("Play offline");
+            }
+            else
+            {
+                player.SetUriSource(new Uri(t.Link));
+            }
             player.Play();
-            UpdateAudioController(radio?t:null);
+            UpdateAudioController(radio ? t : null);
             SetLiveTile(t);
             Stopped = false;
             BackgroundMediaPlayer.SendMessageToForeground(new ValueSet()

@@ -45,6 +45,13 @@
                             </StackPanel>
                         </Controls:HamburgerButtonInfo>
 
+                        <Controls:HamburgerButtonInfo ClearHistory="False" PageType="views:DownloadPage">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Width="48" Height="48" Symbol="Download" />
+                                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Download" />
+                            </StackPanel>
+                        </Controls:HamburgerButtonInfo>
+                        
                         <Controls:HamburgerButtonInfo ClearHistory="False" PageType="views:PlayerPage">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Width="48" Height="48" Symbol="Play" />

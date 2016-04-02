@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="ClassicalMusicCSharp.Views.DownloadPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassicalMusicCSharp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
+    xmlns:Converters="using:ClassicalMusicCSharp.Converters">
+
+    <Page.DataContext>
+        <vm:DownloadPageVM/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <Converters:ComposerImage x:Key="ComposerImage"/>
+        <Converters:BoolToVisibility x:Key="BoolVisibility"/>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- page header-->
+            <RowDefinition Height="Auto"/> <!-- messaggio nessun download -->
+            <RowDefinition /> <!-- corpo pagina -->
+        </Grid.RowDefinitions>
+
+        <controls:PageHeader BackButtonVisibility="Collapsed" Text="Downloads" Frame="{x:Bind Frame}"/>
+
+        <TextBlock Grid.Row="1" Text="Queue is empty" HorizontalAlignment="Center" Margin="16" Visibility="{Binding IsEmpty, Converter={StaticResource BoolVisibility}}"/>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding DownloadList}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Ellipse Grid.Column="0" Width="50" Height="50" VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ComposerName, Converter={StaticResource ComposerImage}}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <StackPanel Grid.Column="1" Margin="8,0" Orientation="Vertical">
+                            <TextBlock Text="{Binding OperaName}"/>
+                            <TextBlock Text="{Binding TrackName}"/>
+                            <TextBlock Text="{Binding ProgressText}"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

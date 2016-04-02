@@ -1,4 +1,5 @@
-﻿using ClassicalMusicCSharp.Classes.Playlist;
+﻿using ClassicalMusicCSharp.Classes.FileManager;
+using ClassicalMusicCSharp.Classes.Playlist;
 using ClassicalMusicCSharp.OneClassical;
 using ClassicalMusicCSharp.Views.ContentDialogs;
 using Newtonsoft.Json.Linq;
@@ -25,7 +26,7 @@ namespace ClassicalMusicCSharp.ViewModels
             string catName = string.Empty;
             string opName = parameters["Opera"].ToString();
             
-            Compositore composer = OneClassicalHub.Instance.GetComposerByName(_composer);
+            composer = OneClassicalHub.Instance.GetComposerByName(_composer);
 
             if (parameters.ContainsKey("Category"))
             {
@@ -38,6 +39,7 @@ namespace ClassicalMusicCSharp.ViewModels
             IsSingleMode = true;
             return Task.CompletedTask;
         }
+        private Compositore composer;
         private string _composer;
         private Opera _opera;
         public Opera Opera
@@ -142,5 +144,22 @@ namespace ClassicalMusicCSharp.ViewModels
             IsSingleMode = true;
         }
         public ObservableCollection<Playlist> Playlists { get; } = PlaylistManager.Instance.Playlists;
+        public async void Download(List<Traccia> tracks)
+        {
+            foreach (var item in tracks)
+            {
+                DownloadManager.Instance.DownloadTrack(new Models.DownloadItem()
+                {
+                    ComposerName = composer.Nome,
+                    OperaName = _opera.Nome,
+                    TrackName = item.Titolo,
+                    Url = item.Link
+                });
+            }
+        }
+        public void DownloadAll(object sender, object e)
+        {
+            Download(Opera.Tracce);
+        }
     }
 }

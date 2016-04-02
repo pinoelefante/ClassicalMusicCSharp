@@ -236,17 +236,22 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\FileManager\DownloadManager.cs" />
     <Compile Include="Classes\Grouping\AlphaGrouping.cs" />
     <Compile Include="Classes\IAPManager.cs" />
     <Compile Include="Classes\Playlist\PlaylistManager.cs" />
     <Compile Include="Classes\Radio\RadioManager.cs" />
+    <Compile Include="Classes\SettingsManager.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
+    <Compile Include="Converters\ComposerImage.cs" />
+    <Compile Include="Converters\IntVisibility.cs" />
     <Compile Include="Converters\NotBoolean.cs" />
     <Compile Include="Converters\NotBoolToSelectionMode.cs" />
     <Compile Include="Converters\NotBoolToVisibility.cs" />
     <Compile Include="Converters\StringToUri.cs" />
     <Compile Include="Converters\StringVisibility.cs" />
+    <Compile Include="Models\DownloadItem.cs" />
     <Compile Include="Models\PlaylistWrapper.cs" />
     <Compile Include="Models\RadioWrapper.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
@@ -261,6 +266,7 @@
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
     <Compile Include="ViewModels\ArtistsPageVM.cs" />
     <Compile Include="ViewModels\CategoriePageVM.cs" />
+    <Compile Include="ViewModels\DownloadPageVM.cs" />
     <Compile Include="ViewModels\InfoPageVM.cs" />
     <Compile Include="ViewModels\OperaPageVM.cs" />
     <Compile Include="ViewModels\OperePageVM.cs" />
@@ -291,6 +297,9 @@
     </Compile>
     <Compile Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml.cs">
       <DependentUpon>PlaylistChoiserContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DownloadPage.xaml.cs">
+      <DependentUpon>DownloadPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InfoPage.xaml.cs">
       <DependentUpon>InfoPage.xaml</DependentUpon>
@@ -379,6 +388,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DownloadPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -34,8 +34,6 @@
             -->
         </controls:PageHeader>
 
-        
-
         <ProgressRing Grid.Row="2" Width="100" Height="100" IsActive="{Binding IsLoaded, Converter={StaticResource NotBool}}" Visibility="{Binding IsLoaded, Converter={StaticResource NotBoolVisibility}}"/>
 
         <SemanticZoom Grid.Row="2">

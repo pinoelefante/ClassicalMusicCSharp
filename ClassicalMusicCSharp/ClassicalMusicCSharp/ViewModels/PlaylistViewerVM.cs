@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Template10.Services.NavigationService;
 using ClassicalMusicCSharp.Views.ContentDialogs;
+using ClassicalMusicCSharp.Classes.FileManager;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -97,6 +98,23 @@ namespace ClassicalMusicCSharp.ViewModels
         public void ChangeSelectionMode(object s, object e)
         {
             IsMultipleSelection = !_multipleSel;
+        }
+        public async void Download(List<PlaylistTrack> tracks)
+        {
+            foreach (var item in tracks)
+            {
+                DownloadManager.Instance.DownloadTrack(new Models.DownloadItem()
+                {
+                    ComposerName = item.Album,
+                    OperaName = item.Album,
+                    TrackName = item.Track,
+                    Url = item.Link
+                });
+            }
+        }
+        public void DownloadAll(object sender, object e)
+        {
+            Download(Playlist.List.ToList());
         }
     }
 }

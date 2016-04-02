@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using ClassicalMusicCSharp.Classes.Playlist;
 using ClassicalMusicCSharp.Classes;
 using ClassicalMusicCSharp.Views.ContentDialogs;
+using ClassicalMusicCSharp.Classes.FileManager;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -76,6 +77,8 @@ namespace ClassicalMusicCSharp.ViewModels
                         var length = (int)e.Data["Length"] < 1 ? 1 : (int)e.Data["Length"];
                         CurrentLength = length;
                         CurrentPosition = (int)e.Data["Position"];
+                        CurrLengthString = TimeSpan.FromSeconds(CurrentLength).ToString();
+                        CurrTimeString = TimeSpan.FromSeconds(CurrentPosition).ToString();
                         Debug.WriteLine($"Positions {CurrentPosition}/{CurrentLength}");
                         break;
                     case "AddTrack":
@@ -126,6 +129,29 @@ namespace ClassicalMusicCSharp.ViewModels
         private bool _hasNext, _hasPrev, _hasTracks, _playing,_buffering, _radioPlaying;
         private int _curIndex;
         private int _curPos, _curLength;
+        private string curTime = string.Empty, curLengthS = string.Empty;
+        public string CurrTimeString
+        {
+            get
+            {
+                return curTime;
+            }
+            set
+            {
+                Set(ref curTime, value);
+            }
+        }
+        public string CurrLengthString
+        {
+            get
+            {
+                return curLengthS;
+            }
+            set
+            {
+                Set(ref curLengthS, value);
+            }
+        }
         public bool HasNext
         {
             get
@@ -282,7 +308,7 @@ namespace ClassicalMusicCSharp.ViewModels
                 { "Title", track.Titolo },
                 { "Composer", composer },
                 { "Album", opera },
-                { "Link", track.Link }
+                { "Link",  track.Link }
             });
         }
         public static void PlayTrack(PlaylistTrack track)
@@ -299,9 +325,9 @@ namespace ClassicalMusicCSharp.ViewModels
         public static void AddTracks(List<Traccia> l, string composer, string opera, bool play = false)
         {
             ValueSet vs = new ValueSet();
-            vs.Add("Command", play==false?"AddTracks":"PlayAlbum");
+            vs.Add("Command", play == false ? "AddTracks" : "PlayAlbum");
             vs.Add("Count", l.Count);
-            for(int i = 0; i < l.Count; i++)
+            for (int i = 0; i < l.Count; i++)
             {
                 Traccia t = l[i];
                 vs.Add($"Track{i}_Title", t.Titolo);

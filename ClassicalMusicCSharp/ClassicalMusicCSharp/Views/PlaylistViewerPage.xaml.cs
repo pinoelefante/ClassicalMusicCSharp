@@ -44,5 +44,14 @@ namespace ClassicalMusicCSharp.Views
                 await dlg.ShowAsync();
             }
         }
+
+        private void Download(object sender, RoutedEventArgs e)
+        {
+            if (listPlaylist.SelectedItems.Count > 0)
+            {
+                List<PlaylistTrack> tracks = listPlaylist.SelectedItems.Cast<PlaylistTrack>().ToList();
+                VM.Download(tracks);
+            }
+        }
     }
 }

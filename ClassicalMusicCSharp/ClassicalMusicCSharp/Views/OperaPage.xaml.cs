@@ -105,5 +105,10 @@ namespace ClassicalMusicCSharp.Views
         {
             SemanticZoomControl.IsZoomedInViewActive = true;
         }
+
+        private void Download(object sender, RoutedEventArgs e)
+        {
+            VM.Download(lista.SelectedItems.Cast<Traccia>().ToList());
+        }
     }
 }

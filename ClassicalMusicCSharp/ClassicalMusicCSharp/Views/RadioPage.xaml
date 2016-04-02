@@ -34,17 +34,13 @@
         <GridView Grid.Row="1" ItemsSource="{x:Bind VM.RadioList}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.RadioSelected}">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="16" HorizontalAlignment="Center">
+                    <Grid Margin="16" HorizontalAlignment="Center" MaxWidth="120">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Ellipse Grid.Row="0" Height="150">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding image, Converter={StaticResource StringUri}}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Grid.Row="1" Text="{Binding title}"/>
+                        <Image Grid.Row="0" Source="{Binding image, Converter={StaticResource StringUri}}" Height="80"/>
+                        <TextBlock Grid.Row="1" Text="{Binding title}" Margin="0,8" TextWrapping="Wrap"/>
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>

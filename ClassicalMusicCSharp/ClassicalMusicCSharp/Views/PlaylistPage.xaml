@@ -13,6 +13,7 @@
     <Page.Resources>
         <Converters:BoolToVisibility x:Key="BoolToVisibility"/>
         <Converters:BoolToSelectionMode x:Key="BoolToSelectionMode"/>
+        <Converters:IntVisibility x:Key="IntVisibility"/>
     </Page.Resources>
 
 
@@ -28,7 +29,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Playlists" Frame="{x:Bind Frame}"/>
+        <controls:PageHeader BackButtonVisibility="Collapsed" Content="Playlists" Frame="{x:Bind Frame}">
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Label="Change selection" Icon="Bullets" Click="{x:Bind VM.ChangeSelectionMode}"/>
+            </controls:PageHeader.PrimaryCommands>
+        </controls:PageHeader>
 
         <ProgressRing Grid.Row="1" Width="100" Height="100" IsActive="{Binding IsLoading}" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}"/>
 
@@ -40,10 +45,12 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Audio"/>
+                        <TextBlock Text="{Binding Name}" Margin="8" />
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
 
         <Button Grid.Row="2" Click="{x:Bind VM.AddPlaylist}" HorizontalAlignment="Stretch" Height="60" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -56,7 +63,6 @@
         <CommandBar Grid.Row="3">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="Delete" Icon="Delete" Click="DeleteSelection" Visibility="{Binding IsMultipleSelection, Converter={StaticResource BoolToVisibility}}"/>
-                <AppBarButton Label="Change selection" Icon="Bullets" Click="{x:Bind VM.ChangeSelectionMode}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
