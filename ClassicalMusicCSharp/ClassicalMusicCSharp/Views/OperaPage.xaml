@@ -30,8 +30,8 @@
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" Content="{Binding Opera.Nome}">
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton Label="Multiple selection" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
-                <AppBarButton Label="Single selection" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
+                <AppBarButton Icon="Bullets" Label="Multiple selection" Click="{x:Bind VM.SelezioneMultipla}" Visibility="{Binding IsSingleMode, Converter={StaticResource BoolVisibility}}"/>
+                <AppBarButton Icon="Bullets" Label="Single selection" Click="{x:Bind VM.SelezioneSingola}" Visibility="{Binding IsSingleMode, Converter={StaticResource NotBoolVisibility}}"/>
             </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
 
