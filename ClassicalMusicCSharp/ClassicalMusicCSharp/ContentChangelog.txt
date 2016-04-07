@@ -1,0 +1,24 @@
+﻿Version 1.4.1:
+Added web radio:
+	BR Klassik
+	Classical 89.7 KCNV
+	Classical 91.7
+	Classical 96.3 FM
+	Classical Wyoming
+	KCFR 
+	Radio Mozart
+	Radio Swiss Classic
+	Reno Public Radio - KUNR
+	Venice Classic Radio
+	WCRB 99,5
+	WEMC
+	WMNR
+	WNIU
+	WRTI Classical
+
+Added composers:
+
+Update composers:
+	Beethoven
+		ADDED category "Bagatelle"
+		ADDED Bagatelle for piano 'For Elise' in A minore WoO 59

@@ -854,6 +854,20 @@
     "nome": "Beethoven",
     "categorie": [
       {
+        "categoria": "Bagatelle",
+        "opere": [
+          {
+            "opera": "Bagatelle for piano 'For Elise' in A minore WoO 59",
+            "tracce": [
+              {
+                "titolo": "Fur Elise",
+                "link": "http://classic-online.ru/uploads/185100/185045.mp3"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "categoria": "Chamber music for strings",
         "link": "composer.php?composer=Beethoven - Chamber music for strings",
         "opere": [

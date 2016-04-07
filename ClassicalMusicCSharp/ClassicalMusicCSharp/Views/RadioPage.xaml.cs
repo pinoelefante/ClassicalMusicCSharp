@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static ClassicalMusicCSharp.Models.RadioWrapper;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,5 +29,11 @@ namespace ClassicalMusicCSharp.Views
             this.InitializeComponent();
         }
         public RadioVM VM => this.DataContext as RadioVM;
+
+        private void ReportBroken(object sender, RoutedEventArgs e)
+        {
+            Radio radio = (sender as FrameworkElement).DataContext as Radio;
+            VM.SegnalaRadioBroken(radio.title);
+        }
     }
 }

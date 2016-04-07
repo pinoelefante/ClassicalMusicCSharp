@@ -237,6 +237,7 @@
     <Content Include="Assets\Square71.scale-200.png" />
     <Content Include="Assets\Store.scale-200.png" />
     <Content Include="Assets\Wide.scale-200.png" />
+    <Content Include="ContentChangelog.txt" />
     <Content Include="stop.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

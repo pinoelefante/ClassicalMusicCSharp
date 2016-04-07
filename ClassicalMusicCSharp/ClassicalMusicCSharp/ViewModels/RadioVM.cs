@@ -11,6 +11,7 @@ using Windows.Media.Playback;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
+using Windows.System;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -81,6 +82,14 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 { "Command","Stop" }
             });
+        }
+        public async void SegnalaRadio(object s, object e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("mailto:pinoelefante@hotmail.it?Subject=Classical Music in C# New Radio&body=Name:\nLink:\n"));
+        }
+        public async void SegnalaRadioBroken(string radioName)
+        {
+            await Launcher.LaunchUriAsync(new Uri($"mailto:pinoelefante@hotmail.it?Subject=Classical Music in C# Radio Broken&body={radioName} is not working"));
         }
         private void MessageReceived(object sender, MediaPlayerDataReceivedEventArgs e)
         {

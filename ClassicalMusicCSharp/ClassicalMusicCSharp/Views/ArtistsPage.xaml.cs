@@ -31,33 +31,28 @@ namespace ClassicalMusicCSharp.Views
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
-        /*
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Debug.WriteLine("PropertyChanged: " + e.PropertyName);
-            switch (e.PropertyName)
-            {
-                case "AdsRemoved":
-                    if (VM.AdsRemoved == false) //ADS Visibile
-                    {
-                        FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;
-                        if (adsCont != null)
-                            adsCont.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        if (AdsContainer != null)
-                        {
-                            AdsContainer.Children.Clear();
-                            AdsContainer.Visibility = Visibility.Collapsed;
-                            AdsContainer = null;
-                        }
-                    }
-                    break;
-            }
-        }
-        */
+        
         public ArtistsPageVM VM => this.DataContext as ArtistsPageVM;
+
+        private void Test(object sender, RoutedEventArgs e)
+        {
+            /*
+            using (var vorbis = new NVorbis.VorbisReader(@"C:\PATH\TO\OGG\FILE.ogg"))
+            {
+                int channels = vorbis.Channels;
+                int sampleRate = vorbis.SampleRate;
+                var duration = vorbis.TotalTime;
+                
+                var buffer = new float[16384];
+                int count;
+                while ((count = vorbis.ReadSamples(buffer, 0, buffer.Length)) > 0)
+                {
+                    // Do stuff with the samples returned...
+                    // Sample value range is -0.99999994f to 0.99999994f
+                    // Samples are interleaved (chan0, chan1, chan0, chan1, etc.)
+                }
+            }
+            */
+        }
     }
 }
