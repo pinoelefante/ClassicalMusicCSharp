@@ -86,7 +86,7 @@
 
         <Grid Grid.Row="1" Visibility="Collapsed" x:DeferLoadStrategy="Lazy" x:Name="AdsContainer">
             <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_D58149" Height="80" Id="AdMediator-Id-39AD79B3-C64B-463B-B0D1-B8F0E2249B77" Width="480" Canvas.ZIndex="0"/>
-            <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Gray" Opacity=".5" Canvas.ZIndex="1" Click="RemoveAds"/>
+            <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Gray" Canvas.ZIndex="1" Click="RemoveAds"/>
         </Grid>
     </Grid>
 </Page>

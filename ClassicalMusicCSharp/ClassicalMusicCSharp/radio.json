@@ -1,23 +1,106 @@
 {
-	"radio":
-	[
-		{
-			"title": "1.FM - Otto's Baroque Music",
-			"descr": "1.FM's Otto's Baroque Musick is bringing to you the sounds of the baroque era (ca. 1600-1750) for your listening pleasure. You will hear music by some of the greatest composers ever, like JS Bach, Handel, Scarlatti or Telemann. So called minor composers like Geminiani or Sammartini, among others, are well represented and almost all performances are historically informed and/or played on authentic instruments.",
-			"link" : "http:\/\/strm112.1.fm\/baroque_mobile_mp3",
-			"image": "ms-appx:\/\/\/Assets\/radio\/1fm.png"
-		},
-		{
-			"title": "1.FM - Otto's Opera House",
-			"descr": "Listen to over 1000 complete and uninterrupted operas from the baroque era to modern days performances. You will be dazzled by the greatest singers and composers. A great collection of operatic music!",
-			"link" : "http:\/\/sc-opera-128kmp3.1.fm\/;096235807904691stream.nsv",
-			"image": "ms-appx:\/\/\/Assets\/radio\/1fm.png"
-		},
-		{
-			"title": "Classical 91.7",
-			"descr": "",
-			"link" : "http:\/\/stream1.houstonpublicmedia.org\/hpm_classical_mp3",
-			"image": "ms-appx:\/\/\/Assets\/radio\/HPM.png"
-		}
-	]
+  "radio": [
+    {
+      "title": "1.FM - Otto's Baroque Music",
+      "descr": "https://www.1.fm",
+      "link": "http://strm112.1.fm/baroque_mobile_mp3",
+      "image": "ms-appx:///Assets/radio/1fm.png"
+    },
+    {
+      "title": "1.FM - Otto's Opera House",
+      "descr": "https://www.1.fm",
+      "link": "http://sc-opera-128kmp3.1.fm/;096235807904691stream.nsv",
+      "image": "ms-appx:///Assets/radio/1fm.png"
+    },
+    {
+      "title": "BR Klassik",
+      "descr": "https://www.br-klassik.de",
+      "link": "http://br-mp3-br-klassik-m.akacast.akamaistream.net/7/120/142693/v1/gnl.akacast.akamaistream.net/br_mp3_br-klassik_m",
+      "image": "ms-appx:///Assets/radio/br_klassik.png"
+    },
+    {
+      "title": "Classical 89.7 KCNV",
+      "descr": "http://knpr.org/classical-897-kcnv",
+      "link": "http://knpraudio.org:8002/;stream.nsv",
+      "image": "ms-appx:///Assets/radio/kcnv.png"
+    },
+    {
+      "title": "Classical 91.7",
+      "descr": "https://www.houstonpublicmedia.org/classical/",
+      "link": "http://stream1.houstonpublicmedia.org/hpm_classical_mp3",
+      "image": "ms-appx:///Assets/radio/HPM.png"
+    },
+    {
+      "title": "Classical 96.3 FM",
+      "descr": "http://www.classical963fm.com/player/",
+      "link": "http://zoomcast.vs.hc1.ca/cfmz.mp3",
+      "image": "ms-appx:///Assets/radio/classical_963.png"
+    },
+    {
+      "title": "Classical Wyoming",
+      "descr": "http://wyomingpublicmedia.org/",
+      "link": "http://wprhqstream3.uwyo.edu:8000/kuwy128.mp3",
+      "image": "ms-appx:///Assets/radio/wyoming.png"
+    },
+    {
+      "title": "KCFR",
+      "descr": "https://www.cpr.org/listen/streaming",
+      "link": "http://stream2.cprnetwork.org:8000/cpr2_lo",
+      "image": "ms-appx:///Assets/radio/kcfr.png"
+    },
+    {
+      "title": "Radio Mozart",
+      "descr": "http://www.radiomozart.net/Pages/default.aspx",
+      "link": "http://streaming.radionomy.com/Radio-Mozart",
+      "image": "ms-appx:///Assets/radio/radio_mozart.png"
+    },
+    {
+      "title": "Radio Swiss Classic",
+      "descr": "http://www.radioswissclassic.ch",
+      "link": "http://stream.srg-ssr.ch/m/rsc_it/mp3_128",
+      "image": "ms-appx:///Assets/radio/radioswissclassic.png"
+    },
+    {
+      "title": "Reno Public Radio - KUNR",
+      "descr": "http://kunr.org/",
+      "link": "http://108.178.13.122:8164/stream",
+      "image": "ms-appx:///Assets/radio/kunr.jpg"
+    },
+    {
+      "title": "Venice Classic Radio",
+      "descr": "http://www.veniceclassicradio.eu/",
+      "link": "http://109.123.116.202:8022/;stream.nsv",
+      "image": "ms-appx:///Assets/radio/venice_classical.png"
+    },
+    {
+      "title": "WCRB 99.5",
+      "descr": "http://www.wgbh.org",
+      "link": "http://audio.wgbh.org:8004",
+      "image": "ms-appx:///Assets/radio/wcrb.jpg"
+    },
+    {
+      "title": "WEMC",
+      "descr": "http://wmra.org/",
+      "link": "http://media.wmra.org:8000/wemc",
+      "image": "ms-appx:///Assets/radio/wemc.png"
+    },
+    {
+      "title": "WMNR",
+      "descr": "http://www.wmnr.org/",
+      "link": "http://war.str3am.com:7320/",
+      "image": "ms-appx:///Assets/radio/wmnr.png"
+    },
+    {
+      "title": "WNIU",
+      "descr": "http://northernpublicradio.org/",
+      "link": "http://peace.str3am.com:6840/live-128k.mp3",
+      "image": "ms-appx:///Assets/radio/wniu.png"
+    },
+    {
+      "title": "WRTI Classical",
+      "descr": "http://wrti.org",
+      "link": "http://pubint.ic.llnwd.net/stream/pubint_wrti",
+      "image": "ms-appx:///Assets/radio/wrti.png"
+    }
+  ]
 }
