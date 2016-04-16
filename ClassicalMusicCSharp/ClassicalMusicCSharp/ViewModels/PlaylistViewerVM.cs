@@ -105,7 +105,7 @@ namespace ClassicalMusicCSharp.ViewModels
             {
                 DownloadManager.Instance.DownloadTrack(new Models.DownloadItem()
                 {
-                    ComposerName = item.Album,
+                    ComposerName = item.Composer,
                     OperaName = item.Album,
                     TrackName = item.Track,
                     Url = item.Link
