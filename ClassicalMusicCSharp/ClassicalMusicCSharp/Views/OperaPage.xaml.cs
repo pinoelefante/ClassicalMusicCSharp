@@ -66,7 +66,7 @@ namespace ClassicalMusicCSharp.Views
             }
             else
             {
-                //TODO Show error
+                Shell.Instance.ShowMessagePopup($"Playlist not created", true);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using ClassicalMusicCSharp.Classes.FileManager;
 using ClassicalMusicCSharp.Classes.Playlist;
 using ClassicalMusicCSharp.OneClassical;
+using ClassicalMusicCSharp.Views;
 using ClassicalMusicCSharp.Views.ContentDialogs;
 using Newtonsoft.Json.Linq;
 using System;
@@ -63,6 +64,7 @@ namespace ClassicalMusicCSharp.ViewModels
                 return;
 
             PlayerPageVM.PlayTrack(track, _composer, Opera.Nome);
+            Shell.Instance.ShowMessagePopup($"Playing {track.Titolo}");
         }
         private bool _isSingleMode;
         public bool IsSingleMode
@@ -79,12 +81,16 @@ namespace ClassicalMusicCSharp.ViewModels
         public void PlayAll(object sender, object e)
         {
             PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome, true);
+            Shell.Instance.ShowMessagePopup($"Playing {Opera.Nome}");
         }
 
         public void PlaySelected(List<Traccia> sel)
         {
-            if(sel.Count > 0)
+            if (sel.Count > 0)
+            {
                 PlayerPageVM.AddTracks(sel, _composer, Opera.Nome, true);
+                Shell.Instance.ShowMessagePopup($"Playing selected tracks from {Opera.Nome}");
+            }
         }
 
         public void PlaylistAll(Playlist list)
@@ -92,6 +98,7 @@ namespace ClassicalMusicCSharp.ViewModels
             if (list == PlaylistManager.Instance.GetPlayingNowPlaylist())
             {
                 PlayerPageVM.AddTracks(Opera.Tracce, _composer, Opera.Nome);
+                Shell.Instance.ShowMessagePopup($"Added to Now Playing");
             }
             else
             {
@@ -108,6 +115,7 @@ namespace ClassicalMusicCSharp.ViewModels
                     listAdd.Add(track);
                 }
                 PlaylistManager.Instance.AddTrackToPlaylist(listAdd, list, true);
+                Shell.Instance.ShowMessagePopup($"Added to {list.Name}");
             }
         }
         public void PlaylistSelected(List<Traccia> tracks, Playlist playlist)
@@ -118,6 +126,7 @@ namespace ClassicalMusicCSharp.ViewModels
             if (playlist == PlaylistManager.Instance.GetPlayingNowPlaylist())
             {
                 PlayerPageVM.AddTracks(tracks, _composer, Opera.Nome);
+                Shell.Instance.ShowMessagePopup($"Added to Now Playing");
             }
             else
             {
@@ -132,6 +141,7 @@ namespace ClassicalMusicCSharp.ViewModels
                     };
                     PlaylistManager.Instance.AddTrackToPlaylist(track, playlist, false);
                 }
+                Shell.Instance.ShowMessagePopup($"Added to {playlist.Name}");
                 playlist.SaveJson();
             }
         }

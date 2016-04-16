@@ -18,6 +18,7 @@ using ClassicalMusicCSharp.Classes.Playlist;
 using ClassicalMusicCSharp.Classes;
 using ClassicalMusicCSharp.Views.ContentDialogs;
 using ClassicalMusicCSharp.Classes.FileManager;
+using ClassicalMusicCSharp.Views;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -498,7 +499,7 @@ namespace ClassicalMusicCSharp.ViewModels
             }
             else
             {
-                //TODO show error
+                Shell.Instance.ShowMessagePopup($"An error occurred", true);
             }
         }
     }

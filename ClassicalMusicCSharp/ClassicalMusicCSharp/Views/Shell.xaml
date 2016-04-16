@@ -11,8 +11,11 @@
     xmlns:views="using:ClassicalMusicCSharp.Views" 
     xmlns:Universal="using:Microsoft.AdMediator.Universal"
     mc:Ignorable="d"
-    Loaded="OnPageLoaded">
-
+    Loaded="OnPageLoaded"
+    xmlns:conv="using:ClassicalMusicCSharp.Converters">
+    <Page.Resources>
+        <conv:BoolToVisibility x:Key="BoolVisibility"/>
+    </Page.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -39,6 +42,15 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
+        <Grid x:Name="MessageContainer" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="0" Canvas.ZIndex="999" Height="50" MaxHeight="80" Opacity=".9" MaxWidth="300" Visibility="{x:Bind ShowMessage, Converter={StaticResource BoolVisibility}, Mode=OneWay}" CornerRadius="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="12,4" Text="{x:Bind MessageText, Mode=OneWay}" TextWrapping="Wrap" />
+            <Button Grid.Column="1" Content="x" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" Background="Transparent" Margin="4" Click="{x:Bind CloseMessagePopup}"/>
+        </Grid>
 
         <Controls:ModalDialog IsModal="{x:Bind IsBusy, Mode=OneWay}" Grid.Row="0">
             <Controls:ModalDialog.Content>

@@ -9,6 +9,8 @@ using Template10.Controls;
 using Template10.Services.NavigationService;
 using Template10.Common;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace ClassicalMusicCSharp.Views
 {
@@ -110,6 +112,36 @@ namespace ClassicalMusicCSharp.Views
         {
             if (IsAdsEnabled)
                 AdsContainer.Opacity = 1;
+        }
+        public bool ShowMessage { get; set; } = false;
+        public string MessageText { get; set; } = string.Empty;
+        public void ShowMessagePopup(string message, bool error = false)
+        {
+            MessageText = message;
+            if (!error)
+                MessageContainer.Background = new SolidColorBrush(Colors.LimeGreen);
+            else
+                MessageContainer.Background = new SolidColorBrush(Colors.Red);
+            ShowMessage = true;
+
+            Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(MessageText)));
+            Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(ShowMessage)));
+
+            DispatcherTimer timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(1500) };
+            timer.Tick += (s, e) =>
+            {
+                CloseMessagePopup();
+                timer.Stop();
+            };
+            timer.Start();
+        }
+
+        public void CloseMessagePopup(object s = null, object e = null)
+        {
+            MessageText = string.Empty;
+            ShowMessage = false;
+            Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(MessageText)));
+            Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(ShowMessage)));
         }
     }
 }
