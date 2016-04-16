@@ -18,8 +18,8 @@
         <Converters:ComposerImage x:Key="ComposerImage"/>
         <Converters:BoolToVisibility x:Key="BoolVisibility"/>
     </Page.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="{x:Bind VM.MarginFrame}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- page header-->
             <RowDefinition Height="Auto"/> <!-- messaggio nessun download -->

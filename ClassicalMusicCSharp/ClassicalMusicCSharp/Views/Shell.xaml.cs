@@ -53,6 +53,7 @@ namespace ClassicalMusicCSharp.Views
                 FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;
                 if (adsCont != null)
                     adsCont.Visibility = Visibility.Visible;
+                IsAdsEnabled = true;
             }
             else
             {
@@ -96,6 +97,18 @@ namespace ClassicalMusicCSharp.Views
                 Debug.WriteLine("AdsRemoved value = " + AdsRemoved);
             };
             await dlg.ShowAsync();
+        }
+        public bool IsAdsEnabled { get; set; } = false;
+        private void HamburgerOpen(object sender, EventArgs e)
+        {
+            if (IsAdsEnabled && Window.Current.Bounds.Width < 1200)
+                AdsContainer.Opacity = 0;
+        }
+
+        private void HamburgerClosed(object sender, EventArgs e)
+        {
+            if (IsAdsEnabled)
+                AdsContainer.Opacity = 1;
         }
     }
 }

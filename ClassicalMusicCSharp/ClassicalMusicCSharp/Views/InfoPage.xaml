@@ -13,7 +13,7 @@
         <vm:InfoPageVM/>
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="{x:Bind VM.MarginFrame}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

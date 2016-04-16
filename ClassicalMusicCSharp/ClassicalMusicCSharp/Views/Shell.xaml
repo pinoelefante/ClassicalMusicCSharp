@@ -14,6 +14,27 @@
     Loaded="OnPageLoaded">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="adsOverlay">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="575"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AdMediator_D58149.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="adsOverlay2">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AdMediator_D58149.(FrameworkElement.HorizontalAlignment)" Value="Right"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -22,7 +43,7 @@
         <Controls:ModalDialog IsModal="{x:Bind IsBusy, Mode=OneWay}" Grid.Row="0">
             <Controls:ModalDialog.Content>
 
-                <Controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False">
+                <Controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False" PaneClosed="HamburgerClosed" PaneOpened="HamburgerOpen">
                     <Controls:HamburgerMenu.PrimaryButtons>
                         <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ArtistsPage">
                             <StackPanel Orientation="Horizontal">
@@ -84,7 +105,7 @@
             </Controls:ModalDialog.ModalContent>
         </Controls:ModalDialog>
 
-        <Grid Grid.Row="1" Visibility="Collapsed" x:DeferLoadStrategy="Lazy" x:Name="AdsContainer">
+        <Grid Grid.Row="0" VerticalAlignment="Bottom" Visibility="Collapsed" x:DeferLoadStrategy="Lazy" x:Name="AdsContainer">
             <Universal:AdMediatorControl Grid.Row="1" x:Name="AdMediator_D58149" Height="80" Id="AdMediator-Id-39AD79B3-C64B-463B-B0D1-B8F0E2249B77" Width="480" Canvas.ZIndex="0"/>
             <Button Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Gray" Canvas.ZIndex="1" Click="RemoveAds"/>
         </Grid>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassicalMusicCSharp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,5 +27,6 @@ namespace ClassicalMusicCSharp.Views
         {
             this.InitializeComponent();
         }
+        public DownloadPageVM VM => this.DataContext as DownloadPageVM;
     }
 }

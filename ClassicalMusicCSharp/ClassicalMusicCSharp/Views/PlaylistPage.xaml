@@ -7,8 +7,7 @@
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
     xmlns:controls="using:Template10.Controls" xmlns:Converters="using:ClassicalMusicCSharp.Converters"
     x:Class="ClassicalMusicCSharp.Views.PlaylistPage"
-    mc:Ignorable="d"
-    >
+    mc:Ignorable="d">
     
     <Page.Resources>
         <Converters:BoolToVisibility x:Key="BoolToVisibility"/>
@@ -21,7 +20,7 @@
         <vm:PlaylistPageVM/>
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="{x:Bind VM.MarginFrame}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
