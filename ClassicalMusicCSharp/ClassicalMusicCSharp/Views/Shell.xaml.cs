@@ -84,6 +84,7 @@ namespace ClassicalMusicCSharp.Views
                 AdsContainer.Visibility = Visibility.Collapsed;
                 AdsContainer = null;
             }
+            IsAdsEnabled = false;
         }
         public async void RemoveAds(object sender, object ev)
         {
