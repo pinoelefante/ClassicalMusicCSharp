@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     Title="Add playlist"
     PrimaryButtonText="Add"
+    IsPrimaryButtonEnabled="False"
     PrimaryButtonClick="AddPlaylist"
     SecondaryButtonText="Cancel"
     SecondaryButtonClick="Cancel">
@@ -16,8 +17,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Choose the name of the new playlist" Grid.Row="0" Margin="0,8"/>
-        <TextBox x:Name="textbox" Grid.Row="1"  HorizontalAlignment="Stretch" PlaceholderText="Playlist's name"/>
+        <TextBox x:Name="textbox" Grid.Row="1"  HorizontalAlignment="Stretch" PlaceholderText="Playlist's name" TextChanged="OnTextChanged"/>
+        <TextBlock x:Name="Error" Grid.Row="2"/>
     </Grid>
 </ContentDialog>

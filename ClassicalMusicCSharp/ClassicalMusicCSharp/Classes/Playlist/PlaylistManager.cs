@@ -199,6 +199,13 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             }
             return null;
         }
+        public bool IsPlaylistExists(string name)
+        {
+            IEnumerable<Playlist> select = Playlists.Where(x => x.Name.Equals(name));
+            if (select!=null && select.Count() > 0)
+                return true;
+            return false;
+        }
         public Playlist GetPlayingNowPlaylist()
         {
             return NowPlayingPlaylist;

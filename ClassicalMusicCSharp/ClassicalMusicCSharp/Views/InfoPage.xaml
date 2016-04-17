@@ -90,6 +90,14 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         </Style>
                     </ListView.ItemContainerStyle>
+                    <ListView.Header>
+                        <Button Click="{x:Bind VM.LoadProducts}" Background="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Refresh"/>
+                                <TextBlock Text="Reload" Margin="8,4"/>
+                            </StackPanel>
+                        </Button>
+                    </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <uc:StoreItemUC/>

@@ -45,5 +45,25 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
             args.GetDeferral().Complete();
         }
         public bool Cancelled { get; set; } = false;
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            string name = textbox.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                Error.Text = "Playlist's name can't be empty";
+                IsPrimaryButtonEnabled = false;
+            }
+            else if (PlaylistManager.Instance.IsPlaylistExists(name))
+            {
+                Error.Text = "Playlist's name already exists";
+                IsPrimaryButtonEnabled = false;
+            }
+            else
+            {
+                Error.Text = string.Empty;
+                IsPrimaryButtonEnabled = true;
+            }
+        }
     }
 }

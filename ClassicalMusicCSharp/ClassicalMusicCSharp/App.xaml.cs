@@ -28,6 +28,7 @@ namespace ClassicalMusicCSharp
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
             SplashFactory = (e) => new Views.Splash(e);
+            this.UnhandledException += App_UnhandledException;
 
             #region App settings
 
@@ -37,6 +38,12 @@ namespace ClassicalMusicCSharp
             ShowShellBackButton = _settings.UseShellBackButton;
 
             #endregion
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Debug.WriteLine(e.Message);
+            e.Handled = true;
         }
 
         // runs even if restored from state

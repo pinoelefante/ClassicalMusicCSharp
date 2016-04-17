@@ -60,11 +60,7 @@ namespace ClassicalMusicCSharp.Views
 
         private async void CreateNewPlaylist(object sender, RoutedEventArgs e)
         {
-            if(await PlaylistPageVM.CreateNewPlaylist())
-            {
-
-            }
-            else
+            if(!await PlaylistPageVM.CreateNewPlaylist())
             {
                 Shell.Instance.ShowMessagePopup($"Playlist not created", true);
             }

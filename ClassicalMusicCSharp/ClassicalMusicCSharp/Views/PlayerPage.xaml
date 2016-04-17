@@ -20,6 +20,18 @@
         <vm:PlayerPageVM/>
     </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="{x:Bind VM.MarginFrame}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="321"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ProgressTime.(FrameworkElement.Visibility)" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -92,7 +104,7 @@
                     <SymbolIcon Symbol="Next"/>
                 </Button>
                 <TextBlock Grid.Column="5" Text="{Binding CurrTimeString}" VerticalAlignment="Center" Margin="4,0"/>
-                <Slider Grid.Column="6" Margin="8,0" Value="{Binding CurrentPosition}" Minimum="0" Maximum="{Binding CurrentLength}" IsEnabled="False" VerticalAlignment="Center"/>
+                <Slider x:Name="ProgressTime" Grid.Column="6" Margin="8,0" Value="{Binding CurrentPosition}" Minimum="0" Maximum="{Binding CurrentLength}" IsEnabled="False" VerticalAlignment="Center" Visibility="Collapsed"/>
                 <TextBlock Grid.Column="7" Text="{Binding CurrLengthString}" VerticalAlignment="Center" Margin="4,0"/>
             </Grid>
         </Grid>
