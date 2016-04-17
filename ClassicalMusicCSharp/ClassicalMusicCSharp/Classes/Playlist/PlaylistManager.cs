@@ -4,9 +4,11 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +83,33 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             if (Playlists.Where(x => x.Name.ToLower().CompareTo(name.ToLower()) == 0).Count() > 0)
                 return false;
             return true;
+        }
+        public async Task<bool> RenamePlaylist(Playlist playlist, string newName)
+        {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            bool fileExists = false;
+            try
+            {
+                await folder.GetFileAsync($"playlist_{newName.Trim()}.json");
+                fileExists = true;
+            }
+            catch (FileNotFoundException e)
+            {
+                fileExists = false;
+            }
+            if (!fileExists)
+            {
+                var oldName = playlist.Name;
+                playlist.Name = newName;
+                await SavePlaylistsJson();
+                playlist.SaveJson();
+                await (await folder.GetFileAsync($"playlist_{oldName}.json")).DeleteAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         private async void LoadSavedPlaylists()
         {
@@ -219,16 +248,20 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             playlist.AddItem(t, save);
         }
     }
-    public class Playlist
+    public class Playlist : INotifyPropertyChanged
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        private string _name;
+        public string Name { get { return _name; } set { _name = value; NotifyPropertyChanged(); } }
         public ObservableCollection<PlaylistTrack> List { get; private set; } = new ObservableCollection<PlaylistTrack>();
         public Playlist(string name)
         {
             Name = name;
             LoadJson();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public void AddItem(PlaylistTrack t, bool save = false)
         {
             List.Add(t);
@@ -305,6 +338,10 @@ namespace ClassicalMusicCSharp.Classes.Playlist
             {
                 Debug.WriteLine(e.GetType() + " = " + e.Message+"\n"+e.StackTrace);
             }
+        }
+        private void NotifyPropertyChanged([CallerMemberName]string p = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
         }
     }
     public class PlaylistTrack

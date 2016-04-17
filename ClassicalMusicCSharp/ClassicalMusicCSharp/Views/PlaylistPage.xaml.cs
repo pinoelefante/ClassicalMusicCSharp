@@ -44,5 +44,36 @@ namespace ClassicalMusicCSharp.Views
                 await dlg.ShowAsync();
             }
         }
+
+        private async void RenamePlaylist(object sender, RoutedEventArgs e)
+        {
+            Playlist p = (sender as FrameworkElement).DataContext as Playlist;
+            RenamePlaylistContentDialog dlg = new RenamePlaylistContentDialog();
+            Action OnFinish = async () =>
+            {
+                if (dlg.FinishOk)
+                {
+                    var newName = dlg.NewPlaylistName;
+                    var res = await VM.RenamePlaylist(p, newName);
+                    if(res)
+                        Shell.Instance.ShowMessagePopup("Playlist renamed");
+                    else
+                        Shell.Instance.ShowMessagePopup("An error occurred while renaming the playlist");
+                }
+            };
+            dlg.OnFinish = OnFinish;
+            await dlg.ShowAsync();
+        }
+
+        private async void DeletePlaylist(object sender, RoutedEventArgs e)
+        {
+            Playlist p = (sender as FrameworkElement).DataContext as Playlist;
+            Action deleteAction = () =>
+            {
+                VM.DeletePlaylist(p);
+            };
+            DeletePlaylistContentDialog dlg = new DeletePlaylistContentDialog(deleteAction);
+            await dlg.ShowAsync();
+        }
     }
 }

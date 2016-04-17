@@ -314,6 +314,9 @@
     <Compile Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml.cs">
       <DependentUpon>PlaylistChoiserContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ContentDialogs\RenamePlaylistContentDialog.xaml.cs">
+      <DependentUpon>RenamePlaylistContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DownloadPage.xaml.cs">
       <DependentUpon>DownloadPage.xaml</DependentUpon>
     </Compile>
@@ -407,6 +410,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentDialogs\PlaylistChoiserContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentDialogs\RenamePlaylistContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

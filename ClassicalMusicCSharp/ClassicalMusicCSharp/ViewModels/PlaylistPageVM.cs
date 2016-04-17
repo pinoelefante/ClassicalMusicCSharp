@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Template10.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -85,6 +86,10 @@ namespace ClassicalMusicCSharp.ViewModels
                 PlaylistManager.Instance.DeletePlaylist(item);
             }
         }
+        public void DeletePlaylist(Playlist playlist)
+        {
+            PlaylistManager.Instance.DeletePlaylist(playlist);
+        }
         private bool _multiple;
         public bool IsMultipleSelection
         {
@@ -100,6 +105,15 @@ namespace ClassicalMusicCSharp.ViewModels
         public void ChangeSelectionMode(object sender, RoutedEventArgs e)
         {
             IsMultipleSelection = !_multiple;
+        }
+        public async Task<bool> RenamePlaylist(Playlist p, string newName)
+        {
+            var res = await PlaylistManager.Instance.RenamePlaylist(p, newName);
+            WindowWrapper.Current().Dispatcher.Dispatch(() =>
+            {
+                RaisePropertyChanged(nameof(Playlists));
+            });
+            return res;
         }
     }
 }
