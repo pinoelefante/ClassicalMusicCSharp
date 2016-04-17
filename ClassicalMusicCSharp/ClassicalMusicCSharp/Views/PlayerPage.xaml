@@ -50,7 +50,9 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Row="3" BorderThickness="0,2,0,0" BorderBrush="Gray">
+        <Button x:Name="chevron" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="&#8964;" FontWeight="ExtraBold" Click="ShowHidePlayer" Canvas.ZIndex="999"/>
+
+        <Grid x:Name="PlayerCommands" Grid.Row="3" BorderThickness="0,2,0,0" BorderBrush="Gray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -108,7 +110,7 @@
                 <TextBlock Grid.Column="7" Text="{Binding CurrLengthString}" VerticalAlignment="Center" Margin="4,0"/>
             </Grid>
         </Grid>
-        <CommandBar Grid.Row="4">
+        <CommandBar x:Name="CommandBar" Grid.Row="4">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Save" Label="Save playlist" Click="{x:Bind VM.SavePlaylist}"/>
                 <AppBarButton Label="Empty playlist" Icon="Delete" Click="{x:Bind VM.CleanPlaylistAction}"/>

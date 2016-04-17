@@ -84,10 +84,12 @@ namespace ClassicalMusicCSharp.ViewModels
                         break;
                     case "AddTrack":
                         Debug.WriteLine("Track added");
+                        RequestTrackInfo();
                         break;
                     case "TrackRemoved":
                         var index = (int)e.Data["Index"];
                         Playlist.RemoveAt(index);
+                        RequestTrackInfo();
                         break;
                     case "PlaylistCleaned":
                         Playlist.Clear();
@@ -424,11 +426,14 @@ namespace ClassicalMusicCSharp.ViewModels
         }
         public void RemoveTrackAt(int index)
         {
+            if (index == CurrentIndex)
+                Stop();
             BackgroundMediaPlayer.SendMessageToBackground(new ValueSet()
             {
                 { "Command","RemTrack" },
                 { "Index",index }
             });
+            
         }
         private void MediaPlayerStateChanged(MediaPlayer sender, object args)
         {

@@ -54,5 +54,21 @@ namespace ClassicalMusicCSharp.Views
             dialog.CancelCommandIndex = 1;
             await dialog.ShowAsync();
         }
+
+        private void ShowHidePlayer(object sender, RoutedEventArgs e)
+        {
+            if (PlayerCommands.Visibility == Visibility.Collapsed)
+            {
+                PlayerCommands.Visibility = Visibility.Visible;
+                CommandBar.Visibility = Visibility.Visible;
+                chevron.Content = "\u2304";
+            }
+            else
+            {
+                PlayerCommands.Visibility = Visibility.Collapsed;
+                CommandBar.Visibility = Visibility.Collapsed;
+                chevron.Content = "\u2303";
+            }
+        }
     }
 }
