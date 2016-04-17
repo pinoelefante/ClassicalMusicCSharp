@@ -50,7 +50,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button x:Name="chevron" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="&#8964;" FontWeight="ExtraBold" Click="ShowHidePlayer" Canvas.ZIndex="999"/>
+        <Button x:Name="chevron" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="70" Height="35" Content="&#8964;" FontWeight="ExtraBold" Opacity="1" Click="ShowHidePlayer" Canvas.ZIndex="999"/>
 
         <Grid x:Name="PlayerCommands" Grid.Row="3" BorderThickness="0,2,0,0" BorderBrush="Gray">
             <Grid.RowDefinitions>
