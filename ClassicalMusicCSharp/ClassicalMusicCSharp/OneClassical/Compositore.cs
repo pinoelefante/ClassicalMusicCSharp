@@ -11,11 +11,11 @@ namespace ClassicalMusicCSharp.OneClassical
     [DataContract]
     public class Compositore
     {
-        [DataMember]
+        [DataMember(Name = "nome")]
         public string Nome { get; set; }
-        [DataMember]
+        [DataMember(Name = "categorie")]
         public List<Categoria> Categorie { get; set; }
-        [DataMember]
+        [DataMember(Name = "opere")]
         public List<Opera> Opere { get; set; }
 
         public Boolean HasCategorie
@@ -25,6 +25,19 @@ namespace ClassicalMusicCSharp.OneClassical
                 return Categorie != null;
             }
         }
-        public string Image { get; set; }
+        public string Image
+        {
+            get
+            {
+                return $"ms-appx:///Assets/composers/square/{Nome.ToLower().Replace(" ", "_")}_square.jpg";
+            }
+        }
+        public string ImageWide
+        {
+            get
+            {
+                return $"ms-appx:///Assets/composers/square/{Nome.ToLower().Replace(" ", "_")}_wide.jpg";
+            }
+        }
     }
 }

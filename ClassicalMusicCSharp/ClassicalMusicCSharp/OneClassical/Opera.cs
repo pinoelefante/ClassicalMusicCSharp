@@ -11,9 +11,9 @@ namespace ClassicalMusicCSharp.OneClassical
     public class Opera
     {
         private static readonly List<Traccia> EMPTY = new List<Traccia>();
-        [DataMember]
+        [DataMember(Name = "opera")]
         public string Nome { get; set; } = string.Empty;
-        [DataMember]
+        [DataMember(Name ="tracce")]
         public List<Traccia> Tracce { get; set; } = EMPTY;
 
         //public string Libretto { get; }

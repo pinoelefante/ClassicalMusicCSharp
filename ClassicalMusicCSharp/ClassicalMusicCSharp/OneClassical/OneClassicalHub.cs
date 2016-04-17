@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
@@ -52,98 +53,33 @@ namespace ClassicalMusicCSharp.OneClassical
         }
         public async Task<List<Compositore>> readJson()
         {
-            if (!Loaded)
+            if (ListaCompositori == null || ListaCompositori.Count == 0)
             {
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///music.json"));
-                string fileContent;
-                using (StreamReader sRead = new StreamReader(await file.OpenStreamForReadAsync()))
+                DataContractJsonSerializer ds = new DataContractJsonSerializer(typeof(List<Compositore>));
+                ListaCompositori = (List<Compositore>)ds.ReadObject(await file.OpenStreamForReadAsync());
+                ListaCompositori.TrimExcess();
+                // inizio trim
+                foreach (var comp in ListaCompositori)
                 {
-                    fileContent = await sRead.ReadToEndAsync();
-                    sRead.Dispose();
-                }
-
-                JsonArray listComp = JsonArray.Parse(fileContent);
-                List<Compositore> compositori = new List<Compositore>();
-                for (int i = 0; i < listComp.Count; i++)
-                {
-                    JsonObject jComp = listComp[i].GetObject();
-                    string nome = jComp["nome"].GetString();
-                    Compositore comp = new Compositore()
+                    if (comp.HasCategorie)
                     {
-                        Nome = nome,
-                        Image = $"ms-appx:///Assets/composers/square/{nome.ToLower().Replace(" ", "_")}_square.jpg"
-                    };
-
-                    if (jComp.ContainsKey("categorie"))
-                    {
-                        JsonArray jCategorie = jComp["categorie"].GetArray();
-                        List<Categoria> listCategorie = new List<Categoria>(jCategorie.Count);
-                        for (int j = 0; j < jCategorie.Count; j++)
+                        comp.Categorie.TrimExcess();
+                        foreach (var op in comp.Categorie)
                         {
-                            JsonObject jcat = jCategorie[j].GetObject();
-                            string nomeCat = jcat["categoria"].GetString();
-                            Categoria categoria = new Categoria() { Nome = nomeCat };
-
-                            JsonArray jOpere = jcat["opere"].GetArray();
-                            List<Opera> listOpere = new List<Opera>(jOpere.Count);
-                            for (int z = 0; z < jOpere.Count; z++)
-                            {
-                                JsonObject jOpera = jOpere[z].GetObject();
-                                string nomeOpera = jOpera["opera"].GetString();
-
-                                JsonArray jListTracce = jOpera["tracce"].GetArray();
-                                List<Traccia> tracce = new List<Traccia>(jListTracce.Count);
-
-                                Opera opera = new Opera() { Nome = nomeOpera, Tracce = tracce};
-
-                                for (int x = 0; x < jListTracce.Count; x++)
-                                {
-                                    JsonObject jtraccia = jListTracce[x].GetObject();
-                                    string titolo = jtraccia["titolo"].GetString();
-                                    string link = jtraccia["link"].GetString();
-                                    Traccia track = new Traccia() { Titolo = titolo, Link = link};
-                                    tracce.Add(track);
-                                }
-                                tracce.TrimExcess();
-                                listOpere.Add(opera);
-                            }
-                            listOpere.TrimExcess();
-                            categoria.Opere = listOpere;
-                            listCategorie.Add(categoria);
+                            op.Opere.TrimExcess();
+                            foreach (var opera in op.Opere)
+                                opera.Tracce.TrimExcess();
                         }
-                        listCategorie.TrimExcess();
-                        comp.Categorie = listCategorie;
                     }
-
-                    if (jComp.ContainsKey("opere"))
+                    else
                     {
-                        JsonArray jOpere = jComp["opere"].GetArray();
-                        List<Opera> listOpere = new List<Opera>(jOpere.Count);
-                        for (int j = 0; j < jOpere.Count; j++)
-                        {
-                            JsonObject jOpera = jOpere[j].GetObject();
-                            string nomeOpera = jOpera["opera"].GetString();
-
-                            JsonArray jListTracce = jOpera["tracce"].GetArray();
-                            List<Traccia> tracce = new List<Traccia>(jListTracce.Count);
-                            Opera opera = new Opera() { Nome = nomeOpera, Tracce = tracce};
-                            for (int z = 0; z < jListTracce.Count; z++)
-                            {
-                                JsonObject jtraccia = jListTracce[z].GetObject();
-                                string titolo = jtraccia["titolo"].GetString();
-                                string link = jtraccia["link"].GetString();
-                                Traccia track = new Traccia() { Titolo = titolo, Link = link};
-                                tracce.Add(track);
-                            }
-                            tracce.TrimExcess();
-                            listOpere.Add(opera);
-                        }
-                        listOpere.TrimExcess();
-                        comp.Opere = listOpere;
+                        comp.Opere.TrimExcess();
+                        foreach (var opera in comp.Opere)
+                            opera.Tracce.TrimExcess();
                     }
-                    compositori.Add(comp);
                 }
-                ListaCompositori = compositori;
+                // fine trim
                 Loaded = true;
             }
             return ListaCompositori;
@@ -166,10 +102,7 @@ namespace ClassicalMusicCSharp.OneClassical
         }
         public void NotifyProperty([CallerMemberName]string p = null)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
         }
     }
 }

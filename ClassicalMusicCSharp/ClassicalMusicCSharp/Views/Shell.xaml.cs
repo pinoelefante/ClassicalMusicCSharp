@@ -99,7 +99,9 @@ namespace ClassicalMusicCSharp.Views
                     CloseAds();
                 Debug.WriteLine("AdsRemoved value = " + AdsRemoved);
             };
+            SetBusy(true, "Wait please");
             await dlg.ShowAsync();
+            SetBusy(false);
         }
         public bool IsAdsEnabled { get; set; } = false;
         private void HamburgerOpen(object sender, EventArgs e)

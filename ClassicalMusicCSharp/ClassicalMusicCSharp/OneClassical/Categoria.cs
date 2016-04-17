@@ -10,9 +10,9 @@ namespace ClassicalMusicCSharp.OneClassical
     [DataContract]
     public class Categoria
     {
-        [DataMember]
+        [DataMember(Name = "categoria")]
         public string Nome { get; set; }
-        [DataMember]
+        [DataMember(Name ="opere")]
         public List<Opera> Opere { get; set; }
     }
 }

@@ -13,6 +13,8 @@ using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
+using Template10.Common;
+using Template10.Services.NavigationService;
 
 namespace ClassicalMusicCSharp.ViewModels
 {
@@ -30,13 +32,23 @@ namespace ClassicalMusicCSharp.ViewModels
             OneClassicalHub.Instance.PropertyChanged -= OnPropertyChanged;
             return base.OnNavigatedFromAsync(state, suspending);
         }
+        public override Task OnNavigatingFromAsync(NavigatingEventArgs args)
+        {
+            
+            Compositori.Clear();
+            Compositori = null;
+           
+            return base.OnNavigatingFromAsync(args);
+        }
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             CheckLoaded();
         }
         private void CheckLoaded()
         {
-            Template10.Common.WindowWrapper.Current().Dispatcher.Dispatch(() =>
+            if (Compositori!=null && Compositori.Count > 0)
+                return;
+            WindowWrapper.Current().Dispatcher.Dispatch(() =>
             {
                 IsLoaded = OneClassicalHub.Instance.Loaded;
                 Debug.WriteLine("IsLoaded = " + IsLoaded);

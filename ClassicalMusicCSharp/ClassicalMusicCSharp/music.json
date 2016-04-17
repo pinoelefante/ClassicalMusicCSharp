@@ -145,7 +145,6 @@
     "categorie": [
       {
         "categoria": "Brandenburg concertos",
-        "link": "composer.php?composer=Bach - Brandenburg concertos",
         "opere": [
           {
             "opera": "Brandenburg concerto n.1 BVW 1046 in F",
@@ -205,7 +204,6 @@
       },
       {
         "categoria": "Cantatas",
-        "link": "composer.php?composer=Bach - Cantatas",
         "opere": [
           {
             "opera": "Cantata BWV 110 'Unser Mund sei voll Lachens'",
@@ -309,7 +307,6 @@
       },
       {
         "categoria": "Cello suites",
-        "link": "composer.php?composer=Bach - Cello suites",
         "opere": [
           {
             "opera": "Cello Suite n.1 BWV 1007 in G",
@@ -489,7 +486,6 @@
       },
       {
         "categoria": "Concertos for strings",
-        "link": "composer.php?composer=Bach - Concertos for strings",
         "opere": [
           {
             "opera": "Concerto for 2 violins and orchestra BWV 1043 in D minor",
@@ -597,7 +593,6 @@
       },
       {
         "categoria": "Concertos for winds and strings",
-        "link": "composer.php?composer=Bach - Concertos for winds and strings",
         "opere": [
           {
             "opera": "Concerto for flute, violin, harpsichord, strings and continuo in A minor BWV 1044",
@@ -654,7 +649,6 @@
       },
       {
         "categoria": "Organ music",
-        "link": "composer.php?composer=Bach - Organ music",
         "opere": [
           {
             "opera": "Chorale prelude for organ Orgel",
@@ -669,7 +663,6 @@
       },
       {
         "categoria": "Ouvertures",
-        "link": "composer.php?composer=Bach - Ouvertures",
         "opere": [
           {
             "opera": "Ouverture n.1 BWV 1066 in C",
@@ -791,7 +784,6 @@
       },
       {
         "categoria": "Sacred music",
-        "link": "composer.php?composer=Bach - Sacred music",
         "opere": [
           {
             "opera": "Magnificat BWV 243 in D",
@@ -869,7 +861,6 @@
       },
       {
         "categoria": "Chamber music for strings",
-        "link": "composer.php?composer=Beethoven - Chamber music for strings",
         "opere": [
           {
             "opera": "Quartet for strings n.13 Op.130 'Lieb' in Bb",
@@ -967,7 +958,6 @@
       },
       {
         "categoria": "Chamber music for winds",
-        "link": "composer.php?composer=Beethoven - Chamber music for winds",
         "opere": [
           {
             "opera": "Octet for winds Op.103 in Eb",
@@ -994,7 +984,6 @@
       },
       {
         "categoria": "Concertos",
-        "link": "composer.php?composer=Beethoven - Concertos",
         "opere": [
           {
             "opera": "Concerto for piano and orchestra n.1 Op.15 in C",
@@ -1102,7 +1091,6 @@
       },
       {
         "categoria": "Opera",
-        "link": "composer.php?composer=Beethoven - Opera",
         "opere": [
           {
             "opera": "Coriolan Op.62",
@@ -1180,7 +1168,6 @@
       },
       {
         "categoria": "Sonatas for violin and piano",
-        "link": "composer.php?composer=Beethoven - Sonatas for violin and piano",
         "opere": [
           {
             "opera": "Sonata for violin and piano n.01 Op.12 in D",
@@ -1368,7 +1355,6 @@
       },
       {
         "categoria": "Symphonies",
-        "link": "composer.php?composer=Beethoven - Symphonies",
         "opere": [
           {
             "opera": "Symphony n.1 Op.21 in C",
@@ -1747,7 +1733,6 @@
     "categorie": [
       {
         "categoria": "Chamber music",
-        "link": "composer.php?composer=Brahms - Chamber music",
         "opere": [
           {
             "opera": "Quintet for clarinet and strings Op. 115 in B Minor",
@@ -1820,7 +1805,6 @@
       },
       {
         "categoria": "Concertos",
-        "link": "composer.php?composer=Brahms - Concertos",
         "opere": [
           {
             "opera": "Concerto for Violin and Orchestra Op.77 in D",
@@ -1860,7 +1844,6 @@
       },
       {
         "categoria": "Piano solo music",
-        "link": "composer.php?composer=Brahms - Piano solo music",
         "opere": [
           {
             "opera": "Ballade for piano n.1 Op.10 'Edward' in D minor",
@@ -1968,7 +1951,6 @@
       },
       {
         "categoria": "Sonatas for violin and piano",
-        "link": "composer.php?composer=Brahms - Sonatas for violin and piano",
         "opere": [
           {
             "opera": "Sonata for violin and piano n.2 Op. 100 'Thun' in A",
@@ -2012,7 +1994,6 @@
       },
       {
         "categoria": "Symphonies",
-        "link": "composer.php?composer=Brahms - Symphonies",
         "opere": [
           {
             "opera": "Symphony n.1 Op.68 in C minor",
@@ -2202,7 +2183,6 @@
     "categorie": [
       {
         "categoria": "Concerti grossi",
-        "link": "composer.php?composer=Corelli - Concerti grossi",
         "opere": [
           {
             "opera": "Concerto Grosso n.01 Op.6 in D",
@@ -2556,7 +2536,6 @@
       },
       {
         "categoria": "Sonatas for violin and continuo",
-        "link": "composer.php?composer=Corelli - Sonatas for violin and continuo",
         "opere": [
           {
             "opera": "Sonata for violin and continuo n.01 Op.5 in D",
@@ -3175,7 +3154,6 @@
     "categorie": [
       {
         "categoria": "Concerti grossi",
-        "link": "composer.php?composer=Handel - Concerti grossi",
         "opere": [
           {
             "opera": "Concerto grosso n.1 Op.6 HWV 319 in G",
@@ -3231,7 +3209,6 @@
       },
       {
         "categoria": "Orchestral music",
-        "link": "composer.php?composer=Handel - Orchestral music",
         "opere": [
           {
             "opera": "Music for the royal fireworks",
@@ -3339,7 +3316,6 @@
       },
       {
         "categoria": "Sonatas",
-        "link": "composer.php?composer=Handel - Sonatas",
         "opere": [
           {
             "opera": "Sonata for 2 recorders and continuo in F",
@@ -3551,7 +3527,6 @@
       },
       {
         "categoria": "Sonatas for recorder(s)",
-        "link": "composer.php?composer=Handel - Sonatas for recorder(s)",
         "opere": [
           {
             "opera": "Sonata for recorder and continuo in A minor",
@@ -3700,7 +3675,6 @@
     "categorie": [
       {
         "categoria": "Concertos",
-        "link": "composer.php?composer=Haydn - Concertos",
         "opere": [
           {
             "opera": "Concerto for cello and orchestra n.1 H.7b1 in C",
@@ -3740,7 +3714,6 @@
       },
       {
         "categoria": "Sonatas",
-        "link": "composer.php?composer=Haydn - Sonatas",
         "opere": [
           {
             "opera": "Sonata for piano n.35 H.16",
@@ -3831,7 +3804,6 @@
       },
       {
         "categoria": "Symphonies",
-        "link": "composer.php?composer=Haydn - Symphonies",
         "opere": [
           {
             "opera": "Sinfonia concertante in Bb",
@@ -6515,7 +6487,6 @@
     "categorie": [
       {
         "categoria": "Concertos",
-        "link": "composer.php?composer=Mendelssohn - Concertos",
         "opere": [
           {
             "opera": "Capriccio brillante for piano and orchestra Op.22 in B minor",
@@ -6667,7 +6638,6 @@
       },
       {
         "categoria": "Sonatas",
-        "link": "composer.php?composer=Mendelssohn - Sonatas",
         "opere": [
           {
             "opera": "Sonata for clarinet and piano in Eb",
@@ -6758,7 +6728,6 @@
       },
       {
         "categoria": "String quartets",
-        "link": "composer.php?composer=Mendelssohn - String quartets",
         "opere": [
           {
             "opera": "Quartet for strings n.1 Op.44 in D",
@@ -6785,7 +6754,6 @@
       },
       {
         "categoria": "String symphonies",
-        "link": "composer.php?composer=Mendelssohn - String symphonies",
         "opere": [
           {
             "opera": "String symphony movement in C minor",
@@ -7037,7 +7005,6 @@
       },
       {
         "categoria": "Symphonies",
-        "link": "composer.php?composer=Mendelssohn - Symphonies",
         "opere": [
           {
             "opera": "Symphony n.1 Op.11 in C minor",
@@ -7207,7 +7174,6 @@
     "categorie": [
       {
         "categoria": "Chamber music",
-        "link": "composer.php?composer=Mozart - Chamber music",
         "opere": [
           {
             "opera": "Adagio for Cor anglais, Violin, Viola, Cello K.580a in C",
@@ -7489,7 +7455,6 @@
       },
       {
         "categoria": "Concertos",
-        "link": "composer.php?composer=Mozart - Concertos",
         "opere": [
           {
             "opera": "Concerto for 2 pianos and orchestra n.10 K.365 in Eb",
@@ -7712,7 +7677,6 @@
       },
       {
         "categoria": "Opera",
-        "link": "composer.php?composer=Mozart - Opera",
         "opere": [
           {
             "opera": "Apollo Et Hyacinthus K.38",
@@ -8005,7 +7969,6 @@
       },
       {
         "categoria": "Piano solo music",
-        "link": "composer.php?composer=Mozart - Piano solo music",
         "opere": [
           {
             "opera": "Allegro for piano K.312 in G minor",
@@ -8344,7 +8307,6 @@
       },
       {
         "categoria": "Sacred music",
-        "link": "composer.php?composer=Mozart - Sacred music",
         "opere": [
           {
             "opera": "Great Mass K.427 in C minor",
@@ -8497,7 +8459,6 @@
       },
       {
         "categoria": "Symphonies",
-        "link": "composer.php?composer=Mozart - Symphonies",
         "opere": [
           {
             "opera": "Sinfonia concertante for violin, viola and orchestra K. 364 in Eb",
@@ -10838,7 +10799,6 @@
     "categorie": [
       {
         "categoria": "Chamber music",
-        "link": "composer.php?composer=Vivaldi - Chamber music",
         "opere": [
           {
             "opera": "Sonata for oboe and continuo RV 53 in C minor",
@@ -10882,7 +10842,6 @@
       },
       {
         "categoria": "Concertos",
-        "link": "composer.php?composer=Vivaldi - Concertos",
         "opere": [
           {
             "opera": "Concerto for 2 horns, strings and contiuo RV 539 in F",
@@ -11397,7 +11356,6 @@
       },
       {
         "categoria": "L'Estro Armonico' Op.3",
-        "link": "composer.php?composer=Vivaldi - L'Estro Armonico' Op.3",
         "opere": [
           {
             "opera": "L'Estro Armonico Op.3 Concerto n.1 RV 549 in D",
@@ -11611,7 +11569,6 @@
       },
       {
         "categoria": "La Cetra' Op.9",
-        "link": "composer.php?composer=Vivaldi - La Cetra' Op.9",
         "opere": [
           {
             "opera": "La Cetra Op.9 Concerto n.01 RV 181a in C",
@@ -11821,7 +11778,6 @@
       },
       {
         "categoria": "La Stravaganza' Op.4",
-        "link": "composer.php?composer=Vivaldi - La Stravaganza' Op.4",
         "opere": [
           {
             "opera": "La Stravaganza Op.4 Concerto n.01 RV 383a in Bb",
@@ -12031,7 +11987,6 @@
       },
       {
         "categoria": "Le Quattro Stagioni' Op.8",
-        "link": "composer.php?composer=Vivaldi - Le Quattro Stagioni' Op.8",
         "opere": [
           {
             "opera": "Le Quattro Stagioni Op.8 Concerto n.1 RV 269 'Spring' in E",
@@ -12105,7 +12060,6 @@
       },
       {
         "categoria": "Sacred music",
-        "link": "composer.php?composer=Vivaldi - Sacred music",
         "opere": [
           {
             "opera": "Gloria for soprano, alto, choir RV 589 in D",

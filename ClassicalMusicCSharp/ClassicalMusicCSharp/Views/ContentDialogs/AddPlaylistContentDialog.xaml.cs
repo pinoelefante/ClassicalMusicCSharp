@@ -30,7 +30,9 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
             string name = textbox.Text.Trim();
             if (string.IsNullOrEmpty(name))
             {
-                Debug.WriteLine("name empty");
+                Shell.Instance.ShowMessagePopup("Playlist's name can't be empty", true);
+                Cancelled = true;
+                return;
             }
             bool insert = await PlaylistManager.Instance.AddNewPlaylist(name);
             Debug.WriteLine("Insert = " + insert);
@@ -38,8 +40,10 @@ namespace ClassicalMusicCSharp.Views.ContentDialogs
 
         private void Cancel(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            Cancelled = true;
             this.Hide();
             args.GetDeferral().Complete();
         }
+        public bool Cancelled { get; set; } = false;
     }
 }

@@ -45,8 +45,10 @@ namespace ClassicalMusicCSharp.ViewModels
         {
             if (PlaylistManager.Instance.CanAddNewPlaylist())
             {
-                ContentDialog dlg = new AddPlaylistContentDialog();
+                AddPlaylistContentDialog dlg = new AddPlaylistContentDialog();
                 await dlg.ShowAsync();
+                if (dlg.Cancelled)
+                    return false;
                 return true;
             }
             else if (PlaylistManager.Instance.CanPurchase())
@@ -54,15 +56,15 @@ namespace ClassicalMusicCSharp.ViewModels
                 Action<bool> OnSucced = async (bool res) =>
                 {
                     if (res)
-                    { 
-                        ContentDialog dlg2 = new AddPlaylistContentDialog();
-                        await dlg2.ShowAsync();
+                    {
+                        await CreateNewPlaylist();
                     }
                 };
                 BuyPlaylistsContentDialog dlg = new BuyPlaylistsContentDialog();
                 dlg.OnBuySucceded = OnSucced;
+                Shell.SetBusy(true, "Wait please");
                 await dlg.ShowAsync();
-                
+                Shell.SetBusy(false);
             }
             else 
                 return false;

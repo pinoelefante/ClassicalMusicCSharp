@@ -50,16 +50,14 @@ namespace ClassicalMusicCSharp.Classes.Radio
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///radio.json"));
                 DataContractJsonSerializer ds = new DataContractJsonSerializer(typeof(RadioWrapper.RootObject));
                 Radios = (RadioWrapper.RootObject)ds.ReadObject(await file.OpenStreamForReadAsync());
+                Radios.radio.TrimExcess();
                 IsLoaded = true;
             }
             return Radios.radio;
         }
         private void Notify([CallerMemberName]string n = null)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(n));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
         }
     }
 }
