@@ -350,6 +350,9 @@
     <Compile Include="Views\UserControls\MediaPlayerUC.xaml.cs">
       <DependentUpon>MediaPlayerUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\StoreItemUC.xaml.cs">
+      <DependentUpon>StoreItemUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\TrackUC.xaml.cs">
       <DependentUpon>TrackUC.xaml</DependentUpon>
     </Compile>
@@ -452,6 +455,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\MediaPlayerUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\StoreItemUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,13 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:vm="using:ClassicalMusicCSharp.ViewModels"
-    xmlns:controls="using:Template10.Controls">
+    xmlns:controls="using:Template10.Controls"
+    xmlns:uc="using:ClassicalMusicCSharp.Views.UserControls">
 
     <Page.DataContext>
         <vm:InfoPageVM/>
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="{x:Bind VM.MarginFrame}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="{x:Bind VM.MarginFrame, Mode=OneWay}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,64 +22,81 @@
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" IsEnabled="False" Content="Info &amp; Feedback"/>
+        <Pivot Grid.Row="1">
+            <PivotItem Header="Info">
+                <ScrollViewer Grid.Row="1">
+                    <Grid Margin="16,8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="1">
-            <Grid Margin="16,8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Classical Music in C#" FontWeight="Bold" FontSize="32" Margin="8" FontFamily="French Script MT" />
 
-                <TextBlock Grid.Row="0" Text="Classical Music in C#" FontWeight="Bold" FontSize="32" Margin="8" FontFamily="French Script MT" />
+                        <StackPanel Background="White" Grid.Row="1" VerticalAlignment="Center">
+                            <Image Source="ms-appx:///Assets/Logo.png" Stretch="None"/>
+                        </StackPanel>
 
-                <StackPanel Background="White" Grid.Row="1" VerticalAlignment="Center">
-                    <Image Source="ms-appx:///Assets/Logo.png" Stretch="None"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Margin="8,16">
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Like"/>
-                        <TextBlock FontSize="18" Margin="8">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Margin="8,16">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Like"/>
+                                <TextBlock FontSize="18" Margin="8">
                             <Hyperlink Click="{x:Bind VM.Vote}">
                                 <Run Text="Rate &amp; Review"/>
                             </Hyperlink>
-                        </TextBlock>
-                    </StackPanel>
+                                </TextBlock>
+                            </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Mail"/>
-                        <TextBlock FontSize="18" Margin="8">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Mail"/>
+                                <TextBlock FontSize="18" Margin="8">
                             <Hyperlink NavigateUri="mailto:pinoelefante@hotmail.it?Subject=Classical Music in C# Feedback">
                                 <Run Text="Contact &amp; Feedback"/>
                             </Hyperlink>
-                        </TextBlock>
-                    </StackPanel>
+                                </TextBlock>
+                            </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Emoji2"/>
-                        <TextBlock FontSize="18" Margin="8">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Emoji2"/>
+                                <TextBlock FontSize="18" Margin="8">
                             <Hyperlink NavigateUri="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=pino%2eelefante%40hotmail%2eit&amp;lc=IT&amp;item_name=ClassicalMusic&amp;item_number=APA&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted">
                                 <Run Text="Make a donation"/>
                             </Hyperlink>
-                        </TextBlock>
-                    </StackPanel>
+                                </TextBlock>
+                            </StackPanel>
 
-                    <TextBlock Text="Developed by Giuseppe Elefante" />
+                            <TextBlock Text="Developed by Giuseppe Elefante" />
 
-                    <TextBlock>
+                            <TextBlock>
                         <Run Text="All contents are from "/>
                         <Hyperlink NavigateUri="http://1classical.com/index.php">
                             <Run Text="1classical.com"/>
-                        </Hyperlink>    
-                    </TextBlock>
+                        </Hyperlink>
+                            </TextBlock>
 
-                    <TextBlock HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right">
                         <Run Text="Version "/>
-                        <Run Text="{Binding Version}"/> 
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
+                        <Run Text="{Binding Version}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem> <!-- Info -->
+            <PivotItem Header="Store"> <!-- Store -->
+                <ListView ItemsSource="{x:Bind VM.ListProducts, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="{x:Bind VM.IAPSelected}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <uc:StoreItemUC/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

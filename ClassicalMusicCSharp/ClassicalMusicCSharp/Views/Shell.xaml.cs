@@ -47,7 +47,7 @@ namespace ClassicalMusicCSharp.Views
                 Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(BusyText)));
             });
         }
-        private void OnPageLoaded(object sender, RoutedEventArgs e)
+        public void CheckAdsRemoved(object sender = null, RoutedEventArgs e = null)
         {
             AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
             if (!AdsRemoved)

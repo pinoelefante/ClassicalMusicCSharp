@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Store;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace ClassicalMusicCSharp.Classes
 {
@@ -71,11 +72,59 @@ namespace ClassicalMusicCSharp.Classes
             else
                 return !error_return;
         }
+        public async Task<List<IAPItem>> GetIAPItemList()
+        {
+            List<IAPItem> products = new List<IAPItem>();
+#if DEBUG
+            var listProd = await CurrentAppSimulator.LoadListingInformationAsync();
+#else
+            var listProd = await CurrentApp.LoadListingInformationAsync();
+#endif
+            foreach(var p in listProd.ProductListings)
+            {
+                Debug.WriteLine(p.Key);
+                var descr = p.Value.Description;
+                var name = p.Value.Name;
+                var cost = p.Value.FormattedPrice;
+                var buyed = licenseInfo.ProductLicenses[p.Key].IsActive;
+                var symbol = GetSymbolProduct(p.Key);
+                products.Add(new IAPItem()
+                {
+                    Buyed = buyed,
+                    Description = descr,
+                    Price = cost,
+                    Title = name,
+                    Symbol = symbol,
+                    ProductCode = p.Key
+                });
+            }
+            return products;
+        }
+        public Symbol GetSymbolProduct(string code)
+        {
+            switch (code)
+            {
+                case IAPCodes.REMOVE_ADS:
+                    return Symbol.Document;
+                case IAPCodes.UNLIMITED_PLAYLISTS:
+                    return Symbol.Bullets;
+            }
+            return Symbol.Document;
+        }
     }
     public class IAPCodes
     {
-        public static readonly string
+        public const string
             REMOVE_ADS = "RemoveAds",
             UNLIMITED_PLAYLISTS = "UnlimitedPlaylist";
+    }
+    public class IAPItem
+    {
+        public string Title { get; set; }
+        public string Price { get; set; }
+        public string Description { get; set; }
+        public Symbol Symbol { get; set; }
+        public bool Buyed { get; set; }
+        public string ProductCode { get; set; }
     }
 }

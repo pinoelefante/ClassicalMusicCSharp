@@ -11,7 +11,7 @@
     xmlns:views="using:ClassicalMusicCSharp.Views" 
     xmlns:Universal="using:Microsoft.AdMediator.Universal"
     mc:Ignorable="d"
-    Loaded="OnPageLoaded"
+    Loaded="CheckAdsRemoved"
     xmlns:conv="using:ClassicalMusicCSharp.Converters">
     <Page.Resources>
         <conv:BoolToVisibility x:Key="BoolVisibility"/>
