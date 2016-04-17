@@ -49,7 +49,7 @@ namespace ClassicalMusicCSharp.Views
         }
         public void CheckAdsRemoved(object sender = null, RoutedEventArgs e = null)
         {
-            AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS);
+            AdsRemoved = IAPManager.Instance.IsProductActive(IAPCodes.REMOVE_ADS) || IAPManager.Instance.IsProductActive(IAPCodes.ADS_PLUS_PLAYLISTS);
             if (!AdsRemoved)
             {
                 FrameworkElement adsCont = this.FindName("AdsContainer") as FrameworkElement;

@@ -1,4 +1,5 @@
 ﻿using ClassicalMusicCSharp.Classes;
+using ClassicalMusicCSharp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,11 +55,11 @@ namespace ClassicalMusicCSharp.ViewModels
                 MessageDialog dlg = new MessageDialog($"{item.Description}", $"{item.Title} at {item.Price}");
                 UICommand buy = new UICommand("Buy") { Invoked = async (x) =>
                 {
-                    Views.Shell.SetBusy(true, "Wait please");
+                    Shell.SetBusy(true, "Wait please");
                     bool res = await IAPManager.Instance.RequestProductPurchase(item.ProductCode);
-                    if (res && item.ProductCode.Equals(IAPCodes.REMOVE_ADS))
-                        Views.Shell.Instance.CheckAdsRemoved();
-                    Views.Shell.SetBusy(false, null);
+                    if (res && (item.ProductCode.Equals(IAPCodes.REMOVE_ADS) || item.ProductCode.Equals(IAPCodes.ADS_PLUS_PLAYLISTS)))
+                        Shell.Instance.CheckAdsRemoved();
+                    Shell.SetBusy(false);
                     LoadProducts();
                 }, Id = 0 };
                 UICommand no = new UICommand("Cancel") { Id = 1 };

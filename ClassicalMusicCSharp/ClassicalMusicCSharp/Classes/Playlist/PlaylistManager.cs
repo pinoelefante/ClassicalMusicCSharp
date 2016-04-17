@@ -42,7 +42,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         }
         public void LoadPlaylistAvailable()
         {
-            if (IAPManager.Instance.IsProductActive(IAPCodes.UNLIMITED_PLAYLISTS))
+            if (IAPManager.Instance.IsProductActive(IAPCodes.UNLIMITED_PLAYLISTS) || IAPManager.Instance.IsProductActive(IAPCodes.ADS_PLUS_PLAYLISTS))
                 PlaylistAvailable = int.MaxValue;
             else
                 PlaylistAvailable = FREE_PLAYLISTS;
@@ -201,7 +201,7 @@ namespace ClassicalMusicCSharp.Classes.Playlist
         }
         public bool IsPlaylistExists(string name)
         {
-            IEnumerable<Playlist> select = Playlists.Where(x => x.Name.Equals(name));
+            IEnumerable<Playlist> select = Playlists.Where(x => x.Name.ToLower().Equals(name.ToLower()));
             if (select!=null && select.Count() > 0)
                 return true;
             return false;

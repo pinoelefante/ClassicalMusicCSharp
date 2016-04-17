@@ -116,7 +116,8 @@ namespace ClassicalMusicCSharp.Classes
     {
         public const string
             REMOVE_ADS = "RemoveAds",
-            UNLIMITED_PLAYLISTS = "UnlimitedPlaylist";
+            UNLIMITED_PLAYLISTS = "UnlimitedPlaylist",
+            ADS_PLUS_PLAYLISTS = "AdsPlaylists";
     }
     public class IAPItem
     {
